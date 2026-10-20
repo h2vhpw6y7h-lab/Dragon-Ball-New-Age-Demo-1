@@ -128,3 +128,18 @@ body{background:radial-gradient(ellipse at 12% 9%,#185579 0,transparent 35%),rad
 .cut-dialogue{padding:15px}.cut-dialogue p{font-size:17px}
 }
 @media(prefers-reduced-motion:reduce){.scene-wrap:after,.scene-wrap .player-art,.scene-wrap .enemy-art,.scene-wrap .damage{animation:none!important}}
+
+/* 0.6 home screen composition: hero and arena share the same environment */
+.hero-cover{isolation:isolate;border-color:#f1b254;background:#2c6377;overflow:hidden;box-shadow:0 0 0 2px #5e411e,0 17px 32px #010818aa}
+.hero-cover .hero-image{background-position:center center!important;background-size:cover!important;filter:saturate(1.14) contrast(1.03)}
+.hero-cover .home-goku{pointer-events:none;position:absolute;right:2%;top:-7%;height:125%;width:55%;object-fit:contain;object-position:center bottom;z-index:2;filter:drop-shadow(0 14px 12px #11203ca3) drop-shadow(0 0 20px #ffd77a60)}
+.hero-cover:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#071728d7 0%,#071728ab 39%,transparent 67%),linear-gradient(0deg,#071326bb,transparent 38%);z-index:1;pointer-events:none}
+.hero-cover .hero-caption{z-index:3;text-shadow:0 2px 5px #000b;max-width:66%}
+.hero-cover .hero-caption h1{color:#fff0a1;text-shadow:0 3px 0 #9d3721,0 4px 24px #ff8e41}
+.hero-cover .hero-caption p{color:#f7f3e4;max-width:29ch}
+.tile-menu .tile{overflow:hidden;isolation:isolate;border-color:#876e55;box-shadow:0 3px 0 #372524,0 9px 20px #0006;background:linear-gradient(142deg,#29475d,#0d263d)}
+.tile-menu .tile:before{content:"";position:absolute;pointer-events:none;inset:0;background:linear-gradient(128deg,#ffffff0c,transparent 50%)}
+.tile-menu .tile .glyph{filter:drop-shadow(0 4px 6px #090c14)}
+.tile-menu .tile strong{color:#fff3bf}
+.tile-menu .tile.main{background:linear-gradient(130deg,#b84730,#52223b 70%,#17334a);border-color:#ffb461}
+@media(max-width:530px){.hero-cover .home-goku{height:102%;right:-11%;width:70%;top:1%}.hero-cover .hero-caption{max-width:62%}.hero-cover .hero-caption h1{font-size:clamp(33px,9vw,51px)}}
