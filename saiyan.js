@@ -151,7 +151,7 @@ try{const stored=JSON.parse(localStorage.getItem(SAVE)||"null");if(stored&&store
 let walkTimer=null,cutTimer=null,toastTimer=null,canvas=null,C=null,pan={x:0,y:0},target=null,pressTimer=null,dragStart=null;
 const MAP_ART=typeof Image==="function"?new Image():null;
 const PLAYER_ART=typeof Image==="function"?new Image():null;
-if(MAP_ART){MAP_ART.onload=function(){if(S.screen==="world")paint()};MAP_ART.src="./assets/earth-map-4k.svg?v=7"}
+if(MAP_ART){MAP_ART.onload=function(){if(S.screen==="world")paint()};MAP_ART.src="./assets/earth-map-landscape-4k-v07.svg?v=1"}
 if(PLAYER_ART){PLAYER_ART.onload=function(){if(S.screen==="world")paint()};PLAYER_ART.src="./assets/goku-normal-idle.svg?v=7"}
 function save(){try{const o=Object.assign({},S,{screen:"home",scene:null,dialog:null,encounter:null,battle:null,result:null});localStorage.setItem(SAVE,JSON.stringify(o));}catch(e){}}
 function val(id){return S.stats[id]||0}
@@ -173,7 +173,7 @@ function quest(){return CHAPTERS[Math.min(S.chapter,3)]}
 function gameImage(src,cls,alt){return '<img draggable="false" class="'+(cls||"")+'" src="'+src+'" alt="'+(alt||"Ilustracja")+'" loading="eager" decoding="async" onerror="this.onerror=null;this.src=(this.className.indexOf(\'enemy\')>=0?\'./assets/unknown-warrior.svg?v=7\':\'./assets/goku-normal-idle.svg?v=7\')">'}
 function protagonist(){return S.avatar==="vegeta"?PIC.vegeta:S.avatar==="aura"?PIC.gokuAura:PIC.goku}
 function drawHome(){let q=quest();return hdr("")+
-'<div class="hero-cover"><div class="hero-image" style="background-image:url(./assets/earth-battle-4k.svg?v=7)"></div>'+gameImage(PIC.goku,"home-goku","Goku w formie podstawowej")+'<div class="hero-caption"><span class="label orange">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</span><h1 class="flame">'+(S.chapter<3?'ATAK SAIYAN':'ZWYCIĘSTWO')+'</h1><p>'+esc(q.goal)+'</p></div></div>'+
+'<div class="hero-cover"><div class="hero-image" style="background-image:url(./assets/earth-battle-landscape-4k-v07.svg?v=1)"></div>'+gameImage(PIC.goku,"home-goku","Goku w formie podstawowej")+'<div class="hero-caption"><span class="label orange">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</span><h1 class="flame">'+(S.chapter<3?'ATAK SAIYAN':'ZWYCIĘSTWO')+'</h1><p>'+esc(q.goal)+'</p></div></div>'+
 '<div class="ticker"><b style="font-size:23px">🔥</b><div><b>DRAGON BALL NEW AGE</b><br><span class="sm">'+esc(S.heroName)+' • LV '+S.level+' • Moc '+power()+'</span></div></div>'+
 '<div class="tile-menu"><button class="tile main" data-a="new"><span class="glyph">⚔️</span><strong>NOWA GRA</strong><small>Nowa przygoda • Saga Saiyan</small></button>'+
 '<button class="tile" data-a="nav" data-v="world"><span class="glyph">▶️</span><strong>KONTYNUUJ</strong><small>Swobodna mapa i misje</small></button>'+
@@ -193,7 +193,7 @@ function drawWorldUI(){let q=quest();return hdr("Mapa — Ziemia")+
 '<section class="panel"><div class="panel-title"><h2>Lokacje</h2></div><div class="location-list">'+LOC.filter(x=>["home","field","saiba","nappa","vegeta","roshi"].includes(x.id)).map(x=>'<div class="location">'+x.icon+' <b>'+x.name+'</b>'+button("Pokaż","seek",x.id,"btn-mini")+'</div>').join("")+'</div></section></div></div>'+
 '<p class="map-hint">Mapa nie jest pojedynczym obrazkiem. Sterujesz postacią po dużym terenie; na pustkowiach spotkasz losowych przeciwników i możesz trenować przed kolejnym bossem.</p>'}
 function fightArt(mode,enemy,shot){const b=ENEMIES[enemy||S.battle?.enemy]||ENEMIES.saiba;let m=mode||"battlefield";let left=protagonist(),right=b.art;if(shot&&S.avatar!=="vegeta"){if(shot.mode==="vanish")left=PIC.gokuDash;else if(shot.mode==="hit")left=PIC.gokuAtk;else if(shot.mode==="counter")left=PIC.gokuDef;else if(shot.mode==="charge")left=PIC.gokuAura;}
-return '<div class="scene-wrap '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"")+'">'+gameImage(left+"","player-art","Wojownik gracza")+gameImage(right,"enemy-art",b.name)+
+return '<div class="scene-wrap cinematic-stage '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"")+'">'+gameImage(left+"","player-art","Wojownik gracza")+gameImage(right,"enemy-art",b.name)+
 (m==="beam"?'<div class="beam"></div>':"")+
 '<div class="flash"></div><div class="shade"></div><div class="scene-name"><span>ZIEMIA • SAGA SAIYAN</span><span>'+esc(b.name.toUpperCase())+'</span></div></div>'}
 function battleHUD(){let b=S.battle,e=ENEMIES[b.enemy];return '<div class="panel gold-edge"><div class="battle-hud"><div class="hud-side"><div class="fighter-row">'+gameImage(protagonist(),"portrait","Wojownik")+'<div><strong>'+esc(S.heroName)+'</strong><div class="micro">LV '+S.level+' • Moc '+power()+'</div></div></div><div class="sm">HP '+Math.round(S.hp)+' / '+maxHP()+'</div>'+bar(S.hp,maxHP())+'<div class="micro">KI '+Math.round(S.energy)+' / '+maxKI()+'</div>'+bar(S.energy,maxKI(),"ki")+'</div>'+
@@ -211,7 +211,7 @@ function drawBattle(){const b=S.battle;if(!b)return drawWorldUI();const tabs=[["
 '<div class="battle-log">'+(b.log||[]).slice(-5).reverse().map(x=>'<div>• '+esc(x)+'</div>').join("")+'</div></div></div>'}
 function frameCaption(frame){return frame.label||"Walka trwa..."}
 function drawCut(){const sc=S.scene,b=S.battle,e=ENEMIES[b.enemy],f=sc.frames[sc.idx],last=sc.idx>=sc.frames.length-1;let art;
-if(f.mode==="full"&&PIC.duel){art='<div class="scene-wrap">'+gameImage(PIC.duel,"shot","Scena walki Saiyan")+'<div class="shade"></div><div class="scene-name"><span>SAGA SAIYAN</span><span>'+esc(f.label)+'</span></div></div>'}
+if(false&&f.mode==="full"&&PIC.duel){art='<div class="scene-wrap">'+gameImage(PIC.duel,"shot","Scena walki Saiyan")+'<div class="shade"></div><div class="scene-name"><span>SAGA SAIYAN</span><span>'+esc(f.label)+'</span></div></div>'}
 else{let enriched=Object.assign({},f,{angle:["wide","close","low","left","high","tilt"][sc.idx%6]});art=fightArt(f.mode,b.enemy,enriched);if(/TRAFIENIE|FINISHER|DODATKOWY|KRYTYCZNE/.test(f.heading||""))art=art.replace('<div class="shade"></div>','<div class="damage">'+sc.consequence.dmg+'<small>DAMAGE</small></div><div class="shade"></div>');}
 return hdr("Atak — "+sc.moveName)+safeEnemyHUD()+'<div class="cut-stage"><div>'+art+'</div><div class="cut-dialogue"><div><span class="label orange">KADR '+(sc.idx+1)+' / '+sc.frames.length+'</span><h2 class="flame">'+esc(f.heading||"WALKA")+'</h2><p>'+esc(f.text)+'</p><div class="cut-progress">'+sc.frames.map((x,i)=>'<span class="'+(i<=sc.idx?"done":"")+'"></span>').join("")+'</div></div><div class="cut-controls">'+button(last?"ZAKOŃCZ →":"NASTĘPNY KADR →","frame","","btn-hot")+button("POMIŃ ››","skipscene","","btn-mini")+'</div></div></div><p class="sm muted">Kadry przewijają się automatycznie. Możesz przejść do następnego ręcznie.</p>'}
 function drawDialogue(){const d=S.dialog,frame=d.lines[d.idx];let person=frame.who||"Narrator";let art=person.includes("Nappa")?PIC.nappa:person.includes("Vegeta")?PIC.vegeta:person.includes("Saib")?PIC.saiba:PIC.goku;let q=quest();return hdr("Saga Saiyan • Fabuła")+
