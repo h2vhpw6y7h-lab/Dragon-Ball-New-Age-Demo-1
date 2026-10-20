@@ -3,7 +3,7 @@
 <title>Dragon Ball New Age — Demo 0.2</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 16% 4%,#204962,#0b1329 68%);color:#f1f6ff;font-family:system-ui,-apple-system,sans-serif}button{font:inherit;cursor:pointer;touch-action:manipulation}button:disabled{opacity:.4}#app{max-width:1120px;margin:auto;padding:20px 16px 70px}.brand{font-size:clamp(22px,4vw,38px);font-weight:1000;color:#ffce5d;letter-spacing:1px;text-shadow:0 4px #403020}.sub{font-size:12px;letter-spacing:2px;color:#bad5fa;font-weight:800}.card{background:#14243de8;border:1px solid #536a82;border-radius:18px;padding:18px;margin:13px 0;box-shadow:0 10px 28px #0004}.hero{min-height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(160deg,#174d5c 0%,#294966 35%,#202c46 55%,#0e1d36 100%);border-radius:15px;border:2px solid #6293a3;overflow:hidden}.hero .planet{font-size:90px;filter:drop-shadow(0 12px 12px #0006)}.hero .fighters{font-size:90px;line-height:1.4;letter-spacing:12px;filter:drop-shadow(0 8px 10px #0008)}.hero .effects{font-size:58px;line-height:1.1}.hero small{background:#101a2bd9;padding:7px 14px;border-radius:40px}.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.btn{background:#244160;border:1px solid #7398b9;color:#fff;border-radius:12px;min-height:50px;padding:10px 13px;text-align:center;font-weight:750}.btn.gold{background:#ffca5d;color:#1b2637;border-color:#ffe9b0}.btn:active{transform:scale(.98)}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.small{font-size:13px;color:#bad0e5}.title{font-weight:900;font-size:20px;margin:0 0 9px}.nav{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.nav .btn{min-height:38px;padding:7px 12px;font-size:13px}.nav .selected{background:#ffca5d;color:#18263b}.columns{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}.bar{height:12px;border-radius:12px;background:#27364b;overflow:hidden;margin:7px 0}.fill{height:100%;background:linear-gradient(90deg,#bd3d56,#ff8b68)}.blue{background:linear-gradient(90deg,#2372a8,#65e2ff)}.log{font-size:13px;line-height:1.55;max-height:150px;overflow-y:auto}.log div{padding:5px 0;border-bottom:1px solid #ffffff19}.note{font-size:13px;color:#dceafb}.scene-text{font-size:19px;line-height:1.5;min-height:95px}.counter{color:#ffcd62;font-weight:900}.tag{display:inline-block;padding:7px 11px;background:#35567a;border-radius:20px;color:#fff;font-size:12px}@media(max-width:650px){.columns{grid-template-columns:1fr}.hero{min-height:220px}.hero .fighters{font-size:67px}.hero .planet{font-size:73px}.card{padding:13px}.brand{font-size:25px}}@media(orientation:landscape){#app{padding-top:8px}.hero{min-height:175px}.hero .planet{font-size:65px}}
-</style></head><body>
+.anime-arena{position:relative;overflow:hidden;border-radius:16px;border:2px solid #7ec7d8;background:#123a4e;aspect-ratio:16/9;box-shadow:inset 0 0 40px #0008}.scene-svg{display:block;width:100%;height:100%}.arena-caption{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);background:#0b1b33dc;border-radius:30px;padding:5px 13px;font-weight:800;font-size:11px;white-space:nowrap}.fighter-left{transform-origin:25% 80%;animation:idleLeft 1.4s ease-in-out infinite alternate}.fighter-right{transform-origin:75% 80%;animation:idleRight 1.3s ease-in-out infinite alternate}.aura-left,.aura-right{animation:flicker .65s ease-in-out infinite alternate}.beam{animation:beamRush .42s ease-out both;transform-origin:36% 48%}.blast{animation:blastHit .6s ease-out both;transform-origin:72% 48%}.impact-scene{animation:impactShake .35s ease-in-out}@keyframes idleLeft{to{transform:translate(2px,-6px)}}@keyframes idleRight{to{transform:translate(-2px,-5px)}}@keyframes flicker{to{opacity:.16}}@keyframes beamRush{from{opacity:0;transform:scaleX(.05)}to{opacity:1;transform:scaleX(1)}}@keyframes blastHit{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}@keyframes impactShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}65%{transform:translateX(5px)}}</style></head><body>
 <main id="app">
 <section class="card"><div class="sub">GRYWALNY PROTOTYP • 0.2</div><h1 class="brand">DRAGON BALL NEW AGE</h1><div class="hero"><div class="planet">🪐</div><strong>PLANETA NAMEK</strong><small>Prolog • Goku kontra Frieza</small></div>
 <div class="actions"><button class="btn gold" data-go="battle">⚔ NOWA WALKA</button><button class="btn" data-go="world">🌍 EKSPLORUJ</button></div>
@@ -28,7 +28,52 @@ function meter(v,max,cls){return '<div class="bar"><div class="fill '+(cls||'')+
 function button(label,action,value,gold,disabled){return '<button class="btn '+(gold?'gold':'')+'" data-action="'+action+'" data-value="'+(value||'')+'" '+(disabled?'disabled':'')+'>'+label+'</button>';}
 function header(title){return '<div class="sub">DRAGON BALL NEW AGE • DEMO 0.2</div><div class="topline"><h1 class="brand">'+title+'</h1><span class="tag">iPHONE / RPG</span></div>';}
 function nav(){return '<div class="nav">'+[['home','Start'],['world','Namek'],['battle','Walka'],['skills','Rozwój']].map(function(x){return '<button class="btn '+(state.screen===x[0]?'selected':'')+'" data-go="'+x[0]+'">'+x[1]+'</button>';}).join('')+'</div>';}
-function art(style){var e=style==='blast'?'💥':style==='ki'?'🔵':'⚡';return '<div class="hero"><div class="fighters">🥋 '+e+' 👾</div><small>Skalista dolina • Namek</small></div>';}
+function art(style){
+var blast=style==='blast',ki=style==='ki';
+var beam=ki?'<g class="beam"><path d="M330 220 Q465 188 620 200 L675 220 L620 240 Q465 250 330 222Z" fill="url(#beamG)" stroke="#6beaff" stroke-width="5"/><path d="M350 219L647 220" stroke="#fff" stroke-width="12" stroke-linecap="round"/></g>':'';
+var explosion=blast?'<g class="blast"><circle cx="663" cy="218" r="84" fill="url(#explosionG)"/><path d="M625 102L659 168 711 135 693 205 772 213 702 244 740 316 661 265 606 326 615 251 544 231 622 202Z" fill="#fff0b1" opacity=".82"/></g>':'';
+return '<div class="anime-arena"><svg class="scene-svg '+(blast?'impact-scene':'')+'" viewBox="0 0 920 460" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Wojownicy na planecie Namek podczas walki"><defs>'+
+'<linearGradient id="sky" x2="0" y2="1"><stop stop-color="#07587f"/><stop offset=".53" stop-color="#329eb2"/><stop offset="1" stop-color="#d6c5a0"/></linearGradient>'+
+'<linearGradient id="stone" x2="1" y2="1"><stop stop-color="#6a8476"/><stop offset=".5" stop-color="#56645b"/><stop offset="1" stop-color="#343e42"/></linearGradient>'+
+'<linearGradient id="orange" x2=".2" y2="0" x1=".8" y1="1"><stop stop-color="#ffd18a"/><stop offset=".36" stop-color="#f58228"/><stop offset="1" stop-color="#ad3d1e"/></linearGradient>'+
+'<linearGradient id="purple" x2="0" y2="0" x1="1" y1="1"><stop stop-color="#f9faff"/><stop offset=".6" stop-color="#cfd0ee"/><stop offset="1" stop-color="#79729f"/></linearGradient>'+
+'<radialGradient id="beamG"><stop stop-color="white"/><stop offset=".55" stop-color="#85f4ff"/><stop offset="1" stop-color="#117aff" stop-opacity="0"/></radialGradient>'+
+'<radialGradient id="explosionG"><stop stop-color="#fff"/><stop offset=".3" stop-color="#fff2b1"/><stop offset=".65" stop-color="#4fddff"/><stop offset="1" stop-color="#156de5" stop-opacity="0"/></radialGradient>'+
+'<filter id="glow"><feGaussianBlur stdDeviation="9"/></filter></defs>'+
+'<path fill="url(#sky)" d="M0 0H920V460H0Z"/>'+
+'<circle cx="710" cy="95" r="66" fill="#9ddddb" opacity=".75"/><circle cx="710" cy="95" r="76" fill="none" stroke="#e0ffff" opacity=".27" stroke-width="3"/>'+
+'<path d="M0 285L42 207 85 219 117 141 165 285 222 214 280 285 337 156 395 285 457 237 504 285 565 154 623 285 695 212 748 285 801 139 868 285 920 180 920 350H0Z" fill="#567c75"/>'+
+'<path d="M0 303L95 260 135 291 188 242 249 303 303 251 359 295 454 223 510 289 584 248 625 292 703 240 781 292 864 231 920 276V460H0Z" fill="url(#stone)" stroke="#394e57" stroke-width="7"/>'+
+'<path d="M0 374Q205 316 440 374T920 364V460H0Z" fill="#9f8c67"/><path d="M0 416Q220 379 400 404T920 403V460H0Z" fill="#756d57"/>'+
+'<ellipse cx="240" cy="374" rx="155" ry="28" fill="#0b2634" opacity=".45"/><ellipse cx="700" cy="370" rx="126" ry="27" fill="#122a35" opacity=".4"/>'+
+'<g class="aura-left" stroke="#46d9ff" stroke-width="7" fill="none" opacity=".7"><path d="M210 352Q124 195 230 126"/><path d="M281 355Q362 220 277 120"/><path d="M188 343Q110 260 165 221"/></g>'+
+'<g class="fighter-left" stroke="#18202d" stroke-width="7" stroke-linejoin="round">'+
+'<path d="M197 182L150 147 188 148 161 113 208 128 204 82 244 119 281 76 271 128 319 105 291 151 327 146 278 183Z" fill="#151a27"/>'+
+'<path d="M211 160Q248 132 277 162L284 209 257 239 220 223 207 199Z" fill="#edb78d"/>'+
+'<path d="M207 193L230 197 247 192M258 192L278 185" stroke-width="5" fill="none"/>'+
+'<path d="M208 231L159 251 177 329 242 320 293 336 321 254 272 231Z" fill="url(#orange)"/>'+
+'<path d="M211 233L250 255 273 230" stroke="#163b6c" stroke-width="17" fill="none"/>'+
+'<path d="M173 251L126 273 92 235 70 257 113 323 174 306Z" fill="#f7b888"/><path d="M292 248L340 231 376 199 402 219 366 272 313 304Z" fill="#f0ae86"/>'+
+'<path d="M164 314L147 393 203 406 243 337 265 398 312 405 306 313Z" fill="url(#orange)"/>'+
+'<path d="M153 387L124 425 200 422 210 391M267 390L272 425 346 429 311 385" fill="#134272"/>'+
+'<path d="M182 306L300 314" stroke="#0c4780" stroke-width="15"/>'+
+'<path d="M105 241L84 265M368 206L389 221" stroke="#135397" stroke-width="13"/>'+
+'</g>'+
+'<g class="aura-right" stroke="#c879ff" stroke-width="7" fill="none" opacity=".6"><path d="M660 348Q585 210 652 149"/><path d="M729 365Q812 226 735 121"/></g>'+
+'<g class="fighter-right" stroke="#343052" stroke-width="7" stroke-linejoin="round">'+
+'<path d="M669 162Q686 130 728 153L738 210 708 235 674 219Z" fill="url(#purple)"/><path d="M681 144Q697 109 730 144L730 165 686 174Z" fill="#9b46bd"/>'+
+'<path d="M675 183L694 190 704 185M715 184L734 180" stroke-width="5"/>'+
+'<path d="M675 222L633 244 633 315 700 343 764 310 753 236 730 223Z" fill="url(#purple)"/>'+
+'<ellipse cx="706" cy="252" rx="24" ry="30" fill="#ad4ec6"/>'+
+'<path d="M630 243L582 264 566 226 542 241 556 305 632 295Z" fill="url(#purple)"/><path d="M754 241L799 257 833 223 855 246 816 308 760 297Z" fill="url(#purple)"/>'+
+'<path d="M641 312L641 391 678 397 700 345 715 395 755 391 758 313Z" fill="url(#purple)"/>'+
+'<path d="M644 384L631 418 685 419 678 384M715 385L712 420 766 420 754 380" fill="#9e51b8"/>'+
+'<path d="M753 317Q825 326 833 371T773 401" stroke="#e7e8ff" stroke-width="25" fill="none"/>'+
+'<ellipse cx="638" cy="257" rx="21" ry="15" fill="#aa43c2"/><ellipse cx="755" cy="260" rx="20" ry="15" fill="#aa43c2"/>'+
+'</g>'+beam+explosion+
+'<g opacity=".55" fill="#ffead0"><circle cx="116" cy="370" r="4"/><circle cx="483" cy="354" r="6"/><circle cx="813" cy="341" r="4"/></g>'+
+'</svg><div class="arena-caption">SKALISTA DOLINA • NAMEK</div></div>';
+}
 function stats(){return '<div class="stats"><div><b>GOKU • LV '+state.level+'</b><div class="small">HP '+state.hp+' / '+state.maxHp+'</div>'+meter(state.hp,state.maxHp)+'<div class="small">KI '+state.ki+' / '+state.maxKi+'</div>'+meter(state.ki,state.maxKi,'blue')+'</div><div><b>FRIEZA</b><div class="small">HP '+state.enemy+' / '+state.maxEnemy+'</div>'+meter(state.enemy,state.maxEnemy)+'<div class="small">Tura '+state.turn+'</div></div></div>';}
 function render(){
 var s=state.screen;
