@@ -1,0 +1,21 @@
+{
+  "name": "Dragon Ball New Age — Prolog Namek",
+  "short_name": "DB New Age",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b1324",
+  "theme_color": "#10182b",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "landscape",
+  "description": "Turowe RPG na iPhone: Prolog Namek",
+  "lang": "pl",
+  "id": "./",
+  "scope": "./"
+}
