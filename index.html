@@ -1,61 +1,48 @@
 <!doctype html>
-<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#10182b"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-title" content="DB New Age"><title>Dragon Ball New Age — Prolog Namek</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml">
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b142a">
+<title>Dragon Ball New Age — Demo 0.2</title>
 <style>
-:root{font-family:system-ui,-apple-system,sans-serif;color:#f5f2e9;background:#0b1324}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 70% 12%,#253f60,#0b1324 65%);min-height:100dvh}button{font:inherit;cursor:pointer;touch-action:manipulation}#app{max-width:720px;margin:auto;padding:calc(env(safe-area-inset-top) + 12px) 14px calc(env(safe-area-inset-bottom) + 22px)}h1{font-size:25px;margin:4px 0 10px;color:#ffcb52;text-shadow:2px 3px #392322}h2{font-size:19px;margin:4px 0 12px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px}.tag{font-size:11px;letter-spacing:2px;color:#b6cbe5}.panel{background:#17253bdf;border:1px solid #526077;border-radius:15px;padding:14px;margin:10px 0;box-shadow:0 9px 28px #0005}.btn{background:#233b57;color:#fff;border:1px solid #65809b;border-radius:10px;padding:12px 10px;min-height:48px;text-align:left}.btn:active{transform:scale(.98)}.btn.primary{background:#e7a72d;color:#171b29;border-color:#ffe0a0;font-weight:800}.btn:disabled{opacity:.4}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.bar{height:12px;background:#283142;border-radius:10px;overflow:hidden;border:1px solid #63718b}.fill{height:100%;background:linear-gradient(90deg,#a83a4c,#ef6d61);transition:width .4s}.fill.ki{background:linear-gradient(90deg,#2672b7,#65d5f6)}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px}.stats strong{display:block;font-size:15px;margin-bottom:5px}.scene{position:relative;height:255px;border-radius:14px;overflow:hidden;background:linear-gradient(#438e9d 0 48%,#9fb59d 49% 52%,#77977d 53% 65%,#65736a 66%);border:2px solid #849fa0}.scene:before{content:"";position:absolute;left:-8%;right:-8%;bottom:12px;height:92px;background:linear-gradient(150deg,transparent 20%,#586a61 20% 37%,transparent 37%),linear-gradient(30deg,transparent 28%,#425b52 28% 47%,transparent 47%);opacity:.9}.moon{position:absolute;right:28px;top:22px;width:66px;height:66px;border-radius:50%;background:#c6d6bb;box-shadow:0 0 0 6px #d5e5c422}.fighter{position:absolute;bottom:30px;display:flex;flex-direction:column;align-items:center;filter:drop-shadow(3px 4px 1px #24303c);transition:all .25s}.fighter.goku{left:15%}.fighter.frieza{right:15%}.head{width:37px;height:37px;background:#e9aa79;border:3px solid #1b2433;border-radius:43%}.hair{height:27px;width:45px;background:#19202b;clip-path:polygon(0 100%,14% 20%,35% 52%,49% 0,67% 49%,95% 20%,100% 100%);margin-bottom:-5px}.body{width:48px;height:65px;background:#dc7d31;border:3px solid #192434;border-radius:10px 10px 14px 14px}.legs{height:40px;width:40px;border-left:14px solid #d97934;border-right:14px solid #d97934}.frieza .head{background:#f1e9e9;border-top:12px solid #8553a4}.frieza .body{background:#f1e9e9;border-top:19px solid #8b5ca7}.frieza .legs{border-color:#e7e3e9}.beam{position:absolute;top:115px;left:25%;width:55%;height:27px;background:#b3efff;border:5px solid #42aaf0;border-radius:50%;box-shadow:0 0 15px #8be4ff;transform:rotate(-9deg)}.impact{position:absolute;right:11%;top:75px;font-size:100px;color:#ffe5a4;text-shadow:0 0 20px #ff8229}.speech{background:#0a1429dd;border-left:4px solid #eebd51;padding:10px;border-radius:8px;min-height:48px;margin-top:9px;font-size:14px}.muted{color:#b8c8d7;font-size:12px}.nav{display:flex;gap:7px;overflow:auto;margin:8px 0}.nav button{white-space:nowrap;padding:9px 12px;border-radius:9px;border:1px solid #516780;background:#172c43;color:white}.nav .on{background:#e7a72d;color:#172032}.log{max-height:125px;overflow:auto;font-size:12px;line-height:1.6}.skill{padding:11px;border-bottom:1px solid #43546a}.locked{opacity:.55}.pill{display:inline-block;background:#294864;border-radius:30px;padding:4px 9px;font-size:11px;margin:3px}.hide{display:none}.center{text-align:center}.big{font-size:40px}.flash{animation:flash .25s 2}@keyframes flash{50%{filter:brightness(2)}}@media(min-width:600px){.scene{height:340px}.fighter{transform:scale(1.3);transform-origin:bottom}.scene .speech{font-size:17px}}
-</style><style>
-/* LANDSCAPE UI v0.2 — static visuals, no animations */
-:root{--gold:#ffc65b;--edge:#57718b}
-body{background:radial-gradient(ellipse at 15% 15%,#183d54 0%,#101b32 45%,#080d1c 100%)}
-#app{max-width:1100px}
-h1{font-size:clamp(20px,3vw,31px);letter-spacing:.6px}
-.panel{background:linear-gradient(145deg,#1a3049ee,#101d33f5);border-color:#4d6d89}
-.btn{background:linear-gradient(150deg,#304d70,#192f49);border-color:#7890a5;box-shadow:inset 0 1px #ffffff19}
-.btn.primary{background:linear-gradient(150deg,#ffe09a,#e8a63c)}
-.scene{background:linear-gradient(#2a8b99 0 40%,#86b8a6 40% 53%,#6b9182 54% 67%,#536a5b 68%);border-color:#7cb5bd}
-.scene:after{content:"NAMEK • SEKTOR 07";position:absolute;top:10px;left:12px;letter-spacing:2px;font-size:10px;font-weight:800;color:#e5fff2;background:#102c3eaa;padding:5px 8px;border-radius:5px}
-.nav button{border-radius:8px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;font-size:12px}
-.battle-layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);gap:12px;align-items:start}
-.battle-stage,.battle-command{min-width:0}
-.battle-stage .scene{height:min(45vw,350px);min-height:225px}
-.battle-command .panel{margin-top:0}
-.battle-command .btn{min-height:56px;font-size:13px}
-.battle-command .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.battle-command .log{margin-top:9px}
-.scene-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,1fr);gap:12px;align-items:start}
-.scene-layout .scene{height:min(45vw,355px);min-height:225px}
-.scene-layout .speech{margin-top:0;min-height:110px}
-.orientation-note{display:none}
-@media (orientation:portrait) and (max-width:650px){
- .orientation-note{display:block;padding:9px 12px;border:1px solid #a9894a;background:#372b20;color:#ffdf98;border-radius:9px;font-size:12px;margin:7px 0}
- .battle-layout,.scene-layout{display:block}
- .battle-stage .scene,.scene-layout .scene{height:255px}
-}
-@media (orientation:landscape) and (max-height:550px){
- #app{padding:5px max(12px,env(safe-area-inset-right)) 12px max(12px,env(safe-area-inset-left))}
- .top h1{font-size:19px;margin:0}
- .tag{font-size:9px}
- .nav{margin:5px 0;gap:5px}
- .nav button{padding:6px 11px;font-size:11px}
- .panel{margin:6px 0;padding:9px}
- .battle-stage .scene,.scene-layout .scene{height:205px;min-height:205px}
- .fighter{bottom:20px;transform:scale(.86);transform-origin:bottom}
- .speech{margin-top:5px;font-size:12px;min-height:32px;padding:7px}
- .battle-command .btn{min-height:41px;padding:7px;font-size:11px}
- .battle-command h2{font-size:15px;margin:0 0 6px}
- .battle-command .grid{gap:5px}
- .stats strong{font-size:12px;margin-bottom:2px}
- .stats{font-size:10px}
- .bar{height:9px}
- .battle-command .log{max-height:58px}
- .scene-layout .speech{min-height:80px}
-}
-@media(max-width:700px) and (orientation:landscape){.battle-layout{grid-template-columns:minmax(0,1.2fr) minmax(260px,1fr)}}
-</style></head><body><main id="app"><section class="panel" style="margin-top:24px;text-align:center"><h1>DRAGON BALL NEW AGE</h1><h2>PROLOG: PLANETA NAMEK</h2><p id="startup-status">Uruchamianie gry…</p><p class="muted">Jeśli menu nie pojawia się, otwórz grę bezpośrednio w Safari i odśwież stronę.</p><a class="btn primary" style="display:inline-block;text-decoration:none" href="./?v=6">Odśwież grę</a></section></main><noscript><div class="panel"><strong>JavaScript jest wyłączony w tej przeglądarce.</strong> Otwórz grę w Safari i włącz JavaScript w ustawieniach.</div></noscript>
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 16% 4%,#204962,#0b1329 68%);color:#f1f6ff;font-family:system-ui,-apple-system,sans-serif}button{font:inherit;cursor:pointer;touch-action:manipulation}button:disabled{opacity:.4}#app{max-width:1120px;margin:auto;padding:20px 16px 70px}.brand{font-size:clamp(22px,4vw,38px);font-weight:1000;color:#ffce5d;letter-spacing:1px;text-shadow:0 4px #403020}.sub{font-size:12px;letter-spacing:2px;color:#bad5fa;font-weight:800}.card{background:#14243de8;border:1px solid #536a82;border-radius:18px;padding:18px;margin:13px 0;box-shadow:0 10px 28px #0004}.hero{min-height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(160deg,#174d5c 0%,#294966 35%,#202c46 55%,#0e1d36 100%);border-radius:15px;border:2px solid #6293a3;overflow:hidden}.hero .planet{font-size:90px;filter:drop-shadow(0 12px 12px #0006)}.hero .fighters{font-size:90px;line-height:1.4;letter-spacing:12px;filter:drop-shadow(0 8px 10px #0008)}.hero .effects{font-size:58px;line-height:1.1}.hero small{background:#101a2bd9;padding:7px 14px;border-radius:40px}.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.btn{background:#244160;border:1px solid #7398b9;color:#fff;border-radius:12px;min-height:50px;padding:10px 13px;text-align:center;font-weight:750}.btn.gold{background:#ffca5d;color:#1b2637;border-color:#ffe9b0}.btn:active{transform:scale(.98)}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.small{font-size:13px;color:#bad0e5}.title{font-weight:900;font-size:20px;margin:0 0 9px}.nav{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.nav .btn{min-height:38px;padding:7px 12px;font-size:13px}.nav .selected{background:#ffca5d;color:#18263b}.columns{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}.bar{height:12px;border-radius:12px;background:#27364b;overflow:hidden;margin:7px 0}.fill{height:100%;background:linear-gradient(90deg,#bd3d56,#ff8b68)}.blue{background:linear-gradient(90deg,#2372a8,#65e2ff)}.log{font-size:13px;line-height:1.55;max-height:150px;overflow-y:auto}.log div{padding:5px 0;border-bottom:1px solid #ffffff19}.note{font-size:13px;color:#dceafb}.scene-text{font-size:19px;line-height:1.5;min-height:95px}.counter{color:#ffcd62;font-weight:900}.tag{display:inline-block;padding:7px 11px;background:#35567a;border-radius:20px;color:#fff;font-size:12px}@media(max-width:650px){.columns{grid-template-columns:1fr}.hero{min-height:220px}.hero .fighters{font-size:67px}.hero .planet{font-size:73px}.card{padding:13px}.brand{font-size:25px}}@media(orientation:landscape){#app{padding-top:8px}.hero{min-height:175px}.hero .planet{font-size:65px}}
+</style></head><body>
+<main id="app">
+<section class="card"><div class="sub">GRYWALNY PROTOTYP • 0.2</div><h1 class="brand">DRAGON BALL NEW AGE</h1><div class="hero"><div class="planet">🪐</div><strong>PLANETA NAMEK</strong><small>Prolog • Goku kontra Frieza</small></div>
+<div class="actions"><button class="btn gold" data-go="battle">⚔ NOWA WALKA</button><button class="btn" data-go="world">🌍 EKSPLORUJ</button></div>
+<p class="small">Ta wersja działa bez zewnętrznych bibliotek i nie wymaga logowania.</p></section>
+</main>
 <script>
 (function(){
-  var status=document.getElementById('startup-status');
-  window.addEventListener('error',function(e){ if(status && status.textContent.indexOf('Uruchamianie')===0){status.textContent='Błąd uruchomienia: '+(e.message || 'nieznany');}});
-  if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister()})}).catch(function(){})}
+'use strict';
+var app=document.getElementById('app');
+var moves=[
+{id:'punch',name:'Szybkie ciosy',cost:0,damage:145,shots:['Goku ustawia się do walki.','Doskok! Pierwsza pięść trafia Friezę.','Seria trzech ciosów!','Frieza zostaje odrzucony na skały.']},
+{id:'ki',name:'Fala KI',cost:15,damage:230,shots:['Goku unosi dłoń.','Niebieska energia skupia się w ręce.','Fala KI przelatuje przez arenę!','Eksplozja odrzuca przeciwnika.']},
+{id:'meteor',name:'Meteor Combo',cost:25,damage:325,shots:['Goku rozpoczyna szarżę!','Teleport za przeciwnika!','Kombinacja pięści i kopnięć.','Frieza przebija skałę!','Meteor Smash — trafienie!']},
+{id:'kame',name:'Kamehameha',cost:40,damage:470,shots:['Ka...','Me...','Ha... Me...','HAAAA!','Potężna fala energii przemierza dolinę Namek!','Frieza zostaje trafiony eksplozją!']}
+];
+function fresh(){return {screen:'home',hp:1250,maxHp:1250,ki:100,maxKi:100,enemy:1800,maxEnemy:1800,level:1,xp:0,points:0,power:0,armor:0,turn:1,stage:0,active:null,log:['Frieza: To tutaj kończy się twoja podróż!']};}
+var state=fresh();
+try{var raw=localStorage.getItem('dbna-standalone-save-v2');if(raw){var saved=JSON.parse(raw);if(saved && typeof saved.hp==='number'){state=Object.assign(fresh(),saved,{screen:'home',active:null});}}}catch(ignore){}
+function persist(){try{localStorage.setItem('dbna-standalone-save-v2',JSON.stringify(Object.assign({},state,{screen:'home',active:null})));}catch(ignore){}}
+function clamp(n){return Math.max(0,Math.min(100,Math.round(n)));}
+function meter(v,max,cls){return '<div class="bar"><div class="fill '+(cls||'')+'" style="width:'+clamp(v/max*100)+'%"></div></div>';}
+function button(label,action,value,gold,disabled){return '<button class="btn '+(gold?'gold':'')+'" data-action="'+action+'" data-value="'+(value||'')+'" '+(disabled?'disabled':'')+'>'+label+'</button>';}
+function header(title){return '<div class="sub">DRAGON BALL NEW AGE • DEMO 0.2</div><div class="topline"><h1 class="brand">'+title+'</h1><span class="tag">iPHONE / RPG</span></div>';}
+function nav(){return '<div class="nav">'+[['home','Start'],['world','Namek'],['battle','Walka'],['skills','Rozwój']].map(function(x){return '<button class="btn '+(state.screen===x[0]?'selected':'')+'" data-go="'+x[0]+'">'+x[1]+'</button>';}).join('')+'</div>';}
+function art(style){var e=style==='blast'?'💥':style==='ki'?'🔵':'⚡';return '<div class="hero"><div class="fighters">🥋 '+e+' 👾</div><small>Skalista dolina • Namek</small></div>';}
+function stats(){return '<div class="stats"><div><b>GOKU • LV '+state.level+'</b><div class="small">HP '+state.hp+' / '+state.maxHp+'</div>'+meter(state.hp,state.maxHp)+'<div class="small">KI '+state.ki+' / '+state.maxKi+'</div>'+meter(state.ki,state.maxKi,'blue')+'</div><div><b>FRIEZA</b><div class="small">HP '+state.enemy+' / '+state.maxEnemy+'</div>'+meter(state.enemy,state.maxEnemy)+'<div class="small">Tura '+state.turn+'</div></div></div>';}
+function render(){
+var s=state.screen;
+if(s==='home'){app.innerHTML='<section class="card">'+header('DRAGON BALL NEW AGE')+'<div class="hero"><div class="planet">🪐</div><h2>PROLOG: PLANETA NAMEK</h2><small>Pierwsza grywalna wersja przeglądarkowa</small></div><div class="actions">'+button('⚔ NOWA WALKA','new','','gold')+button('🌍 EKSPLORUJ','goto','world')+'</div><p class="small">Walka turowa • kadry ataków • EXP • rozwój wojownika</p></section>';return;}
+if(s==='world'){app.innerHTML='<section class="card">'+header('PLANETA NAMEK')+nav()+art()+'<h2>Skalista dolina</h2><p>Przed tobą rozległa dolina. Na horyzoncie widać oddziały Friezy. Wybierz dokąd ruszyć.</p><div class="actions">'+button('⚔ Walcz z Friezą','goto','battle','gold')+button('💪 Trening KI (+20 KI)','train')+button('🌳 Rozwój wojownika','goto','skills')+button('💾 Zapisz postęp','save')+'</div></section>';return;}
+if(s==='battle'){app.innerHTML=header('WALKA NA NAMEK')+nav()+'<section class="card">'+stats()+'</section><div class="columns"><section class="card">'+art()+'<p class="note">'+(state.hp<=0?'Goku został pokonany. Rozpocznij nową walkę.':state.enemy<=0?'ZWYCIĘSTWO! Frieza został pokonany.':'Wybierz technikę. Obrażenia zostaną policzone po sekwencji kadrów.')+'</p></section><section class="card"><h2 class="title">TWOJE RUCHY</h2><div class="actions">'+moves.map(function(m){return button(m.name+'<br><small>'+m.cost+' KI</small>','attack',m.id,m.id==='kame',state.ki<m.cost||state.hp<=0||state.enemy<=0);}).join('')+button('🛡 Obrona + KI','defend','',false,state.hp<=0||state.enemy<=0)+button('↻ Nowa walka','new')+'</div><div class="log">'+state.log.slice(0,5).map(function(x){return '<div>• '+x+'</div>';}).join('')+'</div></section></div>';return;}
+if(s==='scene'){var move=moves.filter(function(x){return x.id===state.active;})[0];if(!move){state.screen='battle';render();return;}var i=state.stage;app.innerHTML=header(move.name)+'<section class="card">'+stats()+'</section><div class="columns"><section class="card">'+art(i>=move.shots.length-2?'blast':'ki')+'</section><section class="card"><div class="counter">KADR '+(i+1)+' / '+move.shots.length+'</div><p class="scene-text">'+move.shots[i]+'</p>'+meter(i+1,move.shots.length,'blue')+button(i===move.shots.length-1?'ZAKOŃCZ ATAK →':'NASTĘPNY KADR →','next','','gold')+'</section></div>';return;}
+if(s==='skills'){app.innerHTML='<section class="card">'+header('ROZWÓJ WOJOWNIKA')+nav()+'<h2>Poziom '+state.level+' • XP '+state.xp+' • Punkty '+state.points+'</h2><p>Każde zwycięstwo daje punkty do rozwoju.</p><div class="actions">'+button('🥊 Siła '+state.power+'/5','upgrade','power',true,state.points===0||state.power>=5)+button('🛡 Obrona '+state.armor+'/5','upgrade','armor',false,state.points===0||state.armor>=5)+button('⚔ Wróć do walki','goto','battle')+button('💾 Zapisz','save')+'</div><p class="small">Podstawowe drzewko; pełne podskille dodamy w kolejnej wersji.</p></section>';return;}
+}
+function startFight(){var progress={level:state.level,xp:state.xp,points:state.points,power:state.power,armor:state.armor};state=Object.assign(fresh(),progress,{screen:'battle'});persist();render();}
+function attack(id){var m=moves.filter(function(x){return x.id===id;})[0];if(!m||state.ki<m.cost||state.hp<=0||state.enemy<=0)return;state.ki-=m.cost;state.active=id;state.stage=0;state.screen='scene';render();}
+function next(){var m=moves.filter(function(x){return x.id===state.active;})[0];if(!m)return;if(state.stage<m.shots.length-1){state.stage++;render();return;}var damage=Math.round(m.damage*(1+state.power*.18));state.enemy=Math.max(0,state.enemy-damage);state.log.unshift(m.name+': -'+damage+' HP!');state.active=null;state.screen='battle';if(state.enemy===0){state.level++;state.xp+=100;state.points+=2;state.log.unshift('ZWYCIĘSTWO! +100 XP, +2 punkty.');}else{foeTurn();}persist();render();}
+function foeTurn(){var damage=Math.max(12,Math.round((70+Math.random()*55)*(1-state.armor*.12)));state.hp=Math.max(0,state.hp-damage);state.ki=Math.min(state.maxKi,state.ki+12);state.turn++;state.log.unshift('Frieza kontratakuje: -'+damage+' HP!');}
+app.addEventListener('click',function(event){var b=event.target.closest('button');if(!b||!app.contains(b)||b.disabled)return;var go=b.getAttribute('data-go');if(go){state.screen=go;render();return;}var action=b.getAttribute('data-action'),value=b.getAttribute('data-value');if(action==='new')startFight();else if(action==='goto'){state.screen=value;render();}else if(action==='attack')attack(value);else if(action==='next')next();else if(action==='defend'){state.ki=Math.min(state.maxKi,state.ki+30);state.hp=Math.min(state.maxHp,state.hp+20);state.log.unshift('Obrona i regeneracja KI');foeTurn();persist();render();}else if(action==='train'){state.ki=Math.min(state.maxKi,state.ki+20);persist();render();}else if(action==='upgrade'&&state.points>0&&state[value]<5){state.points--;state[value]++;persist();render();}else if(action==='save'){persist();state.log.unshift('Zapisano postęp');render();}});
+render();
 })();
-</script>
-<script src="./game.js?v=6" onload="if(document.getElementById('startup-status')) document.getElementById('startup-status').textContent='Plik gry pobrany, ale nie uruchomiło się menu. Prześlij ten ekran.';" onerror="document.getElementById('startup-status').textContent='Nie udało się pobrać game.js. Otwórz stronę bezpośrednio w Safari.';"></script></body></html>
+</script></body></html>
