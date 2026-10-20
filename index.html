@@ -1,217 +1,25 @@
 <!doctype html>
-<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b142a">
-<title>Dragon Ball New Age — Demo 0.4</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 16% 4%,#204962,#0b1329 68%);color:#f1f6ff;font-family:system-ui,-apple-system,sans-serif}button{font:inherit;cursor:pointer;touch-action:manipulation}button:disabled{opacity:.4}#app{max-width:1120px;margin:auto;padding:20px 16px 70px}.brand{font-size:clamp(22px,4vw,38px);font-weight:1000;color:#ffce5d;letter-spacing:1px;text-shadow:0 4px #403020}.sub{font-size:12px;letter-spacing:2px;color:#bad5fa;font-weight:800}.card{background:#14243de8;border:1px solid #536a82;border-radius:18px;padding:18px;margin:13px 0;box-shadow:0 10px 28px #0004}.hero{min-height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(160deg,#174d5c 0%,#294966 35%,#202c46 55%,#0e1d36 100%);border-radius:15px;border:2px solid #6293a3;overflow:hidden}.hero .planet{font-size:90px;filter:drop-shadow(0 12px 12px #0006)}.hero .fighters{font-size:90px;line-height:1.4;letter-spacing:12px;filter:drop-shadow(0 8px 10px #0008)}.hero .effects{font-size:58px;line-height:1.1}.hero small{background:#101a2bd9;padding:7px 14px;border-radius:40px}.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.btn{background:#244160;border:1px solid #7398b9;color:#fff;border-radius:12px;min-height:50px;padding:10px 13px;text-align:center;font-weight:750}.btn.gold{background:#ffca5d;color:#1b2637;border-color:#ffe9b0}.btn:active{transform:scale(.98)}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.small{font-size:13px;color:#bad0e5}.title{font-weight:900;font-size:20px;margin:0 0 9px}.nav{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.nav .btn{min-height:38px;padding:7px 12px;font-size:13px}.nav .selected{background:#ffca5d;color:#18263b}.columns{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}.bar{height:12px;border-radius:12px;background:#27364b;overflow:hidden;margin:7px 0}.fill{height:100%;background:linear-gradient(90deg,#bd3d56,#ff8b68)}.blue{background:linear-gradient(90deg,#2372a8,#65e2ff)}.log{font-size:13px;line-height:1.55;max-height:150px;overflow-y:auto}.log div{padding:5px 0;border-bottom:1px solid #ffffff19}.note{font-size:13px;color:#dceafb}.scene-text{font-size:19px;line-height:1.5;min-height:95px}.counter{color:#ffcd62;font-weight:900}.tag{display:inline-block;padding:7px 11px;background:#35567a;border-radius:20px;color:#fff;font-size:12px}@media(max-width:650px){.columns{grid-template-columns:1fr}.hero{min-height:220px}.hero .fighters{font-size:67px}.hero .planet{font-size:73px}.card{padding:13px}.brand{font-size:25px}}@media(orientation:landscape){#app{padding-top:8px}.hero{min-height:175px}.hero .planet{font-size:65px}}
-.anime-arena{position:relative;overflow:hidden;border-radius:16px;border:2px solid #7ec7d8;background:#123a4e;aspect-ratio:16/9;box-shadow:inset 0 0 40px #0008}.scene-svg{display:block;width:100%;height:100%}.arena-caption{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);background:#0b1b33dc;border-radius:30px;padding:5px 13px;font-weight:800;font-size:11px;white-space:nowrap}.fighter-left{transform-origin:25% 80%;animation:idleLeft 1.4s ease-in-out infinite alternate}.fighter-right{transform-origin:75% 80%;animation:idleRight 1.3s ease-in-out infinite alternate}.aura-left,.aura-right{animation:flicker .65s ease-in-out infinite alternate}.beam{animation:beamRush .42s ease-out both;transform-origin:36% 48%}.blast{animation:blastHit .6s ease-out both;transform-origin:72% 48%}.impact-scene{animation:impactShake .35s ease-in-out}@keyframes idleLeft{to{transform:translate(2px,-6px)}}@keyframes idleRight{to{transform:translate(-2px,-5px)}}@keyframes flicker{to{opacity:.16}}@keyframes beamRush{from{opacity:0;transform:scaleX(.05)}to{opacity:1;transform:scaleX(1)}}@keyframes blastHit{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}@keyframes impactShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}65%{transform:translateX(5px)}}
-/* Anime illustration layer — replaces the temporary geometric fighters. */
-.cinematic-arena{position:relative;isolation:isolate;width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:2px solid #75c7e5;background:linear-gradient(145deg,#005f77 5%,#249eb3 43%,#85704b 100%);box-shadow:0 18px 36px #0006}
-.cinematic-arena:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 65% 14%,#cdfbffba 0 8%,transparent 23%),linear-gradient(135deg,#0b4d6380,transparent 60%);z-index:0}
-.anime-fighter{position:absolute;top:0;height:100%;width:53%;overflow:hidden;z-index:1;will-change:transform;animation:anime-idle 2.3s ease-in-out infinite alternate}
-.anime-fighter img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.08) saturate(1.08) drop-shadow(0 8px 8px #0006)}
-.goku-art{left:0;clip-path:polygon(0 0,100% 0,86% 100%,0 100%);border-right:2px solid #a0e6ff}
-.frieza-art{right:0;animation-delay:-1s;clip-path:polygon(15% 0,100% 0,100% 100%,0 100%)}
-.goku-art img{object-position:47% center}
-.frieza-art img{object-position:50% center}
-.anime-vignette{position:absolute;inset:0;background:linear-gradient(90deg,#07345422 0%,transparent 35%,#3f065d11 65%,#15113544),linear-gradient(0deg,#0c1632ad,transparent 32%);z-index:2;pointer-events:none}
-.mode-charge .goku-art{animation:charge-pulse .24s alternate infinite;filter:drop-shadow(4px 0 15px #f43e58)}
-.mode-ki .goku-art{animation:anime-attack .6s ease-in-out infinite alternate;filter:drop-shadow(7px 0 13px #29d7ff)}
-.mode-blast .frieza-art{animation:anime-impact .25s ease-in-out infinite alternate;filter:brightness(1.35)}
-.mode-punch .goku-art{animation:anime-attack .4s ease-in-out infinite alternate}
-.scene-ki-beam{position:absolute;left:33%;right:7%;top:45%;height:12%;background:linear-gradient(180deg,#1675ff,#a6f7ff 22%,white 49%,#5ad3ff 80%,#0668db);border-radius:100%;filter:drop-shadow(0 0 17px #43d6ff);z-index:4;transform-origin:left center;animation:beam-attack .7s ease-out infinite alternate;pointer-events:none}
-.scene-hit-flash{position:absolute;right:15%;top:35%;width:23%;aspect-ratio:1;background:radial-gradient(circle,#fff 0%,#fcf7bb 20%,#67e0ff 35%,#4183e3aa 52%,transparent 72%);z-index:5;animation:impact-explosion .5s ease-out infinite alternate;pointer-events:none}
-.cinematic-arena .arena-caption{z-index:7}
-@keyframes anime-idle{from{transform:translateY(0) scale(1.01)}to{transform:translateY(-4px) scale(1.04)}}
-@keyframes charge-pulse{from{transform:scale(1.01);filter:brightness(1)}to{transform:scale(1.055);filter:brightness(1.28)}}
-@keyframes anime-attack{from{transform:translateX(-1%) scale(1.02)}to{transform:translateX(4%) scale(1.08)}}
-@keyframes anime-impact{from{transform:translate(0) scale(1.03)}to{transform:translate(6px,-3px) scale(1.06)}}
-@keyframes beam-attack{from{transform:scaleX(.25);opacity:.65}to{transform:scaleX(1);opacity:1}}
-@keyframes impact-explosion{from{transform:scale(.5);opacity:.7}to{transform:scale(1.35);opacity:1}}
-@media(max-width:650px){.cinematic-arena{aspect-ratio:1.55}.anime-fighter{width:56%}}
-
-/* Cinematic combat cards */
-.cinematic-arena{background:linear-gradient(160deg,#034761,#1784a1,#416b74);aspect-ratio:16/9;border-color:#83d7ed}
-.cinematic-arena:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 72% 17%,#a0ebf3a8 0 9%,transparent 10%),linear-gradient(15deg,#305c6350,#56bbcc48)}
-.anime-fighter{width:49%;height:95%;top:2%;clip-path:none;overflow:visible}
-.goku-art{left:1%}.frieza-art{right:2%}.anime-fighter img{object-fit:contain;object-position:center;filter:drop-shadow(0 12px 10px #030d1aa8)}
-.frieza-art img{filter:drop-shadow(0 12px 11px #280635ac)}
-.cinematic-arena .arena-caption{background:#07182de8;border:1px solid #3585a2}
-.scene-shot{position:relative;overflow:hidden;border:2px solid #70c7e6;border-radius:15px;aspect-ratio:16/9;background:radial-gradient(circle at 40% 30%,#0f6387,#09162f)}
-.scene-shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;animation:dbna-zoom 1.4s ease-out both;filter:contrast(1.08) saturate(1.08)}
-.scene-shot .scene-mask{position:absolute;inset:0;background:linear-gradient(0deg,#06122ebd,transparent 32%);pointer-events:none}
-.scene-shot .scene-caption{position:absolute;bottom:10px;left:13px;right:13px;display:flex;justify-content:space-between;gap:8px;color:#fff;font-size:11px;letter-spacing:1px;text-shadow:0 2px 4px #000}
-.scene-shot .scene-fx{position:absolute;inset:0;pointer-events:none}
-.cut-vanish img{animation:dbna-vanish .7s ease-in-out infinite alternate}
-.cut-impact img{animation:dbna-impact .28s ease-in-out infinite alternate}
-.cut-charge img{animation:dbna-charge .8s ease-in-out infinite alternate}
-.cut-explosion img{animation:dbna-explosion .75s ease-in-out infinite alternate}
-.cut-vanish .scene-fx:before{content:"";position:absolute;top:10%;bottom:10%;left:25%;right:25%;border:8px solid #b9eefa9c;border-radius:50%;animation:dbna-ring 1.1s ease-out infinite}
-.cut-impact .scene-fx:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(114deg,transparent 0 50px,#d5f2ff73 52px 55px,transparent 59px 92px);mix-blend-mode:screen}
-.cut-explosion .scene-fx:before{content:"";position:absolute;top:12%;left:30%;width:40%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff,#fff2b2 26%,#7cdbffa8 47%,transparent 70%);filter:blur(5px);animation:dbna-burst .75s ease-out infinite}
-@keyframes dbna-zoom{from{transform:scale(1.01)}to{transform:scale(1.09)}}
-@keyframes dbna-vanish{from{transform:translate(-4%,0) scale(1.06);filter:brightness(1.5)}to{transform:translate(4%,0) scale(1.15);filter:brightness(.76)}}
-@keyframes dbna-impact{0%{transform:translateX(-6px) scale(1.06)}100%{transform:translateX(6px) scale(1.13)}}
-@keyframes dbna-charge{from{transform:scale(1.04);filter:brightness(.9)}to{transform:scale(1.13);filter:brightness(1.28)}}
-@keyframes dbna-explosion{from{transform:scale(1.02);filter:brightness(1.4)}to{transform:scale(1.13);filter:brightness(.9)}}
-@keyframes dbna-ring{from{transform:scale(.2);opacity:1}to{transform:scale(1.8);opacity:0}}
-@keyframes dbna-burst{from{transform:scale(.3);opacity:1}to{transform:scale(2);opacity:0}}
-
-/* Main menu and battle command redesign */
-body{background:radial-gradient(ellipse at 0 0,#1b5878 0,#0c1a32 48%,#090f20 100%)}
-.card{background:linear-gradient(143deg,#19314ced,#0e1d35fa);box-shadow:0 14px 34px #0005;border:1px solid #4b6682}
-.btn{box-shadow:inset 0 1px #ffffff20;transition:background .2s,transform .16s}
-.btn:active{transform:translateY(2px)}
-.btn.gold{background:linear-gradient(160deg,#ffe2a0,#f9b84c);border-color:#ffecb8}
-.brand{font-weight:1000;letter-spacing:.5px}
-.main-menu-cover{position:relative;min-height:280px;border:2px solid #67c4e4;border-radius:18px;overflow:hidden;background:#10354f}
-.main-menu-cover .cinematic-arena{position:absolute;inset:0;height:100%;aspect-ratio:auto;border:0;border-radius:0;opacity:.9}
-.main-menu-cover:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#08172dee 0%,transparent 50%),linear-gradient(90deg,#0a1d3c8f 0%,transparent 85%);pointer-events:none}
-.main-menu-caption{position:relative;z-index:2;min-height:280px;display:flex;flex-direction:column;justify-content:flex-end;padding:20px 24px;pointer-events:none}
-.main-menu-caption strong{font-size:clamp(24px,4vw,43px);letter-spacing:1px;text-shadow:0 4px 14px #000}
-.main-menu-caption span{max-width:490px;color:#d7ecff;line-height:1.4}
-.menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
-.menu-tile{color:white;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:7px;text-align:left;border:1px solid #5282a4;border-radius:15px;min-height:110px;padding:15px;background:linear-gradient(150deg,#214165,#0d213c);font-weight:900}
-.menu-tile .menu-icon{font-size:26px}.menu-tile small{font-weight:500;color:#b6d9e9}
-.menu-tile.goldtile{background:linear-gradient(140deg,#e8a942,#ffcf71);color:#13243c;border-color:#ffe7a9}.menu-tile.goldtile small{color:#40506b}
-.status-pills{display:flex;gap:8px;flex-wrap:wrap;margin:13px 0}
-.status-pills span{font-size:12px;border-radius:30px;border:1px solid #316784;background:#0f304a;padding:6px 11px;color:#bfeeff}
-.command-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:12px 0}
-.command-tab{background:#152e4d;border:1px solid #457393;color:#e5f0f8;border-radius:10px;padding:9px 3px;min-height:43px;font-size:12px;font-weight:800}
-.command-tab.on{background:#f9c35e;color:#14243e;border-color:#ffe19f}
-.tech-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.tech{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:112px;padding:12px;border-radius:14px;text-align:left;color:#fff;border:1px solid #4c81a7;background:linear-gradient(130deg,#214568,#132941);font-weight:750}
-.tech strong{font-size:15px}.tech .tech-icon{font-size:23px}.tech small{color:#95e2fa}.tech em{font-style:normal;font-size:11px;color:#bed6e5;line-height:1.4}
-.tech.ultimate{border-color:#f0c463;box-shadow:inset 0 0 20px #d8944038}.tech:disabled{opacity:.4}
-.combo-meter{display:flex;align-items:center;gap:12px;background:#0d2a42;border:1px solid #2d6081;padding:8px 11px;border-radius:12px;margin:10px 0;font-size:12px;font-weight:800}
-.combo-meter .bar{flex:1;height:10px;margin:0}.combo-meter .fill{background:linear-gradient(90deg,#ff8a4a,#ffdf77)}
-.world-places{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.world-places .place{border:1px solid #355b78;border-radius:12px;padding:13px;background:#112b43}
-.world-places .place h3{margin:5px 0}.world-places .place .btn{width:100%}
-@media (orientation:landscape) and (max-height:530px){.main-menu-cover,.main-menu-caption{min-height:180px}.menu-tile{min-height:80px}.card{padding:10px;margin:8px 0}.tech{min-height:83px}}
-
-/* Nested skill trees and mastery */
-.skill-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.skill-node{padding:14px;border:1px solid #45708b;border-radius:14px;background:linear-gradient(150deg,#173452,#0e203b)}
-.skill-node .skill-icon{font-size:24px}.skill-node h3{font-size:16px;margin:7px 0}.skill-node p{min-height:49px;font-size:12px;color:#bbd5e9;margin:5px 0;line-height:1.4}
-.skill-node .btn{width:100%;min-height:40px;margin-top:6px}
-.skill-branch{color:#ffd88e;font-size:11px;font-weight:800;letter-spacing:.7px}
-.skill-progress{display:flex;justify-content:space-between;margin:8px 0;color:#c3d9e8;font-size:11px}
-.skill-section{margin-top:16px;border-top:1px solid #426783;padding-top:14px}
-.skill-mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.skill-mini{border:1px solid #3a5d77;border-radius:12px;padding:10px;background:#102640}
-.skill-mini .bar{height:7px}
-@media(max-width:470px){.skill-layout{grid-template-columns:1fr 1fr}.skill-node{padding:11px}.skill-node h3{font-size:14px}}
-
-/* Background battle motions are cosmetic: no turn or HP change until a command is selected. */
-.cinematic-arena.mode-idle .goku-art{animation:dbna-spar-goku 7.5s ease-in-out infinite;will-change:transform,opacity}
-.cinematic-arena.mode-idle .frieza-art{animation:dbna-spar-frieza 7.5s ease-in-out infinite;will-change:transform,opacity}
-.cinematic-arena.mode-idle:after{content:"";position:absolute;z-index:3;inset:0;pointer-events:none;opacity:0;background:repeating-linear-gradient(112deg,transparent 0 44px,#b7f3ff36 46px 49px,transparent 50px 90px);animation:dbna-sparlines 7.5s ease-in-out infinite}
-@keyframes dbna-spar-goku{0%,18%,70%,100%{transform:translate(0,0) scale(1);opacity:1}28%{transform:translate(5%,0) scale(1.05);opacity:.12}33%{transform:translate(22%,-6%) scale(1.07);opacity:1}40%{transform:translate(14%,-4%) scale(1.07);opacity:1}48%{transform:translate(0,-1%) scale(1.03);opacity:.25}54%{transform:translate(0,0) scale(1);opacity:1}}
-@keyframes dbna-spar-frieza{0%,18%,70%,100%{transform:translate(0,0) scale(1);opacity:1}28%{transform:translate(-3%,0) scale(1.04);opacity:.1}34%{transform:translate(-18%,-7%) scale(1.08);opacity:1}40%{transform:translate(-13%,-5%) scale(1.08);opacity:1}48%{transform:translate(0,0) scale(1.02);opacity:.2}54%{transform:translate(0,0) scale(1);opacity:1}}
-@keyframes dbna-sparlines{0%,26%,50%,100%{opacity:0}32%,41%{opacity:.5}}
-@media(prefers-reduced-motion:reduce){.cinematic-arena.mode-idle .goku-art,.cinematic-arena.mode-idle .frieza-art,.cinematic-arena.mode-idle:after,.scene-shot img{animation:none!important}}
-</style></head><body>
-<main id="app">
-<section class="card"><div class="sub">GRYWALNY PROTOTYP • 0.2</div><h1 class="brand">DRAGON BALL NEW AGE</h1><div class="hero"><div class="planet">🪐</div><strong>PLANETA NAMEK</strong><small>Prolog • Goku kontra Frieza</small></div>
-<div class="actions"><button class="btn gold" data-go="battle">⚔ NOWA WALKA</button><button class="btn" data-go="world">🌍 EKSPLORUJ</button></div>
-<p class="small">Ta wersja działa bez zewnętrznych bibliotek i nie wymaga logowania.</p></section>
-</main>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c1931">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="DB New Age">
+<link rel="icon" href="./icon.svg">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="stylesheet" href="./saiyan.css?v=5">
+<title>Dragon Ball New Age • Saga Saiyan 0.5</title>
+</head>
+<body>
+<main id="app"><section style="padding:25px;color:#ffcf73;background:#10213d;min-height:55vh;font-family:system-ui;border:2px solid #e99536;border-radius:18px;margin:14px">
+<h1>DRAGON BALL NEW AGE</h1><h2>SAGA SAIYAN • 0.5</h2><p id="startup-msg">Uruchamianie nowej gry RPG…</p>
+<a href="./demo-0.4-archive.html" style="color:#85dbff">Poprzednie działające demo 0.4</a></section></main>
 <script>
 (function(){
-'use strict';
-var app=document.getElementById('app');
-var moves=[
-{id:'punch',icon:'🥊',type:'physical',name:'Szybkie ciosy',cost:0,damage:145,desc:'3 ciosy • zdobywasz Combo',shots:['Goku przyjmuje postawę bojową.','Błysk! Goku znika i pojawia się przy Friezie.','Szybka seria uderzeń przecina powietrze!','Frieza zostaje odrzucony na skały.']},
-{id:'ki',icon:'🔵',type:'ki',name:'Fala KI',cost:15,damage:230,desc:'Dystans • niski koszt energii',shots:['Goku skupia energię.','Impuls KI rozświetla dłonie.','Błysk — eksplozja energii przed Friezą!','Fala uderzeniowa rozrzuca odłamki skał.']},
-{id:'meteor',icon:'💥',type:'combo',name:'Meteor Combo',cost:25,damage:325,desc:'Teleport • ciosy • mocny finał',shots:['Goku rozpoczyna gwałtowną szarżę!','Teleport! Wojownik znika z pola widzenia.','Kombinacja pięści i kopnięć w powietrzu!','Frieza zostaje wbity w skały!','Meteor Smash — końcowe trafienie!']},
-{id:'kame',icon:'🌊',type:'ki',name:'Kamehameha',cost:40,damage:470,desc:'Potężny atak • sześć kadrów',shots:['Ka… Goku skupia swoją energię.','Me… Powietrze zaczyna drżeć.','Ha… Me… Niebo rozświetla energia!','HAAAA! Potężny wystrzał!','W oddali widać błysk i odłamki skał.','Frieza zostaje trafiony eksplozją!']}
-];
-function fresh(){return {tab:'all',comboMeter:0,focus:0,kiControl:0,mastery:{punch:0,ki:0,meteor:0,kame:0},screen:'home',hp:1250,maxHp:1250,ki:100,maxKi:100,enemy:1800,maxEnemy:1800,level:1,xp:0,points:0,power:0,armor:0,turn:1,stage:0,active:null,log:['Frieza: To tutaj kończy się twoja podróż!']};}
-var state=fresh();
-try{var raw=localStorage.getItem('dbna-standalone-save-v2');if(raw){var saved=JSON.parse(raw);if(saved && typeof saved.hp==='number'){state=Object.assign(fresh(),saved,{screen:'home',active:null});state.mastery=Object.assign(fresh().mastery,saved.mastery||{});}}}catch(ignore){}
-function persist(){try{localStorage.setItem('dbna-standalone-save-v2',JSON.stringify(Object.assign({},state,{screen:'home',active:null})));}catch(ignore){}}
-function clamp(n){return Math.max(0,Math.min(100,Math.round(n)));}
-function meter(v,max,cls){return '<div class="bar"><div class="fill '+(cls||'')+'" style="width:'+clamp(v/max*100)+'%"></div></div>';}
-function button(label,action,value,gold,disabled){return '<button class="btn '+(gold?'gold':'')+'" data-action="'+action+'" data-value="'+(value||'')+'" '+(disabled?'disabled':'')+'>'+label+'</button>';}
-function header(title){return '<div class="sub">DRAGON BALL NEW AGE • DEMO 0.4</div><div class="topline"><h1 class="brand">'+title+'</h1><span class="tag">iPHONE / RPG</span></div>';}
-function nav(){return '<div class="nav">'+[['home','Start'],['world','Namek'],['battle','Walka'],['skills','Rozwój']].map(function(x){return '<button class="btn '+(state.screen===x[0]?'selected':'')+'" data-go="'+x[0]+'">'+x[1]+'</button>';}).join('')+'</div>';}
-function art(mode){
-var goku='https://genk.mediacdn.vn/2019/9/14/photo-1-15684510731982007283836.png';
-var frieza='https://dble.bn-ent.net/shared/img/kv_frieza.webp';
-var fallback='https://jp.dblegends.net/assets/card_arts/0450_Frieza4th_450/0450_Frieza4th_450_Chara.png';
-return '<div class="cinematic-arena mode-'+(mode||'idle')+'"><div class="anime-fighter goku-art"><img src="'+goku+'" alt="Goku" loading="eager"></div><div class="anime-fighter frieza-art"><img src="'+frieza+'" alt="Frieza w formie finalnej" loading="eager" onerror="this.onerror=null;this.src=\''+fallback+'\'"></div><div class="anime-vignette"></div><div class="arena-caption">NAMEK • SKALISTA DOLINA</div></div>';
-}
-var cutImages={
-punch:['https://genk.mediacdn.vn/2019/9/14/photo-1-15684510731982007283836.png','https://s1.dmcdn.net/v/I_AEu1ep6xDOdoGZY/x1080','https://i.gyazo.com/0774a772c6e79c7db4f0bec977c1d2a3.png','https://dble.bn-ent.net/shared/img/kv_frieza.webp'],
-meteor:['https://genk.mediacdn.vn/2019/9/14/photo-1-15684510731982007283836.png','https://i.gyazo.com/0774a772c6e79c7db4f0bec977c1d2a3.png','https://s1.dmcdn.net/v/I_AEu1ep6xDOdoGZY/x1080','https://i.gyazo.com/0774a772c6e79c7db4f0bec977c1d2a3.png','https://dble.bn-ent.net/shared/img/kv_frieza.webp'],
-ki:['https://genk.mediacdn.vn/2019/9/14/photo-1-15684510731982007283836.png','https://imagenes.hobbyconsolas.com/files/image_1920_1080/uploads/imagenes/2023/04/25/69026f56d6d7f.jpeg','https://imagenes.hobbyconsolas.com/files/image_1920_1080/uploads/imagenes/2023/04/25/69026f56d6d7f.jpeg','https://dble.bn-ent.net/shared/img/kv_frieza.webp'],
-kame:['https://genk.mediacdn.vn/2019/9/14/photo-1-15684510731982007283836.png','https://genk.mediacdn.vn/2019/9/14/photo-1-15684510731982007283836.png','https://imagenes.hobbyconsolas.com/files/image_1920_1080/uploads/imagenes/2023/04/25/69026f56d6d7f.jpeg','https://imagenes.hobbyconsolas.com/files/image_1920_1080/uploads/imagenes/2023/04/25/69026f56d6d7f.jpeg','https://images.plex.tv/photo?scale=1&size=large-1280&url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fw7mH75Cf0OsqubBNMJ741pAGoKQ.jpg','https://dble.bn-ent.net/shared/img/kv_frieza.webp']
-};
-function sceneArt(move,i){
-var src=(cutImages[move.id]||cutImages.punch)[i];
-var kind=i===move.shots.length-1?'explosion':(move.id==='punch'||move.id==='meteor')?(i===1?'vanish':'impact'):(i<3?'charge':'impact');
-var fallback='https://dble.bn-ent.net/shared/img/kv_frieza.webp';
-return '<div class="scene-shot cut-'+kind+'"><img loading="eager" alt="Kadr '+(i+1)+' ataku '+move.name+'" src="'+src+'" onerror="this.onerror=null;this.src=\''+fallback+'\'"><div class="scene-fx"></div><div class="scene-mask"></div><div class="scene-caption"><strong>NAMEK • '+move.name.toUpperCase()+'</strong><strong>'+('0'+(i+1)).slice(-2)+' / '+('0'+move.shots.length).slice(-2)+'</strong></div></div>';
-}
-function stats(){return '<div class="stats"><div><b>GOKU • LV '+state.level+'</b><div class="small">HP '+state.hp+' / '+state.maxHp+'</div>'+meter(state.hp,state.maxHp)+'<div class="small">KI '+state.ki+' / '+state.maxKi+'</div>'+meter(state.ki,state.maxKi,'blue')+'</div><div><b>FRIEZA</b><div class="small">HP '+state.enemy+' / '+state.maxEnemy+'</div>'+meter(state.enemy,state.maxEnemy)+'<div class="small">Tura '+state.turn+'</div></div></div>';}
-function render(){
-var s=state.screen;
-if(s==='home'){
-app.innerHTML=header('DRAGON BALL NEW AGE')+
-'<div class="main-menu-cover">'+art()+'<div class="main-menu-caption"><span class="tag">RPG • PROLOG</span><strong>WOJNA O NAMEK</strong><span>Ataki, transformacje i taktyka — pierwsza grywalna misja Dragon Ball New Age.</span></div></div>'+
-'<div class="status-pills"><span>LV '+state.level+'</span><span>EXP '+state.xp+'</span><span>KI '+state.ki+'</span><span>Punkty '+state.points+'</span></div>'+
-'<div class="menu-grid">'+
-'<button class="menu-tile goldtile" data-action="new"><span class="menu-icon">⚔️</span><strong>NOWA WALKA</strong><small>Rozpocznij starcie z Friezą</small></button>'+
-'<button class="menu-tile" data-action="goto" data-value="battle"><span class="menu-icon">▶</span><strong>KONTYNUUJ</strong><small>Wróć do walki</small></button>'+
-'<button class="menu-tile" data-action="goto" data-value="world"><span class="menu-icon">🌍</span><strong>PLANETA NAMEK</strong><small>Eksploracja i trening KI</small></button>'+
-'<button class="menu-tile" data-action="goto" data-value="skills"><span class="menu-icon">🌳</span><strong>UMIEJĘTNOŚCI</strong><small>Drzewko skilli i pasywów</small></button></div>'+
-'<p class="small">Wersja testowa • zapis lokalny na urządzeniu • zaprojektowana dla iPhone’a</p>';return;}
-if(s==='world'){
-app.innerHTML=header('PLANETA NAMEK')+nav()+'<section class="card">'+art()+'<h2>Skalista dolina</h2><p>W oddali widać statek Friezy. Możesz wrócić do walki albo trenować, zanim stawisz czoła przeciwnikowi.</p>'+
-'<div class="world-places">'+
-'<div class="place"><h3>⛰️ Skalna dolina</h3><p class="small">Boss: Frieza</p>'+button('⚔ Walka','goto','battle',true)+'</div>'+
-'<div class="place"><h3>🌀 Trening KI</h3><p class="small">Regeneracja +20 KI</p>'+button('Trenuj','train')+'</div>'+
-'<div class="place"><h3>🌳 Drzewko skilli</h3><p class="small">Pasywy, siła, obrona</p>'+button('Ulepsz','goto','skills')+'</div>'+
-'<div class="place"><h3>💾 Zapis</h3><p class="small">Zachowaj postępy</p>'+button('Zapisz','save')+'</div></div></section>';return;}
-if(s==='battle'){
-var tabs=[['all','⚔ Wszystko'],['physical','🥊 Ciosy'],['ki','🔵 KI'],['combo','💥 Combo']];
-var selected=state.tab||'all',filtered=moves.filter(function(m){return selected==='all'||m.type===selected;});
-var cards=filtered.map(function(m){
-var locked=state.ki<Math.max(0,m.cost-((m.type==='ki')?(state.kiControl||0)*2:0))||state.hp<=0||state.enemy<=0;
-return '<button class="tech '+(m.id==='kame'?'ultimate':'')+'" data-action="attack" data-value="'+m.id+'" '+(locked?'disabled':'')+'><span class="tech-icon">'+m.icon+'</span><strong>'+m.name+'</strong><em>'+m.desc+'</em><small>'+m.cost+' KI • opanowanie '+(state.mastery[m.id]||0)+'</small></button>';}).join('');
-app.innerHTML=header('WALKA NA NAMEK')+nav()+
-'<section class="card">'+stats()+'<div class="combo-meter"><span>COMBO '+(state.comboMeter||0)+'%</span>'+meter(state.comboMeter||0,100)+'</div></section>'+
-'<div class="columns"><section class="card">'+art()+
-'<p class="note">'+(state.hp<=0?'Goku przegrał — rozpocznij nowe starcie.':state.enemy<=0?'ZWYCIĘSTWO! Frieza został pokonany.':'Wybierz technikę. W trakcie sekwencji kadrowej HP pozostaje bez zmian.')+'</p></section>'+
-'<section class="card"><h2 class="title">MENU WALKI</h2><div class="command-tabs">'+tabs.map(function(t){return '<button class="command-tab '+(selected===t[0]?'on':'')+'" data-action="tab" data-value="'+t[0]+'">'+t[1]+'</button>';}).join('')+'</div>'+
-'<div class="tech-grid">'+cards+'</div><div class="actions">'+
-button('🛡 Obrona +KI','defend','',false,state.hp<=0||state.enemy<=0)+button('↻ Nowa walka','new')+
-'</div><div class="log">'+state.log.slice(0,5).map(function(x){return '<div>• '+x+'</div>';}).join('')+'</div></section></div>';return;}
-if(s==='scene'){var move=moves.filter(function(x){return x.id===state.active;})[0];if(!move){state.screen='battle';render();return;}var i=state.stage;app.innerHTML=header(move.name)+'<section class="card">'+stats()+'</section><div class="columns"><section class="card">'+sceneArt(move,i)+'</section><section class="card"><div class="counter">KADR '+(i+1)+' / '+move.shots.length+'</div><p class="scene-text">'+move.shots[i]+'</p>'+meter(i+1,move.shots.length,'blue')+button(i===move.shots.length-1?'ZAKOŃCZ ATAK →':'NASTĘPNY KADR →','next','','gold')+'</section></div>';return;}
-if(s==='skills'){
-var branches=[
-{id:'power',icon:'🥊',title:'Siła',route:'ATAK • ATRYBUT',desc:'+18% obrażeń za poziom',max:5},
-{id:'armor',icon:'🛡️',title:'Wytrzymałość',route:'OBRONA • PASYW',desc:'Mniej obrażeń od przeciwników',max:5},
-{id:'focus',icon:'🎯',title:'Koncentracja',route:'KI • PASYW',desc:'+8% obrażeń technik energii',max:5},
-{id:'kiControl',icon:'🔵',title:'Kontrola KI',route:'ENERGIA • PODSKILL',desc:'Koszt technik KI niższy o 2',max:5}
-];
-app.innerHTML=header('DRZEWKO UMIEJĘTNOŚCI')+nav()+
-'<section class="card"><div class="topline"><h2 class="title">LV '+state.level+' • XP '+state.xp+'</h2><span class="tag">'+state.points+' PUNKTÓW</span></div><p class="small">Wybierz ścieżkę. Pasywy, atrybuty i opanowanie ataków rozwijają się osobno.</p>'+
-'<div class="skill-layout">'+branches.map(function(s){
-var n=state[s.id]||0;
-return '<div class="skill-node"><div class="skill-icon">'+s.icon+'</div><div class="skill-branch">'+s.route+'</div><h3>'+s.title+'</h3><p>'+s.desc+'</p>'+meter(n,s.max,'blue')+'<div class="skill-progress"><span>STOPIEŃ '+n+' / '+s.max+'</span><span>1 pkt</span></div>'+
-button('Ulepsz','upgrade',s.id,s.id==='power',n>=s.max||state.points<=0)+'</div>';}).join('')+'</div>'+
-'<div class="skill-section"><h2 class="title">TECHNIKI I PODSKILLE</h2><p class="small">Każde użycie ataku podnosi jego opanowanie. Co 10 użyć — +5% do jego obrażeń.</p>'+
-'<div class="skill-mini-grid">'+moves.map(function(m){
-var n=(state.mastery&&state.mastery[m.id])||0;
-return '<div class="skill-mini"><b>'+m.icon+' '+m.name+'</b><div class="skill-progress"><span>UŻYCIA '+n+'</span><span>RANGA '+Math.floor(n/10)+'</span></div>'+meter(n%10,10,'blue')+'</div>';}).join('')+'</div></div>'+
-'<div class="skill-section"><h2 class="title">POŁĄCZENIA TECHNIK</h2><p class="small">🥊 Ciosy budują miernik Combo. 💥 Meteor Combo zużywa zgromadzoną serię i dostaje bonus obrażeń. 🔵 Kontrola KI zmniejsza koszt Kamehameha i Fali KI.</p></div>'+
-'<div class="actions">'+button('⚔ Wróć do walki','goto','battle',true)+button('💾 Zapisz postęp','save')+'</div></section>';return;}
-}
-function startFight(){var progress={level:state.level,xp:state.xp,points:state.points,power:state.power,armor:state.armor,focus:state.focus||0,kiControl:state.kiControl||0,mastery:state.mastery||{punch:0,ki:0,meteor:0,kame:0}};state=Object.assign(fresh(),progress,{screen:'battle'});persist();render();}
-function attack(id){var m=moves.filter(function(x){return x.id===id;})[0];if(!m||state.hp<=0||state.enemy<=0)return;var actualCost=Math.max(0,m.cost-((m.type==='ki')?(state.kiControl||0)*2:0));if(state.ki<actualCost)return;state.ki-=actualCost;state.active=id;state.stage=0;state.screen='scene';render();}
-function next(){var m=moves.filter(function(x){return x.id===state.active;})[0];if(!m)return;if(state.stage<m.shots.length-1){state.stage++;render();return;}var uses=state.mastery[m.id]||0;var masteryBonus=1+Math.floor(uses/10)*.05;var comboBonus=m.type==='combo'?1+(state.comboMeter||0)/200:1;var focusBonus=m.type==='ki'?1+(state.focus||0)*.08:1;var damage=Math.round(m.damage*(1+state.power*.18)*masteryBonus*comboBonus*focusBonus);state.mastery[m.id]=uses+1;state.comboMeter=m.type==='physical'?Math.min(100,(state.comboMeter||0)+25):m.type==='combo'?0:Math.max(0,(state.comboMeter||0)-10);state.enemy=Math.max(0,state.enemy-damage);state.log.unshift(m.name+': -'+damage+' HP!');state.active=null;state.screen='battle';if(state.enemy===0){state.level++;state.xp+=100;state.points+=2;state.log.unshift('ZWYCIĘSTWO! +100 XP, +2 punkty.');}else{foeTurn();}persist();render();}
-function foeTurn(){var damage=Math.max(12,Math.round((70+Math.random()*55)*(1-state.armor*.12)));state.hp=Math.max(0,state.hp-damage);state.ki=Math.min(state.maxKi,state.ki+12);state.turn++;state.log.unshift('Frieza kontratakuje: -'+damage+' HP!');}
-app.addEventListener('click',function(event){var b=event.target.closest('button');if(!b||!app.contains(b)||b.disabled)return;var go=b.getAttribute('data-go');if(go){state.screen=go;render();return;}var action=b.getAttribute('data-action'),value=b.getAttribute('data-value');if(action==='tab'){state.tab=value;render();}else if(action==='new')startFight();else if(action==='goto'){state.screen=value;render();}else if(action==='attack')attack(value);else if(action==='next')next();else if(action==='defend'){state.ki=Math.min(state.maxKi,state.ki+30);state.hp=Math.min(state.maxHp,state.hp+20);state.log.unshift('Obrona i regeneracja KI');foeTurn();persist();render();}else if(action==='train'){state.ki=Math.min(state.maxKi,state.ki+20);persist();render();}else if(action==='upgrade'&&state.points>0&&['power','armor','focus','kiControl'].indexOf(value)>=0&&(state[value]||0)<5){state.points--;state[value]=(state[value]||0)+1;persist();render();}else if(action==='save'){persist();state.log.unshift('Zapisano postęp');render();}});
-render();
+window.addEventListener('error',function(e){var x=document.getElementById('startup-msg');if(x)x.textContent='Błąd uruchamiania gry: '+(e.message||'Nieznany błąd');});
+if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister()})}).catch(function(){})}
 })();
-</script></body></html>
+</script>
+<script src="./saiyan.js?v=5" defer onerror="document.getElementById('startup-msg').textContent='Nie udało się pobrać silnika saiyan.js. Otwórz link w Safari i spróbuj odświeżyć.'"></script>
+</body></html>
