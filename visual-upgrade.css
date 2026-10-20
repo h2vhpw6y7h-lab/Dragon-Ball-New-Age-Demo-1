@@ -60,3 +60,22 @@ body:before{opacity:.55;background-image:radial-gradient(#ffe4a06e .8px,transpar
 .skillnode,.stat,.location{box-shadow:inset 0 1px #ffffff16}
 @media(max-width:390px){.tech-grid{gap:7px}.tech{min-height:96px}.tile{min-height:105px}.hero-cover{height:clamp(260px,44vh,420px)}}
 @media (prefers-reduced-motion:reduce){.hero-image{animation:none!important}*,*:before,*:after{scroll-behavior:auto!important}}
+
+/* Character and battlefield art-direction pass 0.7.1 */
+.scene-wrap{isolation:isolate;background-image:linear-gradient(180deg,#2080a7a0 0%,#76c4b7a0 43%,#b09b6fdd 78%,#695038 100%),url("./assets/earth-battle-4k.svg");background-size:cover;background-position:center}
+.scene-wrap:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:url("./assets/earth-battle-4k.svg") center/cover no-repeat;opacity:.77}
+.scene-wrap.battlefield:before{background:url("./assets/earth-battle-4k.svg") center/cover no-repeat;opacity:.77}
+.scene-wrap .player-art,.scene-wrap .enemy-art{z-index:2;bottom:-5%;height:105%;object-fit:contain}
+.scene-wrap .player-art{left:-2%;filter:drop-shadow(3px 5px 0 #101b33a0) drop-shadow(0 0 12px #83e4ff45)}
+.scene-wrap .enemy-art{right:-2%;filter:drop-shadow(-4px 6px 0 #101b33b0)}
+.scene-wrap .player-art.pose-vanish{opacity:.43;transform:translateX(14%) skew(-11deg) scale(.97);filter:drop-shadow(-26px 0 2px #9fefff99)}
+.scene-wrap .player-art.pose-hit{transform:translateX(13%) rotate(-7deg) scale(1.08)}
+.scene-wrap .player-art.pose-counter{transform:translateX(-7%) rotate(4deg)}
+.scene-wrap .player-art.pose-charge{transform:scale(1.1);filter:drop-shadow(0 0 12px #fffbbb) drop-shadow(0 0 22px #39caff)}
+.scene-wrap.hit .enemy-art{transform:translateX(8%) rotate(6deg)}
+.scene-wrap.vanish .player-art{animation:dbna-vanish .32s ease-in-out alternate infinite}
+.scene-wrap.beam .player-art{filter:drop-shadow(0 0 20px #44e6ff)}
+.scene-wrap .enemy-art[src*="pngegg"],.scene-wrap .enemy-art[src*="nicepng"]{mix-blend-mode:multiply}
+.map-frame:after{content:"";pointer-events:none;position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 60% 20%,#fcffbe25,transparent 52%),repeating-linear-gradient(138deg,transparent 0 100px,#fff6b508 101px 104px,transparent 105px 230px);box-shadow:inset 0 0 50px #080f2888}
+@keyframes dbna-vanish{from{opacity:.75;transform:translateX(1%) scale(1)}to{opacity:.17;transform:translateX(21%) scale(1.06)}}
+@media(prefers-reduced-motion:reduce){.scene-wrap.vanish .player-art{animation:none}}
