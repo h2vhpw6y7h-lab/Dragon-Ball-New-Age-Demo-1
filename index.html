@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b142a">
-<title>Dragon Ball New Age — Demo 0.2</title>
+<title>Dragon Ball New Age — Demo 0.4</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 16% 4%,#204962,#0b1329 68%);color:#f1f6ff;font-family:system-ui,-apple-system,sans-serif}button{font:inherit;cursor:pointer;touch-action:manipulation}button:disabled{opacity:.4}#app{max-width:1120px;margin:auto;padding:20px 16px 70px}.brand{font-size:clamp(22px,4vw,38px);font-weight:1000;color:#ffce5d;letter-spacing:1px;text-shadow:0 4px #403020}.sub{font-size:12px;letter-spacing:2px;color:#bad5fa;font-weight:800}.card{background:#14243de8;border:1px solid #536a82;border-radius:18px;padding:18px;margin:13px 0;box-shadow:0 10px 28px #0004}.hero{min-height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(160deg,#174d5c 0%,#294966 35%,#202c46 55%,#0e1d36 100%);border-radius:15px;border:2px solid #6293a3;overflow:hidden}.hero .planet{font-size:90px;filter:drop-shadow(0 12px 12px #0006)}.hero .fighters{font-size:90px;line-height:1.4;letter-spacing:12px;filter:drop-shadow(0 8px 10px #0008)}.hero .effects{font-size:58px;line-height:1.1}.hero small{background:#101a2bd9;padding:7px 14px;border-radius:40px}.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.btn{background:#244160;border:1px solid #7398b9;color:#fff;border-radius:12px;min-height:50px;padding:10px 13px;text-align:center;font-weight:750}.btn.gold{background:#ffca5d;color:#1b2637;border-color:#ffe9b0}.btn:active{transform:scale(.98)}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.small{font-size:13px;color:#bad0e5}.title{font-weight:900;font-size:20px;margin:0 0 9px}.nav{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.nav .btn{min-height:38px;padding:7px 12px;font-size:13px}.nav .selected{background:#ffca5d;color:#18263b}.columns{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}.bar{height:12px;border-radius:12px;background:#27364b;overflow:hidden;margin:7px 0}.fill{height:100%;background:linear-gradient(90deg,#bd3d56,#ff8b68)}.blue{background:linear-gradient(90deg,#2372a8,#65e2ff)}.log{font-size:13px;line-height:1.55;max-height:150px;overflow-y:auto}.log div{padding:5px 0;border-bottom:1px solid #ffffff19}.note{font-size:13px;color:#dceafb}.scene-text{font-size:19px;line-height:1.5;min-height:95px}.counter{color:#ffcd62;font-weight:900}.tag{display:inline-block;padding:7px 11px;background:#35567a;border-radius:20px;color:#fff;font-size:12px}@media(max-width:650px){.columns{grid-template-columns:1fr}.hero{min-height:220px}.hero .fighters{font-size:67px}.hero .planet{font-size:73px}.card{padding:13px}.brand{font-size:25px}}@media(orientation:landscape){#app{padding-top:8px}.hero{min-height:175px}.hero .planet{font-size:65px}}
 .anime-arena{position:relative;overflow:hidden;border-radius:16px;border:2px solid #7ec7d8;background:#123a4e;aspect-ratio:16/9;box-shadow:inset 0 0 40px #0008}.scene-svg{display:block;width:100%;height:100%}.arena-caption{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);background:#0b1b33dc;border-radius:30px;padding:5px 13px;font-weight:800;font-size:11px;white-space:nowrap}.fighter-left{transform-origin:25% 80%;animation:idleLeft 1.4s ease-in-out infinite alternate}.fighter-right{transform-origin:75% 80%;animation:idleRight 1.3s ease-in-out infinite alternate}.aura-left,.aura-right{animation:flicker .65s ease-in-out infinite alternate}.beam{animation:beamRush .42s ease-out both;transform-origin:36% 48%}.blast{animation:blastHit .6s ease-out both;transform-origin:72% 48%}.impact-scene{animation:impactShake .35s ease-in-out}@keyframes idleLeft{to{transform:translate(2px,-6px)}}@keyframes idleRight{to{transform:translate(-2px,-5px)}}@keyframes flicker{to{opacity:.16}}@keyframes beamRush{from{opacity:0;transform:scaleX(.05)}to{opacity:1;transform:scaleX(1)}}@keyframes blastHit{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}@keyframes impactShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}65%{transform:translateX(5px)}}
@@ -55,6 +55,39 @@
 @keyframes dbna-explosion{from{transform:scale(1.02);filter:brightness(1.4)}to{transform:scale(1.13);filter:brightness(.9)}}
 @keyframes dbna-ring{from{transform:scale(.2);opacity:1}to{transform:scale(1.8);opacity:0}}
 @keyframes dbna-burst{from{transform:scale(.3);opacity:1}to{transform:scale(2);opacity:0}}
+
+/* Main menu and battle command redesign */
+body{background:radial-gradient(ellipse at 0 0,#1b5878 0,#0c1a32 48%,#090f20 100%)}
+.card{background:linear-gradient(143deg,#19314ced,#0e1d35fa);box-shadow:0 14px 34px #0005;border:1px solid #4b6682}
+.btn{box-shadow:inset 0 1px #ffffff20;transition:background .2s,transform .16s}
+.btn:active{transform:translateY(2px)}
+.btn.gold{background:linear-gradient(160deg,#ffe2a0,#f9b84c);border-color:#ffecb8}
+.brand{font-weight:1000;letter-spacing:.5px}
+.main-menu-cover{position:relative;min-height:280px;border:2px solid #67c4e4;border-radius:18px;overflow:hidden;background:#10354f}
+.main-menu-cover .cinematic-arena{position:absolute;inset:0;height:100%;aspect-ratio:auto;border:0;border-radius:0;opacity:.9}
+.main-menu-cover:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#08172dee 0%,transparent 50%),linear-gradient(90deg,#0a1d3c8f 0%,transparent 85%);pointer-events:none}
+.main-menu-caption{position:relative;z-index:2;min-height:280px;display:flex;flex-direction:column;justify-content:flex-end;padding:20px 24px;pointer-events:none}
+.main-menu-caption strong{font-size:clamp(24px,4vw,43px);letter-spacing:1px;text-shadow:0 4px 14px #000}
+.main-menu-caption span{max-width:490px;color:#d7ecff;line-height:1.4}
+.menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
+.menu-tile{color:white;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:7px;text-align:left;border:1px solid #5282a4;border-radius:15px;min-height:110px;padding:15px;background:linear-gradient(150deg,#214165,#0d213c);font-weight:900}
+.menu-tile .menu-icon{font-size:26px}.menu-tile small{font-weight:500;color:#b6d9e9}
+.menu-tile.goldtile{background:linear-gradient(140deg,#e8a942,#ffcf71);color:#13243c;border-color:#ffe7a9}.menu-tile.goldtile small{color:#40506b}
+.status-pills{display:flex;gap:8px;flex-wrap:wrap;margin:13px 0}
+.status-pills span{font-size:12px;border-radius:30px;border:1px solid #316784;background:#0f304a;padding:6px 11px;color:#bfeeff}
+.command-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:12px 0}
+.command-tab{background:#152e4d;border:1px solid #457393;color:#e5f0f8;border-radius:10px;padding:9px 3px;min-height:43px;font-size:12px;font-weight:800}
+.command-tab.on{background:#f9c35e;color:#14243e;border-color:#ffe19f}
+.tech-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tech{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:112px;padding:12px;border-radius:14px;text-align:left;color:#fff;border:1px solid #4c81a7;background:linear-gradient(130deg,#214568,#132941);font-weight:750}
+.tech strong{font-size:15px}.tech .tech-icon{font-size:23px}.tech small{color:#95e2fa}.tech em{font-style:normal;font-size:11px;color:#bed6e5;line-height:1.4}
+.tech.ultimate{border-color:#f0c463;box-shadow:inset 0 0 20px #d8944038}.tech:disabled{opacity:.4}
+.combo-meter{display:flex;align-items:center;gap:12px;background:#0d2a42;border:1px solid #2d6081;padding:8px 11px;border-radius:12px;margin:10px 0;font-size:12px;font-weight:800}
+.combo-meter .bar{flex:1;height:10px;margin:0}.combo-meter .fill{background:linear-gradient(90deg,#ff8a4a,#ffdf77)}
+.world-places{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.world-places .place{border:1px solid #355b78;border-radius:12px;padding:13px;background:#112b43}
+.world-places .place h3{margin:5px 0}.world-places .place .btn{width:100%}
+@media (orientation:landscape) and (max-height:530px){.main-menu-cover,.main-menu-caption{min-height:180px}.menu-tile{min-height:80px}.card{padding:10px;margin:8px 0}.tech{min-height:83px}}
 </style></head><body>
 <main id="app">
 <section class="card"><div class="sub">GRYWALNY PROTOTYP • 0.2</div><h1 class="brand">DRAGON BALL NEW AGE</h1><div class="hero"><div class="planet">🪐</div><strong>PLANETA NAMEK</strong><small>Prolog • Goku kontra Frieza</small></div>
@@ -66,19 +99,19 @@
 'use strict';
 var app=document.getElementById('app');
 var moves=[
-{id:'punch',name:'Szybkie ciosy',cost:0,damage:145,shots:['Goku ustawia się do walki.','Doskok! Pierwsza pięść trafia Friezę.','Seria trzech ciosów!','Frieza zostaje odrzucony na skały.']},
-{id:'ki',name:'Fala KI',cost:15,damage:230,shots:['Goku unosi dłoń.','Niebieska energia skupia się w ręce.','Fala KI przelatuje przez arenę!','Eksplozja odrzuca przeciwnika.']},
-{id:'meteor',name:'Meteor Combo',cost:25,damage:325,shots:['Goku rozpoczyna szarżę!','Teleport za przeciwnika!','Kombinacja pięści i kopnięć.','Frieza przebija skałę!','Meteor Smash — trafienie!']},
-{id:'kame',name:'Kamehameha',cost:40,damage:470,shots:['Ka...','Me...','Ha... Me...','HAAAA!','Potężna fala energii przemierza dolinę Namek!','Frieza zostaje trafiony eksplozją!']}
+{id:'punch',icon:'🥊',type:'physical',name:'Szybkie ciosy',cost:0,damage:145,desc:'3 ciosy • zdobywasz Combo',shots:['Goku przyjmuje postawę bojową.','Błysk! Goku znika i pojawia się przy Friezie.','Szybka seria uderzeń przecina powietrze!','Frieza zostaje odrzucony na skały.']},
+{id:'ki',icon:'🔵',type:'ki',name:'Fala KI',cost:15,damage:230,desc:'Dystans • niski koszt energii',shots:['Goku skupia energię.','Impuls KI rozświetla dłonie.','Błysk — eksplozja energii przed Friezą!','Fala uderzeniowa rozrzuca odłamki skał.']},
+{id:'meteor',icon:'💥',type:'combo',name:'Meteor Combo',cost:25,damage:325,desc:'Teleport • ciosy • mocny finał',shots:['Goku rozpoczyna gwałtowną szarżę!','Teleport! Wojownik znika z pola widzenia.','Kombinacja pięści i kopnięć w powietrzu!','Frieza zostaje wbity w skały!','Meteor Smash — końcowe trafienie!']},
+{id:'kame',icon:'🌊',type:'ki',name:'Kamehameha',cost:40,damage:470,desc:'Potężny atak • sześć kadrów',shots:['Ka… Goku skupia swoją energię.','Me… Powietrze zaczyna drżeć.','Ha… Me… Niebo rozświetla energia!','HAAAA! Potężny wystrzał!','W oddali widać błysk i odłamki skał.','Frieza zostaje trafiony eksplozją!']}
 ];
-function fresh(){return {screen:'home',hp:1250,maxHp:1250,ki:100,maxKi:100,enemy:1800,maxEnemy:1800,level:1,xp:0,points:0,power:0,armor:0,turn:1,stage:0,active:null,log:['Frieza: To tutaj kończy się twoja podróż!']};}
+function fresh(){return {tab:'all',comboMeter:0,mastery:{punch:0,ki:0,meteor:0,kame:0},screen:'home',hp:1250,maxHp:1250,ki:100,maxKi:100,enemy:1800,maxEnemy:1800,level:1,xp:0,points:0,power:0,armor:0,turn:1,stage:0,active:null,log:['Frieza: To tutaj kończy się twoja podróż!']};}
 var state=fresh();
-try{var raw=localStorage.getItem('dbna-standalone-save-v2');if(raw){var saved=JSON.parse(raw);if(saved && typeof saved.hp==='number'){state=Object.assign(fresh(),saved,{screen:'home',active:null});}}}catch(ignore){}
+try{var raw=localStorage.getItem('dbna-standalone-save-v2');if(raw){var saved=JSON.parse(raw);if(saved && typeof saved.hp==='number'){state=Object.assign(fresh(),saved,{screen:'home',active:null});state.mastery=Object.assign(fresh().mastery,saved.mastery||{});}}}catch(ignore){}
 function persist(){try{localStorage.setItem('dbna-standalone-save-v2',JSON.stringify(Object.assign({},state,{screen:'home',active:null})));}catch(ignore){}}
 function clamp(n){return Math.max(0,Math.min(100,Math.round(n)));}
 function meter(v,max,cls){return '<div class="bar"><div class="fill '+(cls||'')+'" style="width:'+clamp(v/max*100)+'%"></div></div>';}
 function button(label,action,value,gold,disabled){return '<button class="btn '+(gold?'gold':'')+'" data-action="'+action+'" data-value="'+(value||'')+'" '+(disabled?'disabled':'')+'>'+label+'</button>';}
-function header(title){return '<div class="sub">DRAGON BALL NEW AGE • DEMO 0.2</div><div class="topline"><h1 class="brand">'+title+'</h1><span class="tag">iPHONE / RPG</span></div>';}
+function header(title){return '<div class="sub">DRAGON BALL NEW AGE • DEMO 0.4</div><div class="topline"><h1 class="brand">'+title+'</h1><span class="tag">iPHONE / RPG</span></div>';}
 function nav(){return '<div class="nav">'+[['home','Start'],['world','Namek'],['battle','Walka'],['skills','Rozwój']].map(function(x){return '<button class="btn '+(state.screen===x[0]?'selected':'')+'" data-go="'+x[0]+'">'+x[1]+'</button>';}).join('')+'</div>';}
 function art(mode){
 var goku='https://genk.mediacdn.vn/2019/9/14/photo-1-15684510731982007283836.png';
@@ -101,9 +134,37 @@ return '<div class="scene-shot cut-'+kind+'"><img loading="eager" alt="Kadr '+(i
 function stats(){return '<div class="stats"><div><b>GOKU • LV '+state.level+'</b><div class="small">HP '+state.hp+' / '+state.maxHp+'</div>'+meter(state.hp,state.maxHp)+'<div class="small">KI '+state.ki+' / '+state.maxKi+'</div>'+meter(state.ki,state.maxKi,'blue')+'</div><div><b>FRIEZA</b><div class="small">HP '+state.enemy+' / '+state.maxEnemy+'</div>'+meter(state.enemy,state.maxEnemy)+'<div class="small">Tura '+state.turn+'</div></div></div>';}
 function render(){
 var s=state.screen;
-if(s==='home'){app.innerHTML='<section class="card">'+header('DRAGON BALL NEW AGE')+'<div class="hero"><div class="planet">🪐</div><h2>PROLOG: PLANETA NAMEK</h2><small>Pierwsza grywalna wersja przeglądarkowa</small></div><div class="actions">'+button('⚔ NOWA WALKA','new','','gold')+button('🌍 EKSPLORUJ','goto','world')+'</div><p class="small">Walka turowa • kadry ataków • EXP • rozwój wojownika</p></section>';return;}
-if(s==='world'){app.innerHTML='<section class="card">'+header('PLANETA NAMEK')+nav()+art()+'<h2>Skalista dolina</h2><p>Przed tobą rozległa dolina. Na horyzoncie widać oddziały Friezy. Wybierz dokąd ruszyć.</p><div class="actions">'+button('⚔ Walcz z Friezą','goto','battle','gold')+button('💪 Trening KI (+20 KI)','train')+button('🌳 Rozwój wojownika','goto','skills')+button('💾 Zapisz postęp','save')+'</div></section>';return;}
-if(s==='battle'){app.innerHTML=header('WALKA NA NAMEK')+nav()+'<section class="card">'+stats()+'</section><div class="columns"><section class="card">'+art()+'<p class="note">'+(state.hp<=0?'Goku został pokonany. Rozpocznij nową walkę.':state.enemy<=0?'ZWYCIĘSTWO! Frieza został pokonany.':'Wybierz technikę. Obrażenia zostaną policzone po sekwencji kadrów.')+'</p></section><section class="card"><h2 class="title">TWOJE RUCHY</h2><div class="actions">'+moves.map(function(m){return button(m.name+'<br><small>'+m.cost+' KI</small>','attack',m.id,m.id==='kame',state.ki<m.cost||state.hp<=0||state.enemy<=0);}).join('')+button('🛡 Obrona + KI','defend','',false,state.hp<=0||state.enemy<=0)+button('↻ Nowa walka','new')+'</div><div class="log">'+state.log.slice(0,5).map(function(x){return '<div>• '+x+'</div>';}).join('')+'</div></section></div>';return;}
+if(s==='home'){
+app.innerHTML=header('DRAGON BALL NEW AGE')+
+'<div class="main-menu-cover">'+art()+'<div class="main-menu-caption"><span class="tag">RPG • PROLOG</span><strong>WOJNA O NAMEK</strong><span>Ataki, transformacje i taktyka — pierwsza grywalna misja Dragon Ball New Age.</span></div></div>'+
+'<div class="status-pills"><span>LV '+state.level+'</span><span>EXP '+state.xp+'</span><span>KI '+state.ki+'</span><span>Punkty '+state.points+'</span></div>'+
+'<div class="menu-grid">'+
+'<button class="menu-tile goldtile" data-action="new"><span class="menu-icon">⚔️</span><strong>NOWA WALKA</strong><small>Rozpocznij starcie z Friezą</small></button>'+
+'<button class="menu-tile" data-action="goto" data-value="battle"><span class="menu-icon">▶</span><strong>KONTYNUUJ</strong><small>Wróć do walki</small></button>'+
+'<button class="menu-tile" data-action="goto" data-value="world"><span class="menu-icon">🌍</span><strong>PLANETA NAMEK</strong><small>Eksploracja i trening KI</small></button>'+
+'<button class="menu-tile" data-action="goto" data-value="skills"><span class="menu-icon">🌳</span><strong>UMIEJĘTNOŚCI</strong><small>Drzewko skilli i pasywów</small></button></div>'+
+'<p class="small">Wersja testowa • zapis lokalny na urządzeniu • zaprojektowana dla iPhone’a</p>';return;}
+if(s==='world'){
+app.innerHTML=header('PLANETA NAMEK')+nav()+'<section class="card">'+art()+'<h2>Skalista dolina</h2><p>W oddali widać statek Friezy. Możesz wrócić do walki albo trenować, zanim stawisz czoła przeciwnikowi.</p>'+
+'<div class="world-places">'+
+'<div class="place"><h3>⛰️ Skalna dolina</h3><p class="small">Boss: Frieza</p>'+button('⚔ Walka','goto','battle',true)+'</div>'+
+'<div class="place"><h3>🌀 Trening KI</h3><p class="small">Regeneracja +20 KI</p>'+button('Trenuj','train')+'</div>'+
+'<div class="place"><h3>🌳 Drzewko skilli</h3><p class="small">Pasywy, siła, obrona</p>'+button('Ulepsz','goto','skills')+'</div>'+
+'<div class="place"><h3>💾 Zapis</h3><p class="small">Zachowaj postępy</p>'+button('Zapisz','save')+'</div></div></section>';return;}
+if(s==='battle'){
+var tabs=[['all','⚔ Wszystko'],['physical','🥊 Ciosy'],['ki','🔵 KI'],['combo','💥 Combo']];
+var selected=state.tab||'all',filtered=moves.filter(function(m){return selected==='all'||m.type===selected;});
+var cards=filtered.map(function(m){
+var locked=state.ki<m.cost||state.hp<=0||state.enemy<=0;
+return '<button class="tech '+(m.id==='kame'?'ultimate':'')+'" data-action="attack" data-value="'+m.id+'" '+(locked?'disabled':'')+'><span class="tech-icon">'+m.icon+'</span><strong>'+m.name+'</strong><em>'+m.desc+'</em><small>'+m.cost+' KI • opanowanie '+(state.mastery[m.id]||0)+'</small></button>';}).join('');
+app.innerHTML=header('WALKA NA NAMEK')+nav()+
+'<section class="card">'+stats()+'<div class="combo-meter"><span>COMBO '+(state.comboMeter||0)+'%</span>'+meter(state.comboMeter||0,100)+'</div></section>'+
+'<div class="columns"><section class="card">'+art()+
+'<p class="note">'+(state.hp<=0?'Goku przegrał — rozpocznij nowe starcie.':state.enemy<=0?'ZWYCIĘSTWO! Frieza został pokonany.':'Wybierz technikę. W trakcie sekwencji kadrowej HP pozostaje bez zmian.')+'</p></section>'+
+'<section class="card"><h2 class="title">MENU WALKI</h2><div class="command-tabs">'+tabs.map(function(t){return '<button class="command-tab '+(selected===t[0]?'on':'')+'" data-action="tab" data-value="'+t[0]+'">'+t[1]+'</button>';}).join('')+'</div>'+
+'<div class="tech-grid">'+cards+'</div><div class="actions">'+
+button('🛡 Obrona +KI','defend','',false,state.hp<=0||state.enemy<=0)+button('↻ Nowa walka','new')+
+'</div><div class="log">'+state.log.slice(0,5).map(function(x){return '<div>• '+x+'</div>';}).join('')+'</div></section></div>';return;}
 if(s==='scene'){var move=moves.filter(function(x){return x.id===state.active;})[0];if(!move){state.screen='battle';render();return;}var i=state.stage;app.innerHTML=header(move.name)+'<section class="card">'+stats()+'</section><div class="columns"><section class="card">'+sceneArt(move,i)+'</section><section class="card"><div class="counter">KADR '+(i+1)+' / '+move.shots.length+'</div><p class="scene-text">'+move.shots[i]+'</p>'+meter(i+1,move.shots.length,'blue')+button(i===move.shots.length-1?'ZAKOŃCZ ATAK →':'NASTĘPNY KADR →','next','','gold')+'</section></div>';return;}
 if(s==='skills'){app.innerHTML='<section class="card">'+header('ROZWÓJ WOJOWNIKA')+nav()+'<h2>Poziom '+state.level+' • XP '+state.xp+' • Punkty '+state.points+'</h2><p>Każde zwycięstwo daje punkty do rozwoju.</p><div class="actions">'+button('🥊 Siła '+state.power+'/5','upgrade','power',true,state.points===0||state.power>=5)+button('🛡 Obrona '+state.armor+'/5','upgrade','armor',false,state.points===0||state.armor>=5)+button('⚔ Wróć do walki','goto','battle')+button('💾 Zapisz','save')+'</div><p class="small">Podstawowe drzewko; pełne podskille dodamy w kolejnej wersji.</p></section>';return;}
 }
@@ -111,7 +172,7 @@ function startFight(){var progress={level:state.level,xp:state.xp,points:state.p
 function attack(id){var m=moves.filter(function(x){return x.id===id;})[0];if(!m||state.ki<m.cost||state.hp<=0||state.enemy<=0)return;state.ki-=m.cost;state.active=id;state.stage=0;state.screen='scene';render();}
 function next(){var m=moves.filter(function(x){return x.id===state.active;})[0];if(!m)return;if(state.stage<m.shots.length-1){state.stage++;render();return;}var damage=Math.round(m.damage*(1+state.power*.18));state.enemy=Math.max(0,state.enemy-damage);state.log.unshift(m.name+': -'+damage+' HP!');state.active=null;state.screen='battle';if(state.enemy===0){state.level++;state.xp+=100;state.points+=2;state.log.unshift('ZWYCIĘSTWO! +100 XP, +2 punkty.');}else{foeTurn();}persist();render();}
 function foeTurn(){var damage=Math.max(12,Math.round((70+Math.random()*55)*(1-state.armor*.12)));state.hp=Math.max(0,state.hp-damage);state.ki=Math.min(state.maxKi,state.ki+12);state.turn++;state.log.unshift('Frieza kontratakuje: -'+damage+' HP!');}
-app.addEventListener('click',function(event){var b=event.target.closest('button');if(!b||!app.contains(b)||b.disabled)return;var go=b.getAttribute('data-go');if(go){state.screen=go;render();return;}var action=b.getAttribute('data-action'),value=b.getAttribute('data-value');if(action==='new')startFight();else if(action==='goto'){state.screen=value;render();}else if(action==='attack')attack(value);else if(action==='next')next();else if(action==='defend'){state.ki=Math.min(state.maxKi,state.ki+30);state.hp=Math.min(state.maxHp,state.hp+20);state.log.unshift('Obrona i regeneracja KI');foeTurn();persist();render();}else if(action==='train'){state.ki=Math.min(state.maxKi,state.ki+20);persist();render();}else if(action==='upgrade'&&state.points>0&&state[value]<5){state.points--;state[value]++;persist();render();}else if(action==='save'){persist();state.log.unshift('Zapisano postęp');render();}});
+app.addEventListener('click',function(event){var b=event.target.closest('button');if(!b||!app.contains(b)||b.disabled)return;var go=b.getAttribute('data-go');if(go){state.screen=go;render();return;}var action=b.getAttribute('data-action'),value=b.getAttribute('data-value');if(action==='tab'){state.tab=value;render();}else if(action==='new')startFight();else if(action==='goto'){state.screen=value;render();}else if(action==='attack')attack(value);else if(action==='next')next();else if(action==='defend'){state.ki=Math.min(state.maxKi,state.ki+30);state.hp=Math.min(state.maxHp,state.hp+20);state.log.unshift('Obrona i regeneracja KI');foeTurn();persist();render();}else if(action==='train'){state.ki=Math.min(state.maxKi,state.ki+20);persist();render();}else if(action==='upgrade'&&state.points>0&&state[value]<5){state.points--;state[value]++;persist();render();}else if(action==='save'){persist();state.log.unshift('Zapisano postęp');render();}});
 render();
 })();
 </script></body></html>
