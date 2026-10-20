@@ -3,10 +3,10 @@
 "use strict";
 const ROOT=document.getElementById("app"),SAVE="dbna-saiyan-saga-v1",T=68,MW=50,MH=30;
 const PIC={
-goku:"https://www.nicepng.com/png/full/640-6403498_goku-battle-clipart-goku-gohan-majin-buu-dragon.png",
-gokuAtk:"https://toppng.com/uploads/preview/goku-attack-115494764303eji9jgfaz.png",
-gokuDef:"https://toppng.com/uploads/preview/goku-defence-11549476433g8zb6xrljp.png",
-gokuAura:"https://genk.mediacdn.vn/2019/9/14/photo-1-15684510731982007283836.png",
+goku:"./assets/goku-normal-idle.svg?v=7",
+gokuAtk:"./assets/goku-normal-punch.svg?v=7",
+gokuDef:"./assets/goku-normal-guard.svg?v=7",
+gokuAura:"./assets/goku-normal-ki.svg?v=7",
 saiba:"https://www.nicepng.com/png/full/562-5627827_dbz-saibaman-clipart-goku-vegeta-frieza-dragon-ball.png",
 nappa:"https://e7.pngegg.com/pngimages/826/98/png-clipart-nappa-goku-vegeta-shenron-dragon-ball-goku-hand-manga.png",
 vegeta:"https://thecodex.wiki/images/thumb/9/96/SaiyanSagaVegeta.png/800px-SaiyanSagaVegeta.png",
@@ -14,6 +14,7 @@ frieza:"https://jp.dblegends.net/assets/card_arts/0450_Frieza4th_450/0450_Frieza
 duel:"https://vignette1.wikia.nocookie.net/dragonball/images/1/10/Saiba1.jpg/revision/latest?cb=20110703084845",
 clash:"https://imagenes.hobbyconsolas.com/files/image_1920_1080/uploads/imagenes/2023/04/25/69026f56d6d7f.jpeg"
 };
+PIC.gokuDash="./assets/goku-normal-dash.svg?v=7";
 const ENEMIES={
 bandit:{name:"Bandyta pustkowi",lv:2,hp:270,atk:37,def:5,spd:5,xp:65,coins:55,art:PIC.saiba,area:"Pustkowia"},
 drone:{name:"Robot treningowy",lv:3,hp:320,atk:45,def:10,spd:7,xp:80,coins:70,art:PIC.nappa,area:"Pole treningowe"},
@@ -136,6 +137,10 @@ function make(){let stats={str:6,vit:6,ki:6,def:5,spd:6,luck:4,tal:4};return{ver
 let S=make();S.hp=maxHP();S.energy=maxKI();
 try{const stored=JSON.parse(localStorage.getItem(SAVE)||"null");if(stored&&stored.version===1){S=Object.assign(make(),stored);S.stats=Object.assign(make().stats,stored.stats||{});S.skills=Object.assign({},stored.skills||{});S.mastery=Object.assign({},stored.mastery||{});S.loc=Object.assign(make().loc,stored.loc||{});if(!Number.isFinite(S.hp))S.hp=maxHP();if(!Number.isFinite(S.energy))S.energy=maxKI();S.screen="home";S.scene=null;S.dialog=null;S.encounter=null;S.battle=null;}}catch(e){}
 let walkTimer=null,cutTimer=null,toastTimer=null,canvas=null,C=null,pan={x:0,y:0},target=null,pressTimer=null,dragStart=null;
+const MAP_ART=typeof Image==="function"?new Image():null;
+const PLAYER_ART=typeof Image==="function"?new Image():null;
+if(MAP_ART){MAP_ART.onload=function(){if(S.screen==="world")paint()};MAP_ART.src="./assets/earth-map-4k.svg?v=7"}
+if(PLAYER_ART){PLAYER_ART.onload=function(){if(S.screen==="world")paint()};PLAYER_ART.src="./assets/goku-normal-idle.svg?v=7"}
 function save(){try{const o=Object.assign({},S,{screen:"home",scene:null,dialog:null,encounter:null,battle:null,result:null});localStorage.setItem(SAVE,JSON.stringify(o));}catch(e){}}
 function val(id){return S.stats[id]||0}
 function rank(id){return S.skills[id]||0}
@@ -153,7 +158,7 @@ function nav(){const b=[["home","⌂","Start"],["world","🌍","Mapa"],["battle"
 function toast(msg){const el=document.getElementById("status-toast");if(el){el.textContent=msg;el.style.opacity="1";clearTimeout(toastTimer);toastTimer=setTimeout(()=>{el.style.opacity="0"},2500);}}
 function loc(id){return LOC.find(x=>x.id===id)}
 function quest(){return CHAPTERS[Math.min(S.chapter,3)]}
-function gameImage(src,cls,alt){return '<img class="'+(cls||"")+'" src="'+src+'" alt="'+(alt||"Ilustracja")+'" loading="eager" onerror="this.style.opacity=.12">'}
+function gameImage(src,cls,alt){return '<img draggable="false" class="'+(cls||"")+'" src="'+src+'" alt="'+(alt||"Ilustracja")+'" loading="eager" decoding="async" onerror="this.onerror=null;this.src=\'./assets/goku-normal-idle.svg?v=7\'">'}
 function protagonist(){return S.avatar==="vegeta"?PIC.vegeta:S.avatar==="aura"?PIC.gokuAura:PIC.goku}
 function drawHome(){let q=quest();return hdr("")+
 '<div class="hero-cover"><div class="hero-image" style="background-image:url('+PIC.gokuAura+')"></div><div class="hero-caption"><span class="label orange">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</span><h1 class="flame">'+(S.chapter<3?'ATAK SAIYAN':'ZWYCIĘSTWO')+'</h1><p>'+esc(q.goal)+'</p></div></div>'+
@@ -175,7 +180,7 @@ function drawWorldUI(){let q=quest();return hdr("Mapa — Ziemia")+
 '<section class="panel"><div class="panel-title"><h2>Podróż</h2><span class="label">Walka losowa</span></div><p class="sm">Dotknij mapy — wojownik ruszy we wskazane miejsce. Przytrzymaj strzałki, aby chodzić.</p><div class="row space"><span>❤️ '+Math.max(0,Math.round(S.hp))+' / '+maxHP()+'</span><span>🔵 '+Math.round(S.energy)+' / '+maxKI()+'</span></div>'+button("Wróć do domu","seek","home","btn-wide")+'</section>'+
 '<section class="panel"><div class="panel-title"><h2>Lokacje</h2></div><div class="location-list">'+LOC.filter(x=>["home","field","saiba","nappa","vegeta","roshi"].includes(x.id)).map(x=>'<div class="location">'+x.icon+' <b>'+x.name+'</b>'+button("Pokaż","seek",x.id,"btn-mini")+'</div>').join("")+'</div></section></div></div>'+
 '<p class="map-hint">Mapa nie jest pojedynczym obrazkiem. Sterujesz postacią po dużym terenie; na pustkowiach spotkasz losowych przeciwników i możesz trenować przed kolejnym bossem.</p>'}
-function fightArt(mode,enemy,shot){const b=ENEMIES[enemy||S.battle?.enemy]||ENEMIES.saiba;let m=mode||"battlefield";let left=protagonist(),right=b.art;if(shot){if(shot.mode==="vanish"||shot.mode==="hit")left=PIC.gokuAtk;else if(shot.mode==="counter")left=PIC.gokuDef;else if(shot.mode==="charge")left=PIC.gokuAura;}
+function fightArt(mode,enemy,shot){const b=ENEMIES[enemy||S.battle?.enemy]||ENEMIES.saiba;let m=mode||"battlefield";let left=protagonist(),right=b.art;if(shot){if(shot.mode==="vanish")left=PIC.gokuDash;else if(shot.mode==="hit")left=PIC.gokuAtk;else if(shot.mode==="counter")left=PIC.gokuDef;else if(shot.mode==="charge")left=PIC.gokuAura;}
 return '<div class="scene-wrap '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"")+'">'+gameImage(left+"","player-art","Wojownik gracza")+gameImage(right,"enemy-art",b.name)+
 (m==="beam"?'<div class="beam"></div>':"")+
 '<div class="flash"></div><div class="shade"></div><div class="scene-name"><span>ZIEMIA • SAGA SAIYAN</span><span>'+esc(b.name.toUpperCase())+'</span></div></div>'}
@@ -195,7 +200,7 @@ function drawBattle(){const b=S.battle;if(!b)return drawWorldUI();const tabs=[["
 function frameCaption(frame){return frame.label||"Walka trwa..."}
 function drawCut(){const sc=S.scene,b=S.battle,e=ENEMIES[b.enemy],f=sc.frames[sc.idx],last=sc.idx>=sc.frames.length-1;let art;
 if(f.mode==="full"&&PIC.duel){art='<div class="scene-wrap">'+gameImage(PIC.duel,"shot","Scena walki Saiyan")+'<div class="shade"></div><div class="scene-name"><span>SAGA SAIYAN</span><span>'+esc(f.label)+'</span></div></div>'}
-else{let enriched=Object.assign({},f,{angle:["wide","close","low","left","high","tilt"][sc.idx%6]});art=fightArt(f.mode,b.enemy,enriched);if(/TRAFIENIE|FINISHER/.test(f.heading||""))art=art.replace('<div class="shade"></div>','<div class="damage">'+sc.consequence.dmg+'<small>DAMAGE</small></div><div class="shade"></div>');}
+else{let enriched=Object.assign({},f,{angle:["wide","close","low","left","high","tilt"][sc.idx%6]});art=fightArt(f.mode,b.enemy,enriched);if(/TRAFIENIE|FINISHER|DODATKOWY|KRYTYCZNE/.test(f.heading||""))art=art.replace('<div class="shade"></div>','<div class="damage">'+sc.consequence.dmg+'<small>DAMAGE</small></div><div class="shade"></div>');}
 return hdr("Atak — "+sc.moveName)+safeEnemyHUD()+'<div class="cut-stage"><div>'+art+'</div><div class="cut-dialogue"><div><span class="label orange">KADR '+(sc.idx+1)+' / '+sc.frames.length+'</span><h2 class="flame">'+esc(f.heading||"WALKA")+'</h2><p>'+esc(f.text)+'</p><div class="cut-progress">'+sc.frames.map((x,i)=>'<span class="'+(i<=sc.idx?"done":"")+'"></span>').join("")+'</div></div><div class="cut-controls">'+button(last?"ZAKOŃCZ →":"NASTĘPNY KADR →","frame","","btn-hot")+button("POMIŃ ››","skipscene","","btn-mini")+'</div></div></div><p class="sm muted">Kadry przewijają się automatycznie. Możesz przejść do następnego ręcznie.</p>'}
 function drawDialogue(){const d=S.dialog,frame=d.lines[d.idx];let person=frame.who||"Narrator";let art=person.includes("Nappa")?PIC.nappa:person.includes("Vegeta")?PIC.vegeta:person.includes("Saib")?PIC.saiba:PIC.goku;let q=quest();return hdr("Saga Saiyan • Fabuła")+
 '<div class="panel gold-edge"><div class="scene-wrap">'+gameImage(d.bg||PIC.duel,"shot","Scena fabularna")+'<div class="shade"></div><div class="scene-name"><span>'+esc(q.title.toUpperCase())+'</span><span>'+ (d.idx+1)+' / '+d.lines.length+'</span></div></div></div>'+
@@ -258,7 +263,11 @@ if(playerPower>enemypower*2)enemyHit=Math.round(enemyHit*.5);
 let playerDodge=Math.random()<clamp(.08+val("spd")*.007+rank("teleport")*.06,.04,.58);
 if(playerDodge)enemyHit=0;
 let frames=[{mode:m.type==="ki"?"charge":"battlefield",heading:"SKUPIENIE",text:esc(S.heroName)+" przygotowuje "+m.name+"!",label:"POCZĄTEK"},{mode:"vanish",heading:"BŁYSK!",text:"Wojownik znika w powietrzu. Nagły doskok!",label:"TELEPORT"},{mode:m.type==="ki"?"beam":"counter",heading:m.type==="ki"?"WYSTRZAŁ KI":"ZDERZENIE!",text:m.type==="ki"?"Energia rozdziera powietrze.":"Seria uderzeń przecina skalistą dolinę!",label:"ATAK"}];
-if(m.frames>=5)frames.push({mode:"hit",heading:"KOMBINACJA",text:"Przeciwnik zostaje odrzucony między skały.",label:"CIO SY"});
+if(m.frames>=5){
+frames.push({mode:"vanish",heading:"POWIDOK!",text:"Szybki ruch rozdziela powietrze — bohater znika za przeciwnikiem.",label:"ZMIANA POZYCJI"});
+frames.push({mode:"hit",heading:"COMBO!",text:"Potężne uderzenie odbija przeciwnika od skalnej ściany.",label:"CIO S"});
+frames.push({mode:"counter",heading:"ODRZUT!",text:"Odłamki skał i fala uderzeniowa przecinają pole bitwy.",label:"IMPULS"});
+}
 if(counter)frames.push({mode:"counter",heading:"KONTRA!",text:e.name+" próbuje odpowiedzieć błyskawicznym ciosem!",label:"KONTRATAK"});
 else if(dodge)frames.push({mode:"vanish",heading:"UNIK!",text:e.name+" częściowo unika nadchodzącej techniki.",label:"POWIDOK"});
 else if(guard)frames.push({mode:"counter",heading:"BLOK!",text:e.name+" osłania się przed uderzeniem.",label:"OBRONA"});
@@ -296,14 +305,27 @@ function drawRoads(ctx){const route=[loc("home"),loc("field"),loc("wilderness"),
 }
 function drawBuilding(ctx,x,y,c){let px=x*T+T/2,py=y*T+T/2;ctx.save();ctx.translate(px,py);ctx.fillStyle="#142c3a8c";ctx.beginPath();ctx.ellipse(8,18,33,13,0,0,Math.PI*2);ctx.fill();ctx.fillStyle=c||"#c5e3dc";ctx.beginPath();ctx.ellipse(0,2,28,24,0,Math.PI,Math.PI*2);ctx.lineTo(28,21);ctx.lineTo(-28,21);ctx.closePath();ctx.fill();ctx.fillStyle="#e96f54";ctx.beginPath();ctx.ellipse(0,0,29,12,0,Math.PI,Math.PI*2);ctx.fill();ctx.fillStyle="#17485c";ctx.fillRect(-4,0,10,20);ctx.restore()}
 function drawIcon(ctx,p){const x=(p.x+.5)*T,y=(p.y+.5)*T;ctx.save();ctx.shadowBlur=18;ctx.shadowColor=p.color;ctx.strokeStyle=p.color;ctx.lineWidth=3;ctx.beginPath();ctx.arc(x,y,24,0,Math.PI*2);ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle="#0b1935f0";ctx.beginPath();ctx.arc(x,y,20,0,Math.PI*2);ctx.fill();ctx.font="bold 23px system-ui";ctx.textAlign="center";ctx.fillStyle=p.color;ctx.fillText(p.icon,x,y+8);ctx.font="bold 14px system-ui";let width=Math.min(185,ctx.measureText(p.name).width+25);ctx.fillStyle="#0c1c30e8";ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x-width/2,y+28,width,23,6);else ctx.rect(x-width/2,y+28,width,23);ctx.fill();ctx.fillStyle="#fff3d6";ctx.fillText(p.name,x,y+45);ctx.restore()}
-function drawHero(ctx){let x=(S.loc.x+.5)*T,y=(S.loc.y+.5)*T;ctx.save();ctx.translate(x,y);ctx.fillStyle="#0346a085";ctx.beginPath();ctx.ellipse(0,18,22,9,0,0,7);ctx.fill();ctx.strokeStyle="#32d6fc";ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(0,19,22,9,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle="#ff7e1d";ctx.strokeStyle="#1d1833";ctx.lineWidth=3;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(-10,-2,20,23,6);else ctx.rect(-10,-2,20,23);ctx.fill();ctx.stroke();ctx.fillStyle="#f4b77d";ctx.beginPath();ctx.arc(0,-13,10,0,Math.PI*2);ctx.fill();ctx.fillStyle="#171624";for(let i=-2;i<=2;i++){ctx.beginPath();ctx.moveTo(i*5,-18);ctx.lineTo(i*8,-29-((i+4)%3)*4);ctx.lineTo(i*5+5,-17);ctx.fill();}ctx.fillStyle="#ffbf42";ctx.font="bold 13px system-ui";ctx.textAlign="center";ctx.fillText("LV "+S.level,0,-43);ctx.restore()}
+function drawHero(ctx){let x=(S.loc.x+.5)*T,y=(S.loc.y+.5)*T;
+if(PLAYER_ART&&PLAYER_ART.complete&&PLAYER_ART.naturalWidth){
+ctx.save();ctx.translate(x,y);
+ctx.fillStyle="#061e29a9";ctx.beginPath();ctx.ellipse(0,18,31,10,0,0,Math.PI*2);ctx.fill();
+ctx.strokeStyle="#28dbfc";ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(0,18,30,12,0,0,Math.PI*2);ctx.stroke();
+ctx.drawImage(PLAYER_ART,-42,-105,84,123);
+ctx.font="900 14px system-ui";ctx.textAlign="center";ctx.lineWidth=4;ctx.strokeStyle="#18344d";ctx.fillStyle="#ffe17a";ctx.strokeText("LV "+S.level,0,-112);ctx.fillText("LV "+S.level,0,-112);ctx.restore();return;
+}ctx.save();ctx.translate(x,y);ctx.fillStyle="#0346a085";ctx.beginPath();ctx.ellipse(0,18,22,9,0,0,7);ctx.fill();ctx.strokeStyle="#32d6fc";ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(0,19,22,9,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle="#ff7e1d";ctx.strokeStyle="#1d1833";ctx.lineWidth=3;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(-10,-2,20,23,6);else ctx.rect(-10,-2,20,23);ctx.fill();ctx.stroke();ctx.fillStyle="#f4b77d";ctx.beginPath();ctx.arc(0,-13,10,0,Math.PI*2);ctx.fill();ctx.fillStyle="#171624";for(let i=-2;i<=2;i++){ctx.beginPath();ctx.moveTo(i*5,-18);ctx.lineTo(i*8,-29-((i+4)%3)*4);ctx.lineTo(i*5+5,-17);ctx.fill();}ctx.fillStyle="#ffbf42";ctx.font="bold 13px system-ui";ctx.textAlign="center";ctx.fillText("LV "+S.level,0,-43);ctx.restore()}
 function camera(w,h){let cx=(S.loc.x+.5)*T+pan.x,cy=(S.loc.y+.5)*T+pan.y;return{x:clamp(cx-w/2,0,MW*T-w),y:clamp(cy-h/2,0,MH*T-h)}}
 let MAP_SCALE=1;
-function paint(){canvas=document.getElementById("world-canvas");if(!canvas||S.screen!=="world")return;const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;let dpr=Math.min(2,window.devicePixelRatio||1);canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr);C=canvas.getContext("2d");if(!C)return;C.setTransform(dpr,0,0,dpr,0,0);
+function paint(){canvas=document.getElementById("world-canvas");if(!canvas||S.screen!=="world")return;const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;let dpr=Math.min(2.75,window.devicePixelRatio||1);canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr);C=canvas.getContext("2d");if(!C)return;C.setTransform(dpr,0,0,dpr,0,0);
 const sw=rect.width/MAP_SCALE,sh=rect.height/MAP_SCALE,cam=camera(sw,sh);C.save();C.scale(MAP_SCALE,MAP_SCALE);C.translate(-cam.x,-cam.y);C.fillStyle="#1d6481";C.fillRect(cam.x,cam.y,sw,sh);
 const x0=Math.max(0,Math.floor(cam.x/T)-1),y0=Math.max(0,Math.floor(cam.y/T)-1),x1=Math.min(MW-1,Math.ceil((cam.x+sw)/T)+1),y1=Math.min(MH-1,Math.ceil((cam.y+sh)/T)+1);
+if(MAP_ART&&MAP_ART.complete&&MAP_ART.naturalWidth){
+C.imageSmoothingEnabled=true;C.imageSmoothingQuality="high";
+C.drawImage(MAP_ART,cam.x/(MW*T)*MAP_ART.naturalWidth,cam.y/(MH*T)*MAP_ART.naturalHeight,
+sw/(MW*T)*MAP_ART.naturalWidth,sh/(MH*T)*MAP_ART.naturalHeight,cam.x,cam.y,sw,sh);
+}else{
 for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)drawTile(C,x,y);
 drawRoads(C);
+}
 for(const p of LOC){if(p.x<x0-2||p.x>x1+2||p.y<y0-2||p.y>y1+2)continue;if(["home","village","field","capsule","roshi"].includes(p.id))drawBuilding(C,p.x,p.y,p.id==="capsule"?"#bbb8db":"#cdeac6");drawIcon(C,p)}
 if(target){C.strokeStyle="#fff0a5";C.lineWidth=3;C.beginPath();C.arc((target.x+.5)*T,(target.y+.5)*T,13,0,7);C.stroke();}
 drawHero(C);C.restore();const label=document.getElementById("worldpos");if(label)label.textContent="X "+(S.loc.x+1)+" • Y "+(S.loc.y+1);}
