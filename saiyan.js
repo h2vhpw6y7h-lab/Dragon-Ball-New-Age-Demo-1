@@ -170,7 +170,7 @@ function nav(){const b=[["home","⌂","Start"],["world","🌍","Mapa"],["battle"
 function toast(msg){const el=document.getElementById("status-toast");if(el){el.textContent=msg;el.style.opacity="1";clearTimeout(toastTimer);toastTimer=setTimeout(()=>{el.style.opacity="0"},2500);}}
 function loc(id){return LOC.find(x=>x.id===id)}
 function quest(){return CHAPTERS[Math.min(S.chapter,3)]}
-function gameImage(src,cls,alt){return '<img draggable="false" class="'+(cls||"")+'" src="'+src+'" alt="'+(alt||"Ilustracja")+'" loading="eager" decoding="async" onerror="this.onerror=null;this.src=\'./assets/goku-normal-idle.svg?v=7\'">'}
+function gameImage(src,cls,alt){return '<img draggable="false" class="'+(cls||"")+'" src="'+src+'" alt="'+(alt||"Ilustracja")+'" loading="eager" decoding="async" onerror="this.onerror=null;this.src=(this.className.indexOf(\'enemy\')>=0?\'./assets/unknown-warrior.svg?v=7\':\'./assets/goku-normal-idle.svg?v=7\')">'}
 function protagonist(){return S.avatar==="vegeta"?PIC.vegeta:S.avatar==="aura"?PIC.gokuAura:PIC.goku}
 function drawHome(){let q=quest();return hdr("")+
 '<div class="hero-cover"><div class="hero-image" style="background-image:url('+PIC.gokuAura+')"></div><div class="hero-caption"><span class="label orange">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</span><h1 class="flame">'+(S.chapter<3?'ATAK SAIYAN':'ZWYCIĘSTWO')+'</h1><p>'+esc(q.goal)+'</p></div></div>'+
@@ -192,7 +192,7 @@ function drawWorldUI(){let q=quest();return hdr("Mapa — Ziemia")+
 '<section class="panel"><div class="panel-title"><h2>Podróż</h2><span class="label">Walka losowa</span></div><p class="sm">Dotknij mapy — wojownik ruszy we wskazane miejsce. Przytrzymaj strzałki, aby chodzić.</p><div class="row space"><span>❤️ '+Math.max(0,Math.round(S.hp))+' / '+maxHP()+'</span><span>🔵 '+Math.round(S.energy)+' / '+maxKI()+'</span></div>'+button("Wróć do domu","seek","home","btn-wide")+'</section>'+
 '<section class="panel"><div class="panel-title"><h2>Lokacje</h2></div><div class="location-list">'+LOC.filter(x=>["home","field","saiba","nappa","vegeta","roshi"].includes(x.id)).map(x=>'<div class="location">'+x.icon+' <b>'+x.name+'</b>'+button("Pokaż","seek",x.id,"btn-mini")+'</div>').join("")+'</div></section></div></div>'+
 '<p class="map-hint">Mapa nie jest pojedynczym obrazkiem. Sterujesz postacią po dużym terenie; na pustkowiach spotkasz losowych przeciwników i możesz trenować przed kolejnym bossem.</p>'}
-function fightArt(mode,enemy,shot){const b=ENEMIES[enemy||S.battle?.enemy]||ENEMIES.saiba;let m=mode||"battlefield";let left=protagonist(),right=b.art;if(shot){if(shot.mode==="vanish")left=PIC.gokuDash;else if(shot.mode==="hit")left=PIC.gokuAtk;else if(shot.mode==="counter")left=PIC.gokuDef;else if(shot.mode==="charge")left=PIC.gokuAura;}
+function fightArt(mode,enemy,shot){const b=ENEMIES[enemy||S.battle?.enemy]||ENEMIES.saiba;let m=mode||"battlefield";let left=protagonist(),right=b.art;if(shot&&S.avatar!=="vegeta"){if(shot.mode==="vanish")left=PIC.gokuDash;else if(shot.mode==="hit")left=PIC.gokuAtk;else if(shot.mode==="counter")left=PIC.gokuDef;else if(shot.mode==="charge")left=PIC.gokuAura;}
 return '<div class="scene-wrap '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"")+'">'+gameImage(left+"","player-art","Wojownik gracza")+gameImage(right,"enemy-art",b.name)+
 (m==="beam"?'<div class="beam"></div>':"")+
 '<div class="flash"></div><div class="shade"></div><div class="scene-name"><span>ZIEMIA • SAGA SAIYAN</span><span>'+esc(b.name.toUpperCase())+'</span></div></div>'}
@@ -376,11 +376,11 @@ case"result-train":S.screen="world";S.result=null;save();render();seek("field");
 case"addstat":addStat(v);break;
 case"tree":S.skillTree=v;render();break;
 case"learn":learn(v);break;
-case"avatar":S.avatar=v;save();render();break;
+case"avatar":S.avatar=v;if(PLAYER_ART)PLAYER_ART.src=v==="vegeta"?PIC.vegeta:v==="aura"?PIC.gokuAura:PIC.goku;save();render();break;
 case"rename":saveName();break;
 }}catch(err){console.error("UI action error",err);toast("Błąd gry: "+err.message)}});
 ROOT.addEventListener("pointerdown",function(e){const b=e.target.closest("button[data-a='step']");if(!b||S.screen!=="world")return;let v=b.getAttribute("data-v");clearInterval(pressTimer);pressTimer=setTimeout(()=>{pressTimer=setInterval(()=>step(v),120)},280)});
 ["pointerup","pointercancel","pointerleave"].forEach(name=>ROOT.addEventListener(name,function(){clearInterval(pressTimer);pressTimer=null}));
 document.addEventListener("keydown",function(e){if(S.screen!=="world"||/INPUT|TEXTAREA/.test(document.activeElement?.tagName||""))return;const k={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right",w:"up",s:"down",a:"left",d:"right"}[e.key];if(k){e.preventDefault();step(k)}});
-S.screen="home";render();
+if(PLAYER_ART)PLAYER_ART.src=S.avatar==="vegeta"?PIC.vegeta:S.avatar==="aura"?PIC.gokuAura:PIC.goku;S.screen="home";render();
 })();
