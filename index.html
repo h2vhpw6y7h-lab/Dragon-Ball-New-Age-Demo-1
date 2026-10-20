@@ -100,6 +100,15 @@ body{background:radial-gradient(ellipse at 0 0,#1b5878 0,#0c1a32 48%,#090f20 100
 .skill-mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.skill-mini{border:1px solid #3a5d77;border-radius:12px;padding:10px;background:#102640}
 .skill-mini .bar{height:7px}
 @media(max-width:470px){.skill-layout{grid-template-columns:1fr 1fr}.skill-node{padding:11px}.skill-node h3{font-size:14px}}
+
+/* Background battle motions are cosmetic: no turn or HP change until a command is selected. */
+.cinematic-arena.mode-idle .goku-art{animation:dbna-spar-goku 7.5s ease-in-out infinite;will-change:transform,opacity}
+.cinematic-arena.mode-idle .frieza-art{animation:dbna-spar-frieza 7.5s ease-in-out infinite;will-change:transform,opacity}
+.cinematic-arena.mode-idle:after{content:"";position:absolute;z-index:3;inset:0;pointer-events:none;opacity:0;background:repeating-linear-gradient(112deg,transparent 0 44px,#b7f3ff36 46px 49px,transparent 50px 90px);animation:dbna-sparlines 7.5s ease-in-out infinite}
+@keyframes dbna-spar-goku{0%,18%,70%,100%{transform:translate(0,0) scale(1);opacity:1}28%{transform:translate(5%,0) scale(1.05);opacity:.12}33%{transform:translate(22%,-6%) scale(1.07);opacity:1}40%{transform:translate(14%,-4%) scale(1.07);opacity:1}48%{transform:translate(0,-1%) scale(1.03);opacity:.25}54%{transform:translate(0,0) scale(1);opacity:1}}
+@keyframes dbna-spar-frieza{0%,18%,70%,100%{transform:translate(0,0) scale(1);opacity:1}28%{transform:translate(-3%,0) scale(1.04);opacity:.1}34%{transform:translate(-18%,-7%) scale(1.08);opacity:1}40%{transform:translate(-13%,-5%) scale(1.08);opacity:1}48%{transform:translate(0,0) scale(1.02);opacity:.2}54%{transform:translate(0,0) scale(1);opacity:1}}
+@keyframes dbna-sparlines{0%,26%,50%,100%{opacity:0}32%,41%{opacity:.5}}
+@media(prefers-reduced-motion:reduce){.cinematic-arena.mode-idle .goku-art,.cinematic-arena.mode-idle .frieza-art,.cinematic-arena.mode-idle:after,.scene-shot img{animation:none!important}}
 </style></head><body>
 <main id="app">
 <section class="card"><div class="sub">GRYWALNY PROTOTYP • 0.2</div><h1 class="brand">DRAGON BALL NEW AGE</h1><div class="hero"><div class="planet">🪐</div><strong>PLANETA NAMEK</strong><small>Prolog • Goku kontra Frieza</small></div>
