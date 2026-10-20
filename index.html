@@ -8,18 +8,18 @@
 <meta name="apple-mobile-web-app-title" content="DB New Age">
 <link rel="icon" href="./icon.svg">
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="stylesheet" href="./saiyan.css?v=6">
-<title>Dragon Ball New Age • Saga Saiyan 0.5</title>
+<link rel="stylesheet" href="./saiyan.css?v=7">
+<title>Dragon Ball New Age • Saga Saiyan 0.6</title>
 </head>
 <body>
 <main id="app"><section style="padding:25px;color:#ffcf73;background:#10213d;min-height:55vh;font-family:system-ui;border:2px solid #e99536;border-radius:18px;margin:14px">
 <h1>DRAGON BALL NEW AGE</h1><h2>SAGA SAIYAN • 0.5</h2><p id="startup-msg">Uruchamianie nowej gry RPG…</p>
-<a href="./demo-0.4-archive.html" style="color:#85dbff">Poprzednie działające demo 0.4</a></section></main>
+<a href="./demo-0.4-archive.html" style="color:#85dbff">Poprzednie działające demo 0.5</a></section></main>
 <script>
 (function(){
 window.addEventListener('error',function(e){var x=document.getElementById('startup-msg');if(x)x.textContent='Błąd uruchamiania gry: '+(e.message||'Nieznany błąd');});
 if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister()})}).catch(function(){})}
 })();
 </script>
-<script src="./saiyan.js?v=6" defer onerror="document.getElementById('startup-msg').textContent='Nie udało się pobrać silnika saiyan.js. Otwórz link w Safari i spróbuj odświeżyć.'"></script>
+<script src="./saiyan.js?v=7" defer onerror="document.getElementById('startup-msg').textContent='Nie udało się pobrać silnika saiyan.js. Otwórz link w Safari i spróbuj odświeżyć.'"></script>
 </body></html>
