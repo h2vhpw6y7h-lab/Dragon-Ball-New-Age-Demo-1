@@ -7,6 +7,9 @@ on:
       - 'index.html'
       - 'manifest.webmanifest'
       - 'icon.svg'
+      - 'saiyan.js'
+      - 'saiyan.css'
+      - 'assets/**'
       - 'sw.js'
       - '.github/workflows/browser-demo.yml'
   workflow_dispatch:
@@ -34,6 +37,11 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html _site/index.html
+          for file in saiyan.js saiyan.css; do
+            test -s "$file"
+            cp "$file" "_site/$file"
+          done
+          if test -d assets; then cp -R assets _site/assets; fi
           for file in manifest.webmanifest icon.svg sw.js; do
             if test -f "$file"; then cp "$file" "_site/$file"; fi
           done
