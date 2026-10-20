@@ -35,3 +35,25 @@ img{max-width:100%}#app{max-width:1270px;padding:10px 12px 105px;margin:auto;min
 @media(max-width:530px){.hero-cover{height:310px}.hero-caption{max-width:86%}.tile-menu .tile{min-height:91px}.map-frame{min-height:clamp(330px,59vh,590px)}.charsheet{grid-template-columns:1fr}.char-art{min-height:270px}.tech-grid{gap:7px}.tech{min-height:92px;padding:10px}.fighter-row .portrait{height:40px;width:40px}.battle-hud{gap:4px}.hud-side strong{font-size:13px}.hud-round{padding:9px;font-size:16px}.skillpath{grid-template-columns:repeat(2,minmax(0,1fr))}.reward{gap:4px}.reward>div{font-size:12px;padding:7px}.logo{font-size:26px}}
 @media(orientation:landscape) and (max-height:570px){#app{padding:5px 11px 70px}.top{min-height:52px}.hero-cover{height:230px}.map-frame{min-height:clamp(295px,78vh,630px)}.battle-layout{grid-template-columns:1.15fr .85fr}.cut-stage{grid-template-columns:1.2fr .8fr}.cut-stage .scene-wrap{min-height:240px}.char-art{min-height:250px}.panel{padding:10px;margin:6px 0}.bottomnav{height:51px;padding:2px}.bottomnav button{font-size:9px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+/* Cinematic camera templates. Combined with enemy art, terrain and effects they produce
+   a large set of illustrated action variations without full-motion video files. */
+.scene-wrap.angle-close .player-art{height:150%;width:62%;left:-8%;bottom:-28%;filter:drop-shadow(0 0 20px #ff9c34a6)}
+.scene-wrap.angle-close .enemy-art{height:135%;right:-10%;bottom:-22%}
+.scene-wrap.angle-low .player-art{height:117%;width:59%;transform:rotate(-10deg) translate(-4%,8%);transform-origin:bottom left}
+.scene-wrap.angle-low .enemy-art{height:114%;right:0;transform:rotate(7deg);transform-origin:bottom right}
+.scene-wrap.angle-left .player-art{height:120%;left:-12%;bottom:-9%}
+.scene-wrap.angle-left .enemy-art{height:120%;right:5%;bottom:-9%;transform:scaleX(-1)}
+.scene-wrap.angle-high .player-art{height:88%;left:16%;bottom:2%}
+.scene-wrap.angle-high .enemy-art{height:88%;right:19%;bottom:2%}
+.scene-wrap.angle-tilt .player-art{height:115%;width:57%;left:-3%;transform:rotate(-9deg)}
+.scene-wrap.angle-tilt .enemy-art{height:116%;right:-5%;transform:rotate(8deg)}
+.scene-wrap.angle-wide .player-art,.scene-wrap.angle-wide .enemy-art{filter:drop-shadow(0 13px 13px #000d)}
+.scene-wrap.charge:after{content:"";position:absolute;top:36%;left:21%;z-index:3;width:14%;aspect-ratio:1;background:radial-gradient(circle,#fff 0,#a5ffff 25%,#14adff8d 42%,transparent 75%);border-radius:50%;filter:blur(2px);animation:beam .8s alternate infinite;pointer-events:none}
+.scene-wrap.vanish:after{content:"";position:absolute;inset:15% 30% 10% 30%;z-index:5;border:8px double #93ecffb8;transform:skewX(-28deg);border-radius:50%;filter:blur(2px);animation:vanishblast .75s ease-out infinite;pointer-events:none}
+.scene-wrap.counter:after{content:"";position:absolute;inset:0;z-index:3;background:repeating-linear-gradient(111deg,transparent 0 48px,#7fe0ff44 49px 55px,transparent 60px 88px);mix-blend-mode:screen;pointer-events:none}
+.scene-wrap.hit .player-art{animation:attack-push .35s alternate infinite}
+.scene-wrap.hit .enemy-art{animation:enemy-hit .35s alternate infinite}
+@keyframes vanishblast{from{transform:scale(.15) skewX(-28deg);opacity:1}to{transform:scale(1.35) skewX(-28deg);opacity:0}}
+@keyframes attack-push{from{transform:translateX(-1%)}to{transform:translateX(7%)}}
+@keyframes enemy-hit{from{transform:translateX(0)}to{transform:translateX(7%) rotate(6deg)}}
