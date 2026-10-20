@@ -1,10 +1,10 @@
 {
-  "name": "Dragon Ball New Age — Prolog Namek",
+  "name": "Dragon Ball New Age — Saga Saiyan",
   "short_name": "DB New Age",
-  "start_url": "./",
+  "start_url": "./?v=6",
   "display": "standalone",
-  "background_color": "#0b1324",
-  "theme_color": "#10182b",
+  "background_color": "#080e1d",
+  "theme_color": "#f5a43c",
   "icons": [
     {
       "src": "icon.svg",
@@ -14,7 +14,7 @@
     }
   ],
   "orientation": "landscape",
-  "description": "Turowe RPG na iPhone: Prolog Namek",
+  "description": "Fanowskie RPG turowe: mapa Ziemi, Saga Saiyan, Saibamen, Nappa, Vegeta, drzewko skilli, walki z kadrami.",
   "lang": "pl",
   "id": "./",
   "scope": "./"
