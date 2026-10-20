@@ -3,10 +3,10 @@
 "use strict";
 const ROOT=document.getElementById("app"),SAVE="dbna-saiyan-saga-v1",T=68,MW=50,MH=30;
 const PIC={
-goku:"./assets/goku-normal-idle.svg?v=7",
-gokuAtk:"./assets/goku-normal-punch.svg?v=7",
-gokuDef:"./assets/goku-normal-guard.svg?v=7",
-gokuAura:"./assets/goku-normal-ki.svg?v=7",
+goku:"./assets/goku-base-anime.svg?v=1",
+gokuAtk:"./assets/goku-base-anime.svg?v=1",
+gokuDef:"./assets/goku-base-anime.svg?v=1",
+gokuAura:"./assets/goku-base-anime.svg?v=1",
 saiba:"https://www.nicepng.com/png/full/562-5627827_dbz-saibaman-clipart-goku-vegeta-frieza-dragon-ball.png",
 nappa:"https://e7.pngegg.com/pngimages/826/98/png-clipart-nappa-goku-vegeta-shenron-dragon-ball-goku-hand-manga.png",
 vegeta:"https://thecodex.wiki/images/thumb/9/96/SaiyanSagaVegeta.png/800px-SaiyanSagaVegeta.png",
@@ -14,7 +14,7 @@ frieza:"https://jp.dblegends.net/assets/card_arts/0450_Frieza4th_450/0450_Frieza
 duel:"https://vignette1.wikia.nocookie.net/dragonball/images/1/10/Saiba1.jpg/revision/latest?cb=20110703084845",
 clash:"https://imagenes.hobbyconsolas.com/files/image_1920_1080/uploads/imagenes/2023/04/25/69026f56d6d7f.jpeg"
 };
-PIC.gokuDash="./assets/goku-normal-dash.svg?v=7";
+PIC.gokuDash="./assets/goku-base-anime.svg?v=1";
 const ENEMIES={
 bandit:{name:"Bandyta pustkowi",lv:2,hp:270,atk:37,def:5,spd:5,xp:65,coins:55,art:PIC.saiba,area:"Pustkowia"},
 drone:{name:"Robot treningowy",lv:3,hp:320,atk:45,def:10,spd:7,xp:80,coins:70,art:PIC.nappa,area:"Pole treningowe"},
@@ -171,7 +171,7 @@ function toast(msg){const el=document.getElementById("status-toast");if(el){el.t
 function loc(id){return LOC.find(x=>x.id===id)}
 function quest(){return CHAPTERS[Math.min(S.chapter,3)]}
 function gameImage(src,cls,alt){return '<img draggable="false" class="'+(cls||"")+'" src="'+src+'" alt="'+(alt||"Ilustracja")+'" loading="eager" decoding="async" onerror="this.onerror=null;this.src=(this.className.indexOf(\'enemy\')>=0?\'./assets/unknown-warrior.svg?v=7\':\'./assets/goku-normal-idle.svg?v=7\')">'}
-function protagonist(){return S.avatar==="vegeta"?PIC.vegeta:S.avatar==="aura"?PIC.gokuAura:PIC.goku}
+function protagonist(){return PIC.goku}
 function drawHome(){let q=quest();return hdr("")+
 '<div class="hero-cover"><div class="hero-image" style="background-image:url(./assets/earth-battle-4k.svg?v=7)"></div>'+gameImage(PIC.goku,"home-goku","Goku w formie podstawowej")+'<div class="hero-caption"><span class="label orange">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</span><h1 class="flame">'+(S.chapter<3?'ATAK SAIYAN':'ZWYCIĘSTWO')+'</h1><p>'+esc(q.goal)+'</p></div></div>'+
 '<div class="ticker"><b style="font-size:23px">🔥</b><div><b>DRAGON BALL NEW AGE</b><br><span class="sm">'+esc(S.heroName)+' • LV '+S.level+' • Moc '+power()+'</span></div></div>'+
@@ -193,7 +193,7 @@ function drawWorldUI(){let q=quest();return hdr("Mapa — Ziemia")+
 '<section class="panel"><div class="panel-title"><h2>Lokacje</h2></div><div class="location-list">'+LOC.filter(x=>["home","field","saiba","nappa","vegeta","roshi"].includes(x.id)).map(x=>'<div class="location">'+x.icon+' <b>'+x.name+'</b>'+button("Pokaż","seek",x.id,"btn-mini")+'</div>').join("")+'</div></section></div></div>'+
 '<p class="map-hint">Mapa nie jest pojedynczym obrazkiem. Sterujesz postacią po dużym terenie; na pustkowiach spotkasz losowych przeciwników i możesz trenować przed kolejnym bossem.</p>'}
 function fightArt(mode,enemy,shot){const b=ENEMIES[enemy||S.battle?.enemy]||ENEMIES.saiba;let m=mode||"battlefield";let left=protagonist(),right=b.art;if(shot&&S.avatar!=="vegeta"){if(shot.mode==="vanish")left=PIC.gokuDash;else if(shot.mode==="hit")left=PIC.gokuAtk;else if(shot.mode==="counter")left=PIC.gokuDef;else if(shot.mode==="charge")left=PIC.gokuAura;}
-return '<div class="scene-wrap '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"")+'">'+gameImage(left+"","player-art","Wojownik gracza")+gameImage(right,"enemy-art",b.name)+
+return '<div class="scene-wrap '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"")+'">'+gameImage(left+"","player-art "+(shot?"pose-"+shot.mode:"pose-idle"),"Wojownik gracza")+gameImage(right,"enemy-art",b.name)+
 (m==="beam"?'<div class="beam"></div>':"")+
 '<div class="flash"></div><div class="shade"></div><div class="scene-name"><span>ZIEMIA • SAGA SAIYAN</span><span>'+esc(b.name.toUpperCase())+'</span></div></div>'}
 function battleHUD(){let b=S.battle,e=ENEMIES[b.enemy];return '<div class="panel gold-edge"><div class="battle-hud"><div class="hud-side"><div class="fighter-row">'+gameImage(protagonist(),"portrait","Wojownik")+'<div><strong>'+esc(S.heroName)+'</strong><div class="micro">LV '+S.level+' • Moc '+power()+'</div></div></div><div class="sm">HP '+Math.round(S.hp)+' / '+maxHP()+'</div>'+bar(S.hp,maxHP())+'<div class="micro">KI '+Math.round(S.energy)+' / '+maxKI()+'</div>'+bar(S.energy,maxKI(),"ki")+'</div>'+
@@ -376,11 +376,11 @@ case"result-train":S.screen="world";S.result=null;save();render();seek("field");
 case"addstat":addStat(v);break;
 case"tree":S.skillTree=v;render();break;
 case"learn":learn(v);break;
-case"avatar":S.avatar=v;if(PLAYER_ART)PLAYER_ART.src=v==="vegeta"?PIC.vegeta:v==="aura"?PIC.gokuAura:PIC.goku;save();render();break;
+case"avatar":S.avatar="goku";if(PLAYER_ART)PLAYER_ART.src=PIC.goku;save();render();break;
 case"rename":saveName();break;
 }}catch(err){console.error("UI action error",err);toast("Błąd gry: "+err.message)}});
 ROOT.addEventListener("pointerdown",function(e){const b=e.target.closest("button[data-a='step']");if(!b||S.screen!=="world")return;let v=b.getAttribute("data-v");clearInterval(pressTimer);pressTimer=setTimeout(()=>{pressTimer=setInterval(()=>step(v),120)},280)});
 ["pointerup","pointercancel","pointerleave"].forEach(name=>ROOT.addEventListener(name,function(){clearInterval(pressTimer);pressTimer=null}));
 document.addEventListener("keydown",function(e){if(S.screen!=="world"||/INPUT|TEXTAREA/.test(document.activeElement?.tagName||""))return;const k={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right",w:"up",s:"down",a:"left",d:"right"}[e.key];if(k){e.preventDefault();step(k)}});
-if(PLAYER_ART)PLAYER_ART.src=S.avatar==="vegeta"?PIC.vegeta:S.avatar==="aura"?PIC.gokuAura:PIC.goku;S.screen="home";render();
+if(PLAYER_ART)PLAYER_ART.src=PIC.goku;S.screen="home";render();
 })();
