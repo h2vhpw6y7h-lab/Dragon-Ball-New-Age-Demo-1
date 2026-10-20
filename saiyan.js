@@ -72,6 +72,18 @@ ENEMIES.bandit.art=originalEnemy("bandit");
 ENEMIES.drone.art=originalEnemy("drone");
 ENEMIES.scout.art=originalEnemy("scout");
 
+function recoloredMob(src, replacements, extra){
+let svg=decodeURIComponent(src.split(",").slice(1).join(","));
+for(const pair of replacements)svg=svg.split(pair[0]).join(pair[1]);
+if(extra)svg=svg.replace("</svg>",extra+"</svg>");
+return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
+}
+ENEMIES.ribbon={name:"Żołnierz Red Ribbon",lv:3,hp:335,atk:41,def:9,spd:9,xp:95,coins:78,art:recoloredMob(ENEMIES.bandit.art,[["#d98f4f","#d9494b"],["#43302d","#522536"],["#d3c054","#f3d9a0"]],'<g><circle cx="201" cy="250" r="32" fill="#edeadf" stroke="#641e32" stroke-width="8"/><path d="M184 235H212Q232 238 219 252L184 270" fill="none" stroke="#d42e49" stroke-width="10"/></g>'),area:"Posterunek Red Ribbon"};
+ENEMIES.pig={name:"Dzik z pustkowi",lv:2,hp:300,atk:44,def:7,spd:7,xp:70,coins:38,art:recoloredMob(ENEMIES.bandit.art,[["#d98f4f","#ba8d75"],["#43302d","#4f403b"],["#d3c054","#b38a68"]],'<g stroke="#593745" stroke-width="4"><path d="M165 129Q132 88 130 126L154 158M238 129Q265 86 274 120L248 160" fill="#e59f96"/><ellipse cx="202" cy="142" rx="35" ry="23" fill="#e3a09b"/><ellipse cx="189" cy="143" rx="8" ry="10" fill="#8a5d62"/><ellipse cx="214" cy="143" rx="8" ry="10" fill="#8a5d62"/></g>'),area:"Leśne pustkowia"};
+ENEMIES.martial={name:"Wojownik pustelnik",lv:4,hp:425,atk:52,def:13,spd:12,xp:120,coins:86,art:recoloredMob(ENEMIES.scout.art,[["#b4d7db","#d9b990"],["#142c49","#374a3b"],["#89d9ad","#f6d181"]],''),area:"Ścieżka górska"};
+ENEMIES.sentry={name:"Strażnik kapsuł",lv:5,hp:530,atk:68,def:22,spd:11,xp:155,coins:120,art:recoloredMob(ENEMIES.drone.art,[["#86a9ce","#c7afaf"],["#2b3656","#3c2c4d"],["#6ff3fa","#f4bd69"]],''),area:"Lądowisko kapsuł"};
+
+
 const LOC=[
 {id:"home",x:5,y:6,name:"Dom Goku",icon:"⌂",color:"#83e1ff"},
 {id:"field",x:12,y:7,name:"Pole treningowe",icon:"⚔",color:"#81edec"},
@@ -227,7 +239,7 @@ function heal(){S.hp=maxHP();S.energy=maxKI();S.loc={x:5,y:6,steps:S.loc.steps};
 function newGame(){if(S.level>1||S.chapter>0){if(!confirm("Rozpocząć nową grę? Postęp Sagi Saiyan zostanie wyzerowany."))return;}S=make();S.hp=maxHP();S.energy=maxKI();save();S.screen="dialog";S.dialog={lines:[{who:"Narrator",text:"Na Ziemię przybywają dwaj Saiyanie. Ich siła przekracza wszystko, co znali obrońcy planety."},{who:"Krillin",text:"Nappa i Vegeta są już na Ziemi! Najpierw musimy rozprawić się z Saibamenami!"},{who:"Goku",text:"Najpierw przygotuję się do walki. Zdobędę doświadczenie i dopiero wtedy ruszę do ich obozu."}],idx:0,after:{kind:"map"}};render()}
 function dialogue(lines,after,bg){S.dialog={lines,idx:0,after,bg:bg||PIC.duel};S.screen="dialog";render()}
 function nextDialogue(skip){let d=S.dialog;if(!d)return;if(!skip&&d.idx<d.lines.length-1){d.idx++;render();return;}S.dialog=null;let a=d.after||{kind:"map"};if(a.kind==="battle")startBattle(a.enemy);else if(a.kind==="storyreturn"){S.screen="result";render()}else{S.screen="world";render()}}
-function enemyForRegion(){let x=S.loc.x,y=S.loc.y;let pool=x>30?["scout","saiba","scout"]:x>19?["saiba","bandit","scout"]:x>9?["bandit","drone","saiba"]:["bandit","drone"];return pool[Math.floor(Math.random()*pool.length)]}
+function enemyForRegion(){let x=S.loc.x,y=S.loc.y;let pool=x>35?["scout","saiba","martial","sentry"]:x>24?["saiba","sentry","scout","martial"]:x>15?["bandit","pig","ribbon","saiba"]:x>9?["ribbon","drone","pig","bandit"]:["pig","bandit","drone","ribbon"];return pool[Math.floor(Math.random()*pool.length)]}
 function chanceEncounter(){if(S.loc.steps<6||S.loc.steps%7!==0)return false;const nearby=LOC.find(p=>Math.abs(p.x-S.loc.x)<2&&Math.abs(p.y-S.loc.y)<2&&["home","village","field","roshi"].includes(p.id));if(nearby)return false;let chance=.32;if(S.loc.x<9)chance=.12;if(Math.random()>chance)return false;let enemy=enemyForRegion();S.encounter={enemy,title:"Nieoczekiwane starcie!",message:"Na drodze pojawia się "+ENEMIES[enemy].name+". Możesz stoczyć walkę dla EXP albo spróbować go ominąć."};S.screen="encounter";stopWalk();save();render();return true;}
 function interact(place){stopWalk();if(place.id==="home"||place.id==="village"){heal();return;}if(place.id==="field"){S.energy=Math.min(maxKI(),S.energy+35);S.hp=Math.min(maxHP(),S.hp+35);S.xp+=18;levelCheck();save();render();toast("Trening +18 EXP, +35 KI");return;}
 if(place.id==="lake"){S.hp=Math.min(maxHP(),S.hp+100);S.energy=Math.min(maxKI(),S.energy+30);save();render();toast("Jezioro — odpoczynek i regeneracja");return;}
