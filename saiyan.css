@@ -143,3 +143,44 @@ body{background:radial-gradient(ellipse at 12% 9%,#185579 0,transparent 35%),rad
 .tile-menu .tile strong{color:#fff3bf}
 .tile-menu .tile.main{background:linear-gradient(130deg,#b84730,#52223b 70%,#17334a);border-color:#ffb461}
 @media(max-width:530px){.hero-cover .home-goku{height:102%;right:-11%;width:70%;top:1%}.hero-cover .hero-caption{max-width:62%}.hero-cover .hero-caption h1{font-size:clamp(33px,9vw,51px)}}
+
+
+/* Work-in-progress visual rebuild v0.7 — not published.
+   Fight shots must look like animation frames, not character stickers. */
+.scene-wrap{overflow:hidden;perspective:1000px}
+.scene-wrap .player-art,.scene-wrap .enemy-art{backface-visibility:hidden;transform-origin:50% 75%;transition:none}
+.scene-wrap.angle-wide .player-art{left:6%;width:44%;height:115%;bottom:-13%}
+.scene-wrap.angle-wide .enemy-art{right:6%;width:44%;height:115%;bottom:-13%}
+.scene-wrap.angle-close .player-art{left:-8%;width:67%;height:163%;bottom:-31%}
+.scene-wrap.angle-close .enemy-art{right:-7%;width:67%;height:158%;bottom:-31%}
+.scene-wrap.angle-low .player-art{left:9%;width:51%;height:158%;bottom:-42%;transform:rotate(-5deg)}
+.scene-wrap.angle-low .enemy-art{right:-1%;width:52%;height:137%;bottom:-30%;transform:rotate(5deg)}
+.scene-wrap.angle-high .player-art{left:8%;width:38%;height:95%;bottom:-1%}
+.scene-wrap.angle-high .enemy-art{right:12%;width:39%;height:101%;bottom:-1%}
+.scene-wrap.angle-left .player-art{left:24%;width:60%;height:154%;bottom:-38%;transform:scaleX(-1)}
+.scene-wrap.angle-left .enemy-art{right:0;width:37%;height:101%;bottom:-13%}
+.scene-wrap.angle-tilt .player-art{left:-2%;width:57%;height:144%;bottom:-25%;transform:rotate(-9deg)}
+.scene-wrap.angle-tilt .enemy-art{right:0;width:57%;height:144%;bottom:-28%;transform:rotate(7deg)}
+.scene-wrap.vanish .player-art{animation:dbnaVanish .75s cubic-bezier(.2,0,.6,1) infinite!important}
+.scene-wrap.vanish .enemy-art{animation:dbnaCounterMove .75s ease infinite alternate}
+.scene-wrap.vanish:after{content:"";position:absolute;inset:0;z-index:4;background:repeating-linear-gradient(130deg,transparent 0 36px,#f7ffff29 38px 40px,transparent 45px 110px);animation:speedRun .38s linear infinite;pointer-events:none}
+.scene-wrap.counter .player-art{animation:dbnaCounterMove .44s ease-in-out infinite alternate}
+.scene-wrap.counter .enemy-art{animation:dbnaCounterMove .44s ease-in-out infinite alternate-reverse}
+.scene-wrap.hit .player-art{animation:dbnaPunch .25s cubic-bezier(.3,0,.2,1) infinite alternate}
+.scene-wrap.hit .enemy-art{animation:dbnaImpact .25s ease-in-out infinite alternate}
+.scene-wrap.hit:before{content:"";position:absolute;inset:0;z-index:4;background:repeating-conic-gradient(from 25deg at 57% 52%,#fff0 0 19deg,#ffefbb3b 21deg 22deg,#fff0 24deg 41deg);animation:dbnaBurst .48s ease-out infinite alternate;pointer-events:none}
+.scene-wrap.beam .player-art{animation:dbnaPush .9s ease-in-out infinite alternate}
+.scene-wrap.beam .enemy-art{animation:dbnaBeamStagger .9s ease-in-out infinite alternate}
+.scene-wrap.beam .beam{z-index:4;box-shadow:0 0 32px #9beaff,0 0 55px #24bfff;animation:dbnaBeamPulse .38s ease-in-out infinite alternate}
+.scene-wrap .flash{mix-blend-mode:screen;pointer-events:none}
+.scene-wrap.hit .flash{animation:dbnaFlash .48s ease-out infinite alternate}
+@keyframes dbnaVanish{0%{opacity:1;transform:translateX(-5%) scale(1);filter:drop-shadow(4px 12px 4px #030e1bb9)}24%{opacity:.9;transform:translateX(20%) scale(.84);filter:drop-shadow(-22px 0 8px #b3efffcc)}45%{opacity:0;transform:translateX(92%) scale(.63)}65%{opacity:0;transform:translateX(-35%) scale(1.17)}85%{opacity:.4;transform:translateX(-12%) scale(1.06)}100%{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes dbnaCounterMove{0%{transform:translateY(1%) rotate(-2deg)}100%{transform:translateY(-3%) rotate(2deg)}}
+@keyframes dbnaPunch{from{transform:translateX(-5%) translateY(2%) rotate(-6deg)}to{transform:translateX(20%) translateY(-2%) rotate(5deg)}}
+@keyframes dbnaImpact{from{transform:translateX(0) rotate(0deg)}to{transform:translateX(12%) rotate(9deg)}}
+@keyframes dbnaBurst{from{opacity:.25;transform:scale(.7)}to{opacity:.7;transform:scale(1.15)}}
+@keyframes dbnaPush{from{transform:translate(-4%,2%) rotate(-3deg)}to{transform:translate(3%,-2%) rotate(1deg)}}
+@keyframes dbnaBeamStagger{from{transform:translateX(0)}to{transform:translateX(6%) rotate(4deg)}}
+@keyframes dbnaBeamPulse{from{opacity:.75;filter:brightness(1)}to{opacity:1;filter:brightness(1.35)}}
+@keyframes dbnaFlash{from{opacity:.2}to{opacity:.8}}
+@media(prefers-reduced-motion:reduce){.scene-wrap .player-art,.scene-wrap .enemy-art,.scene-wrap:before,.scene-wrap:after,.scene-wrap .beam{animation:none!important}}
