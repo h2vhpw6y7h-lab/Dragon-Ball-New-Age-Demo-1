@@ -79,3 +79,19 @@ body:before{opacity:.55;background-image:radial-gradient(#ffe4a06e .8px,transpar
 .map-frame:after{content:"";pointer-events:none;position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 60% 20%,#fcffbe25,transparent 52%),repeating-linear-gradient(138deg,transparent 0 100px,#fff6b508 101px 104px,transparent 105px 230px);box-shadow:inset 0 0 50px #080f2888}
 @keyframes dbna-vanish{from{opacity:.75;transform:translateX(1%) scale(1)}to{opacity:.17;transform:translateX(21%) scale(1.06)}}
 @media(prefers-reduced-motion:reduce){.scene-wrap.vanish .player-art{animation:none}}
+
+/* 0.7.2 — cohesive Dragon Ball comic-action cinematography */
+.scene-wrap{isolation:isolate;outline:1px solid #fbdc8755;box-shadow:inset 0 0 0 2px #ffffff18,0 9px 28px #0008}
+.scene-wrap .combat-speed{position:absolute;inset:-35%;z-index:3;pointer-events:none;opacity:.38;background:repeating-conic-gradient(from 94deg at 54% 46%,transparent 0deg 8deg,#aef8ff8c 8.2deg 8.55deg,transparent 8.8deg 21deg);mask-image:radial-gradient(ellipse at center,transparent 0 9%,#000 42%,transparent 70%);animation:dbna-lines .9s ease-in-out infinite alternate}
+.scene-wrap .combat-sparks{position:absolute;left:49%;top:40%;width:9%;aspect-ratio:1;z-index:4;opacity:0;pointer-events:none;transform:translate(-50%,-50%);background:radial-gradient(circle,#fff 0 17%,#ffe89a 20% 30%,transparent 55%),repeating-conic-gradient(from 0deg,#fff8bd 0deg 8deg,transparent 9deg 30deg);filter:drop-shadow(0 0 16px #ffa12a);clip-path:polygon(50% 0,59% 33%,84% 10%,70% 43%,100% 49%,68% 58%,91% 90%,58% 67%,50% 100%,42% 66%,11% 91%,32% 57%,0 48%,32% 42%,14% 10%,42% 33%)}
+.scene-wrap.combat-hit .combat-sparks,.scene-wrap.combat-counter .combat-sparks,.scene-wrap.hit .combat-sparks{opacity:1;animation:dbna-impact .3s ease-out infinite alternate}
+.scene-wrap.combat-vanish .player-art{animation:dbna-vanish .3s ease-in-out infinite alternate}
+.scene-wrap.combat-charge:after{content:"";position:absolute;z-index:2;left:17%;top:37%;width:24%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff 0 15%,#b9f7ff 35%,#23a6ff8a 48%,transparent 74%);filter:drop-shadow(0 0 17px #55deff);animation:dbna-charge .9s ease-in-out infinite alternate}
+.scene-wrap.combat-hit .enemy-art{transform:translate(10%,-4%) rotate(8deg)}
+.scene-wrap .player-art,.scene-wrap .enemy-art{background:transparent!important}
+.scene-wrap .enemy-art{object-position:center bottom}
+.scene-wrap .scene-name{background:linear-gradient(90deg,#09182bb9,#0616285c);padding:5px 8px;border-radius:5px}
+@keyframes dbna-lines{to{transform:rotate(4deg) scale(1.07);opacity:.54}}
+@keyframes dbna-impact{from{transform:translate(-50%,-50%) scale(.8)}to{transform:translate(-50%,-50%) scale(1.16)}}
+@keyframes dbna-charge{to{transform:scale(1.12);opacity:.84}}
+@media(prefers-reduced-motion:reduce){.scene-wrap .combat-speed,.scene-wrap .combat-sparks,.scene-wrap.combat-charge:after{animation:none}}
