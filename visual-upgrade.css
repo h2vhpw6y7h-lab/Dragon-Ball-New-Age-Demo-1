@@ -1,0 +1,62 @@
+/* Dragon Ball New Age — visual polish 0.7.
+   Presentation-only update. Vector battle/map backgrounds remain scalable. */
+:root{--gold:#ffcb52;--orange:#ff842d;--blue:#19c9ff;--line:#457ca5}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 78% -7%,#2866aa99,transparent 42%),radial-gradient(ellipse at -15% 35%,#74251888,transparent 52%),#050d1e}
+body:before{opacity:.55;background-image:radial-gradient(#ffe4a06e .8px,transparent 1.2px),repeating-linear-gradient(150deg,transparent 0 95px,#ff812010 96px 98px,transparent 99px 170px);background-size:95px 87px,100% 100%}
+#app{width:100%;padding-left:clamp(9px,2.8vw,20px);padding-right:clamp(9px,2.8vw,20px);padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+.logo{letter-spacing:1.4px;transform:skew(-6deg);filter:drop-shadow(0 0 7px #ff7d3675)}
+.flame{font-size:clamp(25px,5vw,56px);line-height:1.1;letter-spacing:.7px;background:linear-gradient(180deg,#fff6b7 4%,#ffe274 24%,#ffa32b 58%,#fd522c 94%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(2px 3px 0 #7f291b) drop-shadow(0 0 10px #ff8a3490)}
+.panel{background:linear-gradient(155deg,#142b51f5 0%,#0a162ff5 67%,#090c21fa);border:1px solid #5f93c3;border-radius:19px;box-shadow:inset 0 1px #ffffff30,0 12px 24px #0009,0 0 0 1px #070c1b}
+.panel.gold-edge{border-color:#ffb33f;box-shadow:0 0 0 2px #6e360d90,0 13px 24px #0009,inset 0 1px #fff3b04b}
+.panel-title h2{color:#ffdf83;text-shadow:0 2px 0 #9c441f}
+.btn{border-radius:13px;transition:transform .12s,filter .15s,box-shadow .15s}
+.btn:active{transform:translateY(2px) scale(.985);filter:brightness(1.12)}
+.btn:focus-visible,.tile:focus-visible,.tech:focus-visible{outline:3px solid #fff7b1;outline-offset:3px}
+.btn-hot{background:linear-gradient(160deg,#fff4a5,#ffcb55 40%,#ff9633 93%);box-shadow:0 4px 0 #99501b,0 0 20px #ffb43a44}
+.hero-cover{height:clamp(300px,52vh,540px);border:3px solid #ffad39;box-shadow:0 0 0 2px #8b421c88,0 18px 35px #000b,inset 0 0 90px #040718bc}
+.hero-image{opacity:.95;filter:saturate(1.28) contrast(1.1)}
+.hero-cover:after{background:linear-gradient(0deg,#051020f2 0%,#07172c90 31%,transparent 72%)}
+.hero-caption{z-index:3;text-shadow:0 2px 6px #000c}
+.tile-menu{gap:12px}
+.tile{position:relative;overflow:hidden;border-radius:17px!important;border:2px solid #619ac8!important;background:linear-gradient(140deg,#213f66,#0a1535 80%)!important;box-shadow:inset 0 1px #ffffff22,0 5px 0 #05091b!important;min-height:122px;transition:transform .12s,filter .12s}
+.tile:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 82% -15%,#55d4ff55,transparent 48%),linear-gradient(125deg,transparent 45%,#ffffff0e 50%,transparent 54%)}
+.tile:nth-child(1){background:linear-gradient(135deg,#aa331a,#4d122f 78%)!important;border-color:#ffad5a!important}
+.tile:nth-child(2),.tile:nth-child(3){background:linear-gradient(135deg,#145a8a,#071b45 78%)!important;border-color:#40c9ff!important}
+.tile:nth-child(4){background:linear-gradient(135deg,#68378b,#1b103f 78%)!important;border-color:#be85ff!important}
+.tile:nth-child(5){background:linear-gradient(135deg,#185a43,#081e34 78%)!important;border-color:#69ea91!important}
+.tile:nth-child(6){background:linear-gradient(135deg,#895018,#2b1b33 78%)!important;border-color:#ffd071!important}
+.tile:active{transform:translateY(3px);filter:brightness(1.14)}
+.tile .glyph{filter:drop-shadow(0 3px 5px #0008)}
+.ticker{border:1px solid #ff9b3a;border-radius:15px;background:linear-gradient(115deg,#4e261ee8,#101c38e8)}
+.map-frame{border:3px solid #ffbd54!important;border-radius:21px!important;box-shadow:0 0 0 3px #87371d7d,0 14px 25px #0009!important;overflow:hidden;background:#35724e}
+.map-frame canvas{image-rendering:auto;touch-action:none}
+.map-top,.map-bot{z-index:4}
+.dpad button,.map-zoom button{border:2px solid #fbc16b!important;background:linear-gradient(160deg,#1f4264,#09172e)!important;box-shadow:0 3px 0 #693c1d,0 0 12px #0008!important;border-radius:13px!important}
+.quest{border-left:4px solid #ffae45;background:linear-gradient(130deg,#2e251f,#111d38)}
+.quest-progress{accent-color:#ffac3c}
+.battle-hud{gap:9px}
+.hud-side{min-width:0}
+.hud-side strong{color:#fff1ae;letter-spacing:.4px}
+.hud-round{background:radial-gradient(circle at 50% 10%,#2a608f,#07152f)!important;border:2px solid #ffc251!important;box-shadow:0 0 14px #ffae4c38;color:#ffdb72!important}
+.bar{height:12px;background:#091a31;border-color:#557391;box-shadow:inset 0 2px 4px #0008}
+.bar span{box-shadow:inset 0 1px 2px #ffffff66}
+.combo-meter{border:1px solid #f9b54e;background:linear-gradient(100deg,#53272055,#0d2b46)}
+.battle-layout .panel,.scene-wrap,.cut-stage{overflow:hidden}
+.tech-grid{gap:11px}
+.tech{min-height:106px;border:2px solid #488dca!important;border-radius:15px!important;background:linear-gradient(145deg,#224975,#0b193b 78%)!important;box-shadow:inset 0 1px #ffffff2b,0 4px 0 #040b1e!important;transition:transform .13s,filter .13s}
+.tech:active{transform:scale(.985);filter:brightness(1.18)}
+.tech:nth-child(3n){border-color:#ff9940!important;background:linear-gradient(145deg,#75311d,#281334 83%)!important}
+.tech:nth-child(4n){border-color:#23c7f6!important}
+.tech:disabled{filter:grayscale(.6);opacity:.55}
+.command-tabs button{border-radius:11px}
+.cut-stage{border:3px solid #ffaf42!important;border-radius:17px!important;box-shadow:0 0 0 2px #7b361c,0 12px 30px #000b!important}
+.cut-stage img{object-fit:contain}
+.cut-dialogue{background:linear-gradient(145deg,#1a3052,#0d1734)!important;border:2px solid #df9746!important;border-radius:17px!important}
+.cut-progress{filter:drop-shadow(0 0 5px #ffac3260)}
+.damage{font-family:Impact,"Arial Black",sans-serif;letter-spacing:1px;text-shadow:2px 3px #670d16,0 0 13px #ffb346}
+.bottomnav{background:linear-gradient(#091b38fa,#030c20fc)!important;border-top:2px solid #e9a34f!important;padding-bottom:max(3px,env(safe-area-inset-bottom));box-shadow:0 -8px 25px #0008}
+.bottomnav button{min-height:53px}
+.skillnode,.stat,.location{box-shadow:inset 0 1px #ffffff16}
+@media(max-width:390px){.tech-grid{gap:7px}.tech{min-height:96px}.tile{min-height:105px}.hero-cover{height:clamp(260px,44vh,420px)}}
+@media (prefers-reduced-motion:reduce){.hero-image{animation:none!important}*,*:before,*:after{scroll-behavior:auto!important}}
