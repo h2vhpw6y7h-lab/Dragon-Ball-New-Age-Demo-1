@@ -173,7 +173,7 @@ function quest(){return CHAPTERS[Math.min(S.chapter,3)]}
 function gameImage(src,cls,alt){return '<img draggable="false" class="'+(cls||"")+'" src="'+src+'" alt="'+(alt||"Ilustracja")+'" loading="eager" decoding="async" onerror="this.onerror=null;this.src=(this.className.indexOf(\'enemy\')>=0?\'./assets/unknown-warrior.svg?v=7\':\'./assets/goku-normal-idle.svg?v=7\')">'}
 function protagonist(){return S.avatar==="vegeta"?PIC.vegeta:S.avatar==="aura"?PIC.gokuAura:PIC.goku}
 function drawHome(){let q=quest();return hdr("")+
-'<div class="hero-cover"><div class="hero-image" style="background-image:url('+PIC.gokuAura+')"></div><div class="hero-caption"><span class="label orange">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</span><h1 class="flame">'+(S.chapter<3?'ATAK SAIYAN':'ZWYCIĘSTWO')+'</h1><p>'+esc(q.goal)+'</p></div></div>'+
+'<div class="hero-cover"><div class="hero-image" style="background-image:url(./assets/earth-battle-4k.svg?v=7)"></div>'+gameImage(PIC.goku,"home-goku","Goku w formie podstawowej")+'<div class="hero-caption"><span class="label orange">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</span><h1 class="flame">'+(S.chapter<3?'ATAK SAIYAN':'ZWYCIĘSTWO')+'</h1><p>'+esc(q.goal)+'</p></div></div>'+
 '<div class="ticker"><b style="font-size:23px">🔥</b><div><b>DRAGON BALL NEW AGE</b><br><span class="sm">'+esc(S.heroName)+' • LV '+S.level+' • Moc '+power()+'</span></div></div>'+
 '<div class="tile-menu"><button class="tile main" data-a="new"><span class="glyph">⚔️</span><strong>NOWA GRA</strong><small>Nowa przygoda • Saga Saiyan</small></button>'+
 '<button class="tile" data-a="nav" data-v="world"><span class="glyph">▶️</span><strong>KONTYNUUJ</strong><small>Swobodna mapa i misje</small></button>'+
