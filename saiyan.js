@@ -152,7 +152,7 @@ let walkTimer=null,cutTimer=null,toastTimer=null,canvas=null,C=null,pan={x:0,y:0
 const MAP_ART=typeof Image==="function"?new Image():null;
 const PLAYER_ART=typeof Image==="function"?new Image():null;
 if(MAP_ART){MAP_ART.onload=function(){if(S.screen==="world")paint()};MAP_ART.src="./assets/earth-map-4k.svg?v=7"}
-if(PLAYER_ART){PLAYER_ART.onload=function(){if(S.screen==="world")paint()};PLAYER_ART.src="./assets/goku-normal-idle.svg?v=7"}
+if(PLAYER_ART){PLAYER_ART.onload=function(){if(S.screen==="world")paint()};PLAYER_ART.src=PIC.goku}
 function save(){try{const o=Object.assign({},S,{screen:"home",scene:null,dialog:null,encounter:null,battle:null,result:null});localStorage.setItem(SAVE,JSON.stringify(o));}catch(e){}}
 function val(id){return S.stats[id]||0}
 function rank(id){return S.skills[id]||0}
@@ -193,8 +193,8 @@ function drawWorldUI(){let q=quest();return hdr("Mapa — Ziemia")+
 '<section class="panel"><div class="panel-title"><h2>Lokacje</h2></div><div class="location-list">'+LOC.filter(x=>["home","field","saiba","nappa","vegeta","roshi"].includes(x.id)).map(x=>'<div class="location">'+x.icon+' <b>'+x.name+'</b>'+button("Pokaż","seek",x.id,"btn-mini")+'</div>').join("")+'</div></section></div></div>'+
 '<p class="map-hint">Mapa nie jest pojedynczym obrazkiem. Sterujesz postacią po dużym terenie; na pustkowiach spotkasz losowych przeciwników i możesz trenować przed kolejnym bossem.</p>'}
 function fightArt(mode,enemy,shot){const b=ENEMIES[enemy||S.battle?.enemy]||ENEMIES.saiba;let m=mode||"battlefield";let left=protagonist(),right=b.art;if(shot&&S.avatar!=="vegeta"){if(shot.mode==="vanish")left=PIC.gokuDash;else if(shot.mode==="hit")left=PIC.gokuAtk;else if(shot.mode==="counter")left=PIC.gokuDef;else if(shot.mode==="charge")left=PIC.gokuAura;}
-return '<div class="scene-wrap '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"")+'">'+gameImage(left+"","player-art "+(shot?"pose-"+shot.mode:"pose-idle"),"Wojownik gracza")+gameImage(right,"enemy-art",b.name)+
-(m==="beam"?'<div class="beam"></div>':"")+
+return '<div class="scene-wrap '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"")+' '+(shot?"combat-"+(shot.mode||"wide"):"")+'">'+gameImage(left+"","player-art "+(shot?"pose-"+shot.mode:"pose-idle"),"Wojownik gracza")+gameImage(right,"enemy-art",b.name)+
+'<div class="combat-speed"></div><div class="combat-sparks"></div>'+(m==="beam"?'<div class="beam"></div>':"")+
 '<div class="flash"></div><div class="shade"></div><div class="scene-name"><span>ZIEMIA • SAGA SAIYAN</span><span>'+esc(b.name.toUpperCase())+'</span></div></div>'}
 function battleHUD(){let b=S.battle,e=ENEMIES[b.enemy];return '<div class="panel gold-edge"><div class="battle-hud"><div class="hud-side"><div class="fighter-row">'+gameImage(protagonist(),"portrait","Wojownik")+'<div><strong>'+esc(S.heroName)+'</strong><div class="micro">LV '+S.level+' • Moc '+power()+'</div></div></div><div class="sm">HP '+Math.round(S.hp)+' / '+maxHP()+'</div>'+bar(S.hp,maxHP())+'<div class="micro">KI '+Math.round(S.energy)+' / '+maxKI()+'</div>'+bar(S.energy,maxKI(),"ki")+'</div>'+
 '<div class="hud-round">TURA<br>'+b.turn+'</div>'+
