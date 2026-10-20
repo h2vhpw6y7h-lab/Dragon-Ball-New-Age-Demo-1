@@ -24,6 +24,53 @@ nappa:{name:"Nappa",lv:13,hp:2350,atk:153,def:37,spd:24,xp:980,coins:900,art:PIC
 vegeta:{name:"Vegeta",lv:20,hp:3650,atk:210,def:58,spd:44,xp:2200,coins:1800,art:PIC.vegeta,boss:true,area:"SAGA SAIYAN • FINAŁ"},
 roshi:{name:"Mistrz Roshi",lv:8,hp:940,atk:72,def:20,spd:15,xp:275,coins:0,art:PIC.goku,boss:true,mentor:true,area:"PRÓBA MISTRZA"}
 };
+
+/* Original scalable enemy stand-ins for the three roaming factions. */
+function originalEnemy(kind){
+const a=kind==="bandit",b=kind==="drone";
+const primary=a?"#d98f4f":b?"#86a9ce":"#b4d7db",dark=a?"#43302d":b?"#2b3656":"#142c49",accent=a?"#d3c054":b?"#6ff3fa":"#89d9ad";
+let svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 550"><defs>'+
+'<linearGradient id="armor" x2=".9" y2="1"><stop stop-color="'+primary+'"/><stop offset=".5" stop-color="'+dark+'"/><stop offset="1" stop-color="'+primary+'"/></linearGradient>'+
+'<linearGradient id="metal" x2=".1" y2="1"><stop stop-color="#f3f8fb"/><stop offset=".4" stop-color="'+primary+'"/><stop offset="1" stop-color="'+dark+'"/></linearGradient></defs>'+
+'<ellipse cx="201" cy="521" rx="149" ry="18" fill="#061221" opacity=".35"/>'+
+'<g stroke="#1c243b" stroke-width="11" stroke-linejoin="round" stroke-linecap="round">'+
+'<path d="M143 348 L112 509 169 523 208 401 243 521 296 501 265 346Z" fill="url(#armor)"/>'+
+'<path d="M129 480L105 528 180 534 181 488M234 490L236 533 319 535 290 487" fill="'+dark+'"/>'+
+'<path d="M151 153L89 200 111 351 194 375 291 352 311 207 254 154Z" fill="url(#armor)"/>'+
+'<path d="M99 202L56 249 49 346 83 371 123 325 124 246Z" fill="url(#metal)"/>'+
+'<path d="M298 199L350 248 354 345 316 371 279 318 282 246Z" fill="url(#metal)"/>'+
+'<path d="M88 351L54 390 80 422 125 365M315 350L344 400 308 429 282 369" fill="'+primary+'"/>'+
+'<path d="M161 161L149 83Q158 33 201 32Q250 35 250 83L239 160Z" fill="url(#metal)"/>';
+if(a){
+svg+='<path d="M157 83L122 141 142 172 256 170 285 134 249 74Z" fill="'+dark+'"/>'+
+'<path d="M149 95Q202 66 254 97L252 126Q203 143 152 124Z" fill="#302e3a"/>'+
+'<path d="M157 110Q201 102 244 110" fill="none" stroke="#fcda70" stroke-width="9"/>'+
+'<path d="M130 176L114 222 198 248 296 218 276 172Z" fill="#9c5f3a"/>'+
+'<path d="M160 254L263 255" fill="none" stroke="#e9c786" stroke-width="20"/>'+
+'<path d="M100 286L62 344 87 355" fill="none" stroke="#fff0bb" stroke-width="10"/>';
+}else if(b){
+svg+='<path d="M153 83Q203 43 245 83L263 139 239 166 159 166 131 138Z" fill="#b8d7eb"/>'+
+'<path d="M150 113L250 113 234 142 165 142Z" fill="#194567"/>'+
+'<path d="M179 126L221 126" fill="none" stroke="#75ffff" stroke-width="13"/>'+
+'<circle cx="199" cy="247" r="47" fill="#263f67" stroke="#d6eaf2" stroke-width="8"/><circle cx="199" cy="247" r="29" fill="#73faff" stroke="#0a7190" stroke-width="8"/>'+
+'<path d="M113 235L87 270M289 235L316 270" fill="none" stroke="#def6fd" stroke-width="12"/>';
+}else{
+svg+='<path d="M157 92L122 62 133 36 160 51 188 13 213 47 251 27 250 70 277 82 263 125 250 148 149 140Z" fill="#1e2636"/>'+
+'<path d="M150 105Q198 94 255 108L249 139 157 139Z" fill="#f1c5a6"/>'+
+'<path d="M149 110L258 110" fill="none" stroke="#54ffb8" stroke-width="10"/>'+
+'<path d="M141 172L197 201 260 173 291 213 259 267 198 280 133 263 110 212Z" fill="#f0f4fa"/>'+
+'<path d="M178 237L220 237" fill="none" stroke="'+accent+'" stroke-width="18"/>'+
+'<path d="M266 115L296 125L288 160L254 153Z" fill="#38526c"/>';
+}
+svg+='<path d="M167 353L235 353" fill="none" stroke="'+accent+'" stroke-width="12"/>'+
+'<path d="M173 430L160 482M227 434L240 478" fill="none" stroke="#dee8f4" stroke-width="12"/>'+
+'</g></svg>';
+return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
+}
+ENEMIES.bandit.art=originalEnemy("bandit");
+ENEMIES.drone.art=originalEnemy("drone");
+ENEMIES.scout.art=originalEnemy("scout");
+
 const LOC=[
 {id:"home",x:5,y:6,name:"Dom Goku",icon:"⌂",color:"#83e1ff"},
 {id:"field",x:12,y:7,name:"Pole treningowe",icon:"⚔",color:"#81edec"},
