@@ -1,6 +1,6 @@
 # Dragon Ball New Age — Saga Saiyan (demo 0.6)
 
-**Graj:** https://h2vhpw6y7h-lab.github.io/Dragon-Ball-New-Age-Demo-1/?v=7
+**Graj:** https://h2vhpw6y7h-lab.github.io/Dragon-Ball-New-Age-Demo-1/?v=8
 
 ## Zmiany 0.6
 - Nowy oryginalny plik `assets/earth-map-4k.svg` – szczegółowa mapa Ziemi 3840×2160, rysowana jako jeden spójny świat zamiast prostych kwadratowych tekstur.
