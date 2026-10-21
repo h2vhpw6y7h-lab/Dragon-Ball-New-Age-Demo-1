@@ -65,7 +65,7 @@ function click(action,val=""){
 click("nav","character");
 assert(root.innerHTML.includes("Atrybuty postaci"),"character menu unavailable");
 click("nav","skills");
-assert(root.innerHTML.includes("drzew"),"skill menu unavailable");
+assert(/drzewko|opanowanie technik/i.test(root.innerHTML),"skill menu unavailable");
 click("nav","world");
 assert(root.innerHTML.includes("world-canvas"),"map unavailable");
 click("seek","saiba");
