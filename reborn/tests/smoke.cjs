@@ -8,6 +8,8 @@ for(const f of ['data.js','art.js','engine.js','sw.js'])new Function(read(f));
 assert(read('index.html').includes('./engine.js?v=1'),'Missing engine link');
 assert(read('index.html').includes('./assets/earth-4k.svg'),'Map asset unavailable');
 assert(!read('engine.js').includes('goku-base-anime.svg'),'Legacy Goku must not be referenced');
+for(const pose of ['idle','punch','ki','guard','dash'])assert(read('engine.js').includes('goku-normal-'+pose+'.svg'),'Detailed Goku '+pose+' pose unavailable');
+assert(read('engine.js').includes("key==='goku'"),'Detailed Goku atlas is not selected');
 assert(!read('engine.js').includes('pngegg.com'),'Remote image hotlinks are forbidden');
 const canvasMethods=['setTransform','clearRect','fillRect','save','restore','beginPath','arc','ellipse','fill','stroke','fillText','strokeText','moveTo','lineTo','setLineDash','drawImage','roundRect'];
 const fakeCtx=Object.fromEntries(canvasMethods.map(m=>[m,()=>{}]));fakeCtx.measureText=s=>({width:s.length*7});

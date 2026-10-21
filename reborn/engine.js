@@ -21,7 +21,17 @@ let mapAsset=new Image(),mapLoaded=false,animation=null,lastPaint=0,mapCanvas=nu
 mapAsset.onload=()=>{mapLoaded=true;if(S.screen==='world')drawMap(performance.now())};
 mapAsset.onerror=()=>{mapLoaded=false;console.warn('World map not loaded: fallback terrain active')};
 mapAsset.src=D.world.image;
-const P=(key,pose)=>ART.get(key,pose);
+// Reuse the existing, more detailed Saiyan Saga Goku animation set throughout Reborn.
+// Keep the same base-form costume and hair on the map, in battle, and in character menus.
+const GOKU_BASE_FRAMES=Object.freeze({
+ idle:'../assets/goku-normal-idle.svg',
+ strike:'../assets/goku-normal-punch.svg',
+ charge:'../assets/goku-normal-ki.svg',
+ guard:'../assets/goku-normal-guard.svg',
+ dash:'../assets/goku-normal-dash.svg',
+ ki:'../assets/goku-normal-ki.svg'
+});
+const P=(key,pose='idle')=> key==='goku' ? GOKU_BASE_FRAMES[pose]||GOKU_BASE_FRAMES.idle : ART.get(key,pose);
 function btn(text,act,key='',cls='',disabled=false){return '<button type="button" data-act="'+act+'" data-key="'+esc(key)+'" class="'+cls+'" '+(disabled?'disabled':'')+'>'+text+'</button>'}
 function meter(value,max,col='hp'){return '<div class="meter '+col+'"><i style="width:'+clamp(100*value/max,0,100).toFixed(1)+'%"></i></div>'}
 function nav(){const tabs=[['home','⌂','Start'],['world','🌍','Mapa'],['battle','⚔','Walka'],['character','◉','Postać'],['skills','✦','Techniki']];return '<nav class="nav">'+tabs.map(t=>btn('<span>'+t[1]+'</span><b>'+t[2]+'</b>','nav',t[0],S.screen===t[0]||(['cut','dialog'].includes(S.screen)&&t[0]==='battle')?'selected':'')).join('')+'</nav>'}
