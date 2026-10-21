@@ -36,7 +36,7 @@ click('nav','world');assert(rootElem.innerHTML.includes('worldCanvas'),'World ma
 api.drawMap(250);
 click('nav','character');assert(rootElem.innerHTML.includes('Siła'),'Character stats missing');
 click('nav','skills');assert(rootElem.innerHTML.includes('DRZEWKO'),'Skill tree missing');
-click('nav','story');assert(rootElem.innerHTML.includes('Raditza'),'Saiyan Saga campaign missing');
+click('nav','story');assert(rootElem.innerHTML.includes('SAGA SAIYAN')&&rootElem.innerHTML.includes('Duma księcia'),'Saiyan Saga campaign missing');
 click('nav','home');
 api.visit('home');assert(rootElem.innerHTML.includes('NASTĘPNY DIALOG'),'Story dialog did not start');
 for(let i=0;i<3;i++)click('nextdialog');
