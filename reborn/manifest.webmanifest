@@ -1,0 +1,12 @@
+{
+  "name": "Dragon Ball New Age — Reborn",
+  "short_name": "DBNA Reborn",
+  "description": "Saga Saiyan • turowe RPG 2.5D",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#06142c",
+  "theme_color": "#071b39",
+  "icons": []
+}
