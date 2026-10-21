@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,minimum-scale=1">
+<meta name="theme-color" content="#071b39">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DB New Age Reborn">
+<meta name="description" content="Dragon Ball New Age Reborn — oryginalne fanowskie RPG turowe z mapą Ziemi 4K, Goku i Sagą Saiyan.">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="preload" href="./assets/earth-4k.svg" as="image" type="image/svg+xml">
+<link rel="stylesheet" href="./style.css?v=1">
+<title>Dragon Ball New Age • Reborn — Saga Saiyan</title>
+</head>
+<body>
+<div id="game"><main style="font-family:system-ui;padding:22px;max-width:650px;margin:22px auto;min-height:65vh;color:#ffe49d;background:#0d2044;border:3px solid #ffb34b;border-radius:16px"><h1>DRAGON BALL NEW AGE</h1><h2>REBORN — SAGA SAIYAN</h2><p id="startup">Uruchamianie nowego silnika i mapy Ziemi…</p><p id="relaunch" hidden><a href="./index.html?recover=1" style="color:#9fe9ff">Uruchom ponownie</a> · Zapis pozostaje na urządzeniu.</p></main></div>
+<script>
+(function(){
+function fail(str){var p=document.getElementById('startup');if(!p)return;p.textContent=str;var r=document.getElementById('relaunch');if(r)r.hidden=false;}
+window.addEventListener('error',function(e){fail('Błąd gry: '+String(e.message||'brak pliku'))});
+window.addEventListener('unhandledrejection',function(e){fail('Błąd ładowania gry: '+String(e.reason?.message||'nieznany'))});
+setTimeout(function(){if(document.getElementById('startup'))fail('Silnik nie wystartował. Sprawdź połączenie i spróbuj ponownie.');},10000);
+})();
+</script>
+<script src="./data.js?v=1" defer onerror="document.getElementById('startup').textContent='Nie pobrano data.js'"></script>
+<script src="./art.js?v=1" defer onerror="document.getElementById('startup').textContent='Nie pobrano art.js'"></script>
+<script src="./engine.js?v=1" defer onerror="document.getElementById('startup').textContent='Nie pobrano engine.js'"></script>
+</body></html>
