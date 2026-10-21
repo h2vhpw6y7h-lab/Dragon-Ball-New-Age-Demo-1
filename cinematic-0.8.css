@@ -1,0 +1,147 @@
+/* Dragon Ball New Age • cinematic pass 0.8
+   Consolidates full-frame character poses, scenery and energy effects.
+   Non-destructive: overlays existing working controls and RPG mechanics. */
+:root{--anime-amber:#ffae37;--anime-gold:#ffda64;--anime-cyan:#44cfff;--anime-ink:#081024;--anime-panel:#14234a}
+html{-webkit-text-size-adjust:100%}
+body{background:
+  radial-gradient(ellipse at 19% 2%,#bd491d42,transparent 35%),
+  radial-gradient(ellipse at 87% 25%,#143dd666,transparent 35%),
+  linear-gradient(170deg,#081129,#030714 70%,#130a1c)}
+#app{padding-bottom:calc(100px + env(safe-area-inset-bottom))}
+.top{border-bottom:1px solid #edb86555}
+.panel{background:linear-gradient(135deg,#263b69e8,#091631f8 68%,#0a1023);
+  border:1px solid #7197c8;box-shadow:inset 0 2px 0 #ffffff24,0 15px 32px #0008}
+.panel.gold-edge{border:2px solid #ffa947;box-shadow:inset 0 1px 0 #fff7c27d,0 0 0 2px #8d481d44,0 17px 38px #0009}
+.flame,.panel-title h2{filter:drop-shadow(1px 2px 0 #261125)}
+.hero-cover{background:#182345;border:3px solid #ffae43;box-shadow:0 0 0 2px #762c17,0 20px 38px #000b}
+.hero-cover .home-goku{filter:drop-shadow(0 10px 2px #11131c88) drop-shadow(0 0 18px #ffd17b4a);transform-origin:center bottom}
+.tile{background:linear-gradient(130deg,#3e3e75,#0a203c)!important;border:2px solid #64a7eb!important;box-shadow:inset 0 2px #ffffff35,0 5px 0 #050b1c,0 13px 20px #0006!important}
+.tile .glyph{font-size:clamp(26px,5vw,39px)}
+.battle-hud{gap:12px}
+.hud-round{border-radius:4px 18px 4px 18px!important;border:2px solid #ffb842!important;
+  background:linear-gradient(140deg,#fbd266 0%,#e47c2d 45%,#432445 100%)!important;
+  color:#fffbe3!important;text-shadow:1px 2px 2px #202647;box-shadow:0 0 17px #ffab5766}
+.hud-side .portrait{background:radial-gradient(circle at 50% 37%,#5acdfb44,#172a50 75%)}
+.bar{border-radius:999px;height:14px}
+.bar span{background:linear-gradient(90deg,#f23a56,#ffbc68);border-radius:inherit}
+.bar.ki span{background:linear-gradient(90deg,#156feb,#74f2ff)}
+.combo-meter{background:linear-gradient(90deg,#31172cc9,#16234bf0);border:1px solid #f9ac35;font-size:13px}
+.bottomnav{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.bottomnav button.active{color:#ffdb69;text-shadow:0 0 12px #ffb236b8}
+.command-tabs button{min-height:47px;font-size:13px;border:1px solid #709cca;box-shadow:inset 0 1px #ffffff2b}
+.command-tabs .current{background:linear-gradient(115deg,#ffe57d,#ff962b);border-color:#fff6bd;color:#18203b;box-shadow:0 0 15px #ffbd4d70}
+.tech{position:relative;isolation:isolate;min-height:116px;transform:translateZ(0);
+ border-radius:5px 15px 5px 15px!important;
+ background:linear-gradient(130deg,#235c8a,#111e4e 64%,#080e25)!important;
+ border:2px solid #58a8ee!important;box-shadow:inset 0 1px #d9f3ff66,0 5px #081127!important}
+.tech:before{content:"";position:absolute;inset:0;pointer-events:none;z-index:-1;
+ background:repeating-linear-gradient(150deg,transparent 0 25px,#ffffff06 26px 28px,transparent 29px 70px)}
+.tech strong{font-size:clamp(15px,2.5vw,21px);color:#fff8e1;text-shadow:1px 2px #020a19}
+.tech .icon{filter:drop-shadow(0 0 7px #64d7ffad);font-size:26px}
+.tech p{color:#d4eaff}
+.tech.ultimate{background:linear-gradient(125deg,#9b5524,#402447 60%,#131436)!important;border-color:#ffbf47!important}
+.tech.ultimate:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,#ffe38d30 60%,transparent 76%);animation:dbna-tech-sheen 3.5s ease-in-out infinite}
+.cut-stage{gap:12px}
+.cut-stage .scene-wrap{min-height:290px}
+.cut-dialogue{border:2px solid #f8a441!important;border-radius:7px 18px 7px 18px!important;
+ background:linear-gradient(145deg,#233a6f 0%,#101f43 48%,#081228 100%)!important;
+ box-shadow:inset 0 1px #ffedb04d,0 8px 23px #0006}
+.cut-dialogue h2{font-size:clamp(26px,4.5vw,41px);font-style:italic;letter-spacing:.5px}
+.cut-dialogue p{font-size:clamp(17px,2.5vw,22px);line-height:1.45}
+.cut-progress span{height:11px;border-radius:2px 6px 2px 6px}
+.cut-progress .done{background:linear-gradient(90deg,#ff9531,#ffea71);box-shadow:0 0 8px #ffc34db0}
+.cut-controls .btn-hot,.btn-hot{background:linear-gradient(160deg,#fff0a5,#ffd75a 36%,#ff9730);
+ border:2px solid #fff4b1!important;color:#1b2542!important;font-weight:950;
+ box-shadow:0 5px #8e361b,0 8px 22px #e6a43877}
+.cut-controls .btn-hot:active,.btn-hot:active{transform:translateY(3px) scale(.987);box-shadow:0 2px #8e361b}
+.scene-wrap.anime-arena{position:relative;isolation:isolate;border:3px solid #79d4fa;
+ border-radius:7px 19px 7px 19px;overflow:hidden;
+ background:#2f789a url("./assets/earth-battle-4k.svg?v=8") center 54%/cover no-repeat;
+ box-shadow:inset 0 0 0 3px #173963,0 0 0 2px #fcad3e8a,0 15px 29px #0008}
+.scene-wrap.anime-arena:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.97;
+ background-image:linear-gradient(180deg,#0b285b18 0%,transparent 40%,#28161035 100%),url("./assets/earth-battle-4k.svg?v=8");
+ background-position:center;background-size:cover;transform:scale(1.015)}
+.scene-wrap.arena-forest:before{filter:hue-rotate(37deg) saturate(1.24)}
+.scene-wrap.arena-desert:before{filter:sepia(.16) saturate(1.2)}
+.scene-wrap.arena-rock:before{filter:contrast(1.1) saturate(.94)}
+.scene-wrap.arena-water:before{filter:hue-rotate(13deg) saturate(1.35)}
+.scene-wrap .stage-ground{position:absolute;inset:auto -7% -13%;height:37%;z-index:1;pointer-events:none;
+ background:radial-gradient(ellipse at 50% 70%,#16191d6b,transparent 70%);
+ transform:skewX(-8deg)}
+.scene-wrap .stage-atmosphere{position:absolute;inset:0;z-index:1;pointer-events:none;
+ background:linear-gradient(132deg,#62dcff17 3%,transparent 30%,transparent 70%,#ea62ff14 94%);
+ mix-blend-mode:screen}
+.scene-wrap.anime-arena .player-art,.scene-wrap.anime-arena .enemy-art{position:absolute;bottom:-8%;height:111%;width:54%;z-index:3;
+ object-fit:contain;object-position:center bottom;will-change:transform,opacity;
+ transition:transform .28s cubic-bezier(.14,.7,.3,1),opacity .28s ease;
+ background:none!important}
+.scene-wrap.anime-arena .player-art{left:-3%;filter:drop-shadow(0 12px 4px #152239a0) drop-shadow(0 0 13px #63d9ff4d)}
+.scene-wrap.anime-arena .enemy-art{right:-3%;filter:drop-shadow(0 12px 5px #140d25ad) drop-shadow(0 0 11px #b28bff50)}
+.scene-wrap.anime-arena.battlefield .player-art{animation:dbna-hero-ready 2.1s cubic-bezier(.45,0,.45,1) infinite alternate}
+.scene-wrap.anime-arena.battlefield .enemy-art{animation:dbna-enemy-ready 2.7s cubic-bezier(.45,0,.45,1) infinite alternate}
+.scene-wrap.anime-arena .aura-burst{position:absolute;left:22%;top:38%;width:25%;aspect-ratio:1;z-index:2;
+ background:radial-gradient(circle,#c1f8ffda 0%,#60c6ff77 31%,transparent 67%);opacity:0;filter:blur(8px);pointer-events:none}
+.scene-wrap.anime-arena.charge .aura-burst,.scene-wrap.anime-arena.beam .aura-burst{opacity:1;animation:dbna-aura .65s infinite alternate}
+.scene-wrap.anime-arena .impact-ring{position:absolute;top:45%;left:57%;width:34%;aspect-ratio:1;z-index:4;opacity:0;
+ border:5px solid #fff0ad;border-radius:50%;pointer-events:none;filter:drop-shadow(0 0 9px #ffef95)}
+.scene-wrap.anime-arena.hit .impact-ring,.scene-wrap.anime-arena.counter .impact-ring{opacity:1;animation:dbna-ring .38s ease-out infinite}
+.scene-wrap.anime-arena .combat-speed{z-index:4;opacity:.18}
+.scene-wrap.anime-arena.vanish .combat-speed,.scene-wrap.anime-arena.counter .combat-speed{opacity:.65}
+.scene-wrap.anime-arena .combat-sparks{z-index:6}
+.scene-wrap.anime-arena .shade{z-index:7;background:linear-gradient(0deg,#061121c2 0%,transparent 29%)}
+.scene-wrap.anime-arena .scene-name{z-index:9;bottom:8px;left:8px;right:8px;padding:6px 10px;
+ border:1px solid #91e8ff7a;border-radius:3px 9px 3px 9px;
+ background:linear-gradient(90deg,#081a38e3,#0a1839a0);
+ color:#fff7df;letter-spacing:.8px;font-size:clamp(9px,1.4vw,13px)}
+.scene-wrap.anime-arena .flash{z-index:7;mix-blend-mode:screen}
+.scene-wrap.anime-arena .beam{z-index:6;left:34%;top:39%;height:10%;width:55%;border-radius:65% 15% 15% 65%;
+ background:linear-gradient(180deg,#01a4fe,#dcffff 38%,white 53%,#27d9ff 78%,#0469fa);
+ box-shadow:0 0 20px #4fdbff,0 0 44px #6cceff99;transform-origin:left center;
+ animation:dbna-blast .45s ease-in-out infinite alternate}
+.scene-wrap.anime-arena.charge .player-art{transform:translateX(2%) scale(1.03)}
+.scene-wrap.anime-arena.counter .enemy-art{transform:translate(-13%,-4%) rotate(-5deg)}
+.scene-wrap.anime-arena.hit .enemy-art{transform:translate(12%,1%) rotate(8deg)}
+.scene-wrap.anime-arena.vanish .player-art{opacity:.22;transform:translate(21%,-6%) skew(-6deg)}
+.scene-wrap.anime-arena.angle-close .player-art{transform:translate(8%,3%) scale(1.29)}
+.scene-wrap.anime-arena.angle-low .enemy-art{transform:translate(-9%,-3%) scale(1.22)}
+.scene-wrap.anime-arena.angle-left .player-art{transform:translate(-4%,0) scale(1.13)}
+.scene-wrap.anime-arena.angle-high .enemy-art{transform:translate(-7%,8%) scale(1.17) rotate(-3deg)}
+.scene-wrap.anime-arena.angle-tilt .player-art{transform:translate(7%,-4%) rotate(-5deg) scale(1.12)}
+.scene-wrap.anime-arena.angle-reverse .enemy-art{transform:translate(-9%,0) scale(1.28)}
+.scene-wrap.anime-arena.angle-detail .player-art{transform:translate(9%,5%) scale(1.38)}
+.scene-wrap.anime-arena .damage{z-index:10;top:32%;right:12%;color:#ffe965;font-size:clamp(30px,7vw,76px);
+ text-shadow:3px 4px #a62a1b,-2px -2px #16132e,0 0 17px #fffa8d;transform:rotate(-8deg)}
+.map-frame{border:3px solid #ffcc69!important;background:radial-gradient(circle at 40% 10%,#a8d9a1,#286c69);
+ box-shadow:0 0 0 2px #9b4c1f,0 16px 33px #000a!important}
+.map-frame:after{background:linear-gradient(180deg,#dfffb311,transparent 31%,#08152c40 100%),
+ radial-gradient(circle at 78% 13%,#ffffff1e,transparent 32%);box-shadow:inset 0 0 34px #061731b8}
+.map-top>span{font-size:12px;border:1px solid #ffc264;color:#ffeed1;backdrop-filter:blur(8px)}
+.dpad button,.map-zoom button{min-height:42px;background:linear-gradient(155deg,#30617b,#10203e)!important;
+ box-shadow:0 3px 0 #824929,0 0 8px #ffd46544!important}
+.dpad button:active,.map-zoom button:active{filter:brightness(1.4)}
+@keyframes dbna-hero-ready{0%{transform:translate(0,0) rotate(-.3deg)}45%{transform:translate(2%,-1.2%)}100%{transform:translate(-1%,0) rotate(.3deg)}}
+@keyframes dbna-enemy-ready{0%{transform:translate(0,0)}50%{transform:translate(-2%,1%)}100%{transform:translate(1%,-1%)}}
+@keyframes dbna-aura{from{transform:scale(.85);opacity:.65}to{transform:scale(1.3);opacity:1}}
+@keyframes dbna-ring{from{transform:translate(-50%,-50%) scale(.4);opacity:.8}to{transform:translate(-50%,-50%) scale(1.6);opacity:0}}
+@keyframes dbna-blast{from{transform:scaleX(.94) scaleY(.74)}to{transform:scaleX(1.07) scaleY(1.18)}}
+@keyframes dbna-tech-sheen{0%,52%,100%{opacity:0}65%{opacity:1}}
+@media(max-width:760px){
+ .world-layout,.battle-layout,.cut-stage{grid-template-columns:1fr}
+ .cut-stage .scene-wrap{min-height:unset;aspect-ratio:16/9}
+ .cut-dialogue{min-height:225px}
+ .battle-hud .portrait{height:48px;width:48px}
+ .hud-side strong{font-size:14px}
+ .hud-round{font-size:17px;padding:9px}
+ .scene-wrap.anime-arena .scene-name{font-size:9px}
+ .tech{min-height:104px}
+ .map-frame{min-height:min(62vh,650px)}
+}
+@media(orientation:landscape) and (max-height:520px){
+ #app{padding-bottom:86px}
+ .map-frame{min-height:72vh}
+ .cut-dialogue{min-height:160px}
+ .scene-wrap.anime-arena .scene-name{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .scene-wrap.anime-arena *, .tech.ultimate:after{animation:none!important;transition:none!important}
+}
