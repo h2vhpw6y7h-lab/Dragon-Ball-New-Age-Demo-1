@@ -9,6 +9,8 @@ on:
       - 'icon.svg'
       - 'saiyan.js'
       - 'saiyan.css'
+      - 'visual-upgrade.css'
+      - 'cinematic-0.8.css'
       - 'assets/**'
       - 'sw.js'
       - '.github/workflows/browser-demo.yml'
@@ -37,7 +39,7 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html _site/index.html
-          for file in saiyan.js saiyan.css; do
+          for file in saiyan.js saiyan.css visual-upgrade.css cinematic-0.8.css; do
             test -s "$file"
             cp "$file" "_site/$file"
           done
@@ -46,6 +48,10 @@ jobs:
             if test -f "$file"; then cp "$file" "_site/$file"; fi
           done
           test -s _site/index.html
+      - name: Verify published engine and assets
+        run: |
+          node --check saiyan.js
+          node tests/smoke-test.cjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload static site
