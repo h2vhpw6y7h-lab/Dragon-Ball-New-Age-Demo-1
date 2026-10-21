@@ -13,6 +13,11 @@ const DBArt=(()=>{
  function path(d,fill,stroke=INK,w=10){return '<path d="'+d+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+w+'" stroke-linejoin="round" stroke-linecap="round"/>'}
  function get(kind,pose='idle'){
  const key=kind+':'+pose;if(CACHE[key])return CACHE[key];
+ if(kind==='pig'){
+ const beast='<svg xmlns="http://www.w3.org/2000/svg" width="512" height="768" viewBox="0 0 512 768"><title>Dziki zwierz Ziemi</title><defs><linearGradient id="fur" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d6a882"/><stop offset=".6" stop-color="#986048"/><stop offset="1" stop-color="#4a342e"/></linearGradient></defs><ellipse cx="248" cy="710" rx="188" ry="24" fill="#122c29" opacity=".25"/><path d="M111 491Q65 438 123 382L101 309 176 326Q266 281 375 350L414 425Q457 463 424 532L386 572 370 668 309 670 297 589 199 589 178 671 117 672 110 557Q65 536 111 491Z" fill="url(#fur)" stroke="#281f22" stroke-width="13"/><path d="M143 395Q120 344 112 294L183 338M333 359Q372 298 415 333L396 399" fill="#9c6557" stroke="#281f22" stroke-width="12"/><path d="M155 397q44-24 84 5M302 392q41-22 73 3" fill="none" stroke="#5b3a34" stroke-width="18"/><path d="M175 438q27-25 45 0M317 432q28-24 46 0" fill="none" stroke="#281f22" stroke-width="13"/><ellipse cx="274" cy="504" rx="139" ry="86" fill="#b8846f" stroke="#38242a" stroke-width="12"/><ellipse cx="267" cy="503" rx="84" ry="58" fill="#d49c89" stroke="#714443" stroke-width="8"/><ellipse cx="236" cy="501" rx="19" ry="28" fill="#74484a"/><ellipse cx="294" cy="501" rx="19" ry="28" fill="#74484a"/><path d="M163 527l-26 28 39 35 28-39M359 530l37 24-27 41-31-43" fill="#fff0c8" stroke="#412d2d" stroke-width="10"/><path d="M88 479Q50 463 56 423" fill="none" stroke="#6b473c" stroke-width="16"/></svg>';
+ CACHE[key]='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(beast);
+ return CACHE[key];
+ }
  const cfg=costumes[kind]||costumes.scout,cloth=cfg[0],trim=cfg[1],flesh=cfg[2],armor=['vegeta','nappa','raditz','scout'].includes(kind),alien=['piccolo','saiba'].includes(kind);
  let shapes='',hair='';
  shapes+=path('M167 436L136 623 117 704 185 713 221 555 254 564 283 716 358 707 322 512 305 436Z','url(#cloth)');
