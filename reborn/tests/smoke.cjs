@@ -52,4 +52,7 @@ const drawing=decodeURIComponent(unlocked.split(',').slice(1).join(','));
 assert(drawing.includes('#f58023'),'Goku orange gi color missing');
 assert(!drawing.includes('var(--cloth)'),'SVG gradients contain unresolved custom properties');
 assert(drawing.includes('<svg'),'Missing original SVG actor');
+const fauna=decodeURIComponent(vm.runInContext('DBArt.get("pig")',context).split(',').slice(1).join(','));
+assert(fauna.includes('Dziki zwierz Ziemi')&&fauna.includes('ellipse'),'Forest fauna should have its own original art');
+assert(read('engine.js').includes('heroImage.complete&&heroImage.naturalWidth>0'),'Unloaded hero texture may crash Canvas');
 console.log('PASS / Reborn: HTML, graphics, vector map, start, navigation, character, skill tree, 14 chapter campaign, dialogue, combat, delayed damage, local save, valid sprite palette.');

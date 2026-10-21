@@ -67,12 +67,13 @@ function drawMap(time){if(S.screen!=='world'||!mapCanvas)return;let rc=mapCanvas
  let x=px(S.pos.x),y=py(S.pos.y)+Math.sin(time/260)*2;
  if(worldTarget&&worldTarget.x!==undefined){const tx=px(worldTarget.x),ty=py(worldTarget.y);c.strokeStyle='#f8dc86bb';c.setLineDash([5,9]);c.lineWidth=2;c.beginPath();c.moveTo(x,y);c.lineTo(tx,ty);c.stroke();c.setLineDash([])}
  c.fillStyle='#0836579c';c.beginPath();c.ellipse(x,y+20,25,9,0,0,Math.PI*2);c.fill();c.strokeStyle='#35e9ff';c.lineWidth=3;c.beginPath();c.ellipse(x,y+20,26,11,0,0,Math.PI*2);c.stroke();
- c.drawImage(heroImage,x-36,y-104,72,119);
+ if(heroImage.complete&&heroImage.naturalWidth>0)c.drawImage(heroImage,x-36,y-104,72,119);
+ else{c.fillStyle='#f88d31';c.strokeStyle='#101e3b';c.lineWidth=3;c.beginPath();c.arc(x,y-37,18,0,Math.PI*2);c.fill();c.stroke();}
  c.fillStyle='#fff2a4';c.strokeStyle='#172445';c.lineWidth=3.5;c.textAlign='center';c.font='900 15px system-ui';c.strokeText('LV '+S.lv,x,y-107);c.fillText('LV '+S.lv,x,y-107);
  if(!mapLoaded){c.textAlign='left';c.fillStyle='#fff';c.font='bold 14px system-ui';c.fillText('ŁADOWANIE MAPY 4K...',16,24)}
  const near=nearestPlace(),el=document.getElementById('map-region');if(el)el.textContent='ZIEMIA · '+(near?near.name.toUpperCase():'DZIKIE TERENY');const pos=document.getElementById('map-location');if(pos)pos.textContent='X '+Math.round(S.pos.x)+' · Y '+Math.round(S.pos.y);
 }
-const heroImage=new Image();heroImage.src=P('goku');
+const heroImage=new Image();heroImage.onload=()=>{if(S.screen==='world')drawMap(performance.now())};heroImage.src=P('goku');
 function nearestPlace(){let near=null,best=Infinity;for(const p of D.places){let dis=Math.hypot(p.x-S.pos.x,p.y-S.pos.y);if(dis<best){near=p;best=dis}}return best<250?near:null}
 function setupMap(){mapCanvas=document.getElementById('worldCanvas');if(!mapCanvas)return;const useCoord=(e)=>{const v=getView();return {x:clamp(v.x+(e.clientX-v.rc.left)*v.ratio,0,D.world.width),y:clamp(v.y+(e.clientY-v.rc.top)*v.ratio,0,D.world.height)}};
  mapCanvas.addEventListener('pointerdown',e=>{dragging={sx:e.clientX,sy:e.clientY,mx:S.pos.x,my:S.pos.y,panX:camX,panY:camY};mapCanvas.setPointerCapture(e.pointerId)});

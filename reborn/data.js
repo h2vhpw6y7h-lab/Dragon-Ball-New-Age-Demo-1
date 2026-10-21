@@ -17,7 +17,7 @@ places:[
 {id:"vegeta",name:"Szczyt Vegety",sub:"Starcie z księciem Saiyan",x:3460,y:520,type:"boss",icon:"!",level:"18–28"}
 ],
 enemies:{
-pig:{name:"Dzik z zachodnich lasów",art:"saiba",lv:1,power:110,hp:185,atk:24,def:4,xp:34,coins:26},
+pig:{name:"Dzik z zachodnich lasów",art:"pig",lv:1,power:110,hp:185,atk:24,def:4,xp:34,coins:26},
 bandit:{name:"Zbłąkany wojownik",art:"yamcha",lv:2,power:260,hp:270,atk:36,def:6,xp:50,coins:46},
 scout:{name:"Zwiadowca",art:"scout",lv:4,power:470,hp:360,atk:47,def:9,xp:92,coins:63},
 saibawild:{name:"Dzikie Saibamen",art:"saiba",lv:6,power:950,hp:540,atk:66,def:14,xp:135,coins:95},
