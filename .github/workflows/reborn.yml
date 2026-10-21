@@ -1,0 +1,31 @@
+name: Validate Reborn RPG
+on:
+  push:
+    branches: [main]
+    paths: ['reborn/**', '.github/workflows/reborn.yml']
+  pull_request:
+    branches: [main]
+    paths: ['reborn/**', '.github/workflows/reborn.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and complete offline RPG smoke test
+        run: node reborn/tests/smoke.cjs
+      - name: Validate 4K SVG map XML and geometry
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          root=ET.parse('reborn/assets/earth-4k.svg').getroot()
+          assert root.attrib['viewBox']=='0 0 3840 2160'
+          assert len(root)>1000,'Map has insufficient authored world detail'
+          print('PASS: 4K vector map,',len(root),'SVG layers')
+          PY

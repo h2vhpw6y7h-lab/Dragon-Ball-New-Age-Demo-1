@@ -12,6 +12,7 @@ on:
       - 'visual-upgrade.css'
       - 'cinematic-0.8.css'
       - 'assets/**'
+      - 'reborn/**'
       - 'sw.js'
       - '.github/workflows/browser-demo.yml'
   workflow_dispatch:
@@ -44,10 +45,16 @@ jobs:
             cp "$file" "_site/$file"
           done
           if test -d assets; then cp -R assets _site/assets; fi
+          test -s reborn/index.html
+          test -s reborn/engine.js
+          test -s reborn/assets/earth-4k.svg
+          cp -R reborn _site/reborn
           for file in manifest.webmanifest icon.svg sw.js; do
             if test -f "$file"; then cp "$file" "_site/$file"; fi
           done
           test -s _site/index.html
+      - name: Verify Reborn full engine and map
+        run: node reborn/tests/smoke.cjs
       - name: Verify published engine and assets
         run: |
           node --check saiyan.js
