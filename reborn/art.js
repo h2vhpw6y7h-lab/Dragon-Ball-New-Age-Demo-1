@@ -51,7 +51,7 @@ const DBArt=(()=>{
  if(kind==='saiba'){shapes+=path('M188 269l32 10M264 275l28-10','none','#b42632',11)}
  if(armor)shapes+=path('M168 340L187 431M305 345L283 430','none','#cebbb0',10);
  const poseTransform=pose==='strike'?'translate(18 -12) rotate(-8 230 410)':pose==='charge'?'translate(1 -9) scale(1.03)':'';
- const svg='<svg xmlns="http://www.w3.org/2000/svg" width="512" height="768" viewBox="0 0 512 768"><title>'+kind+' '+pose+'</title>'+gradients+'<g style="--cloth:'+cloth+';--skin:'+flesh+';" transform="'+poseTransform+'">'+shapes+'</g></svg>';
+ const svg='<svg xmlns="http://www.w3.org/2000/svg" width="512" height="768" viewBox="0 0 512 768"><title>'+kind+' '+pose+'</title>'+gradients.replace(/var\(--cloth\)/g,cloth).replace(/var\(--skin\)/g,flesh)+'<g transform="'+poseTransform+'">'+shapes+'</g></svg>';
  const data='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
  CACHE[key]=data;return data;
  }
