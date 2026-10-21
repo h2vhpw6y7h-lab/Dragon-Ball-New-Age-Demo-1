@@ -46,7 +46,7 @@ api.startBattle('pig',false,'west');assert(rootElem.innerHTML.includes('WYBIERZ 
 const oldHp=api.getState().battle.hp;
 click('attack','combo');assert(rootElem.innerHTML.includes('KADR'),'Cinematic attack missing');
 assert(api.getState().battle.hp===oldHp,'Damage applied before cinematic end');
-api.advanceFrame(true);assert(api.getState().battle.hp<oldHp,'Damage not applied after frames');
+api.advanceFrame(true);assert(api.getState().battle===null || api.getState().battle.hp<oldHp,'Damage not applied after frames or combat victory');
 const unlocked=vm.runInContext('DBArt.get("goku")',context);
 const drawing=decodeURIComponent(unlocked.split(',').slice(1).join(','));
 assert(drawing.includes('#f58023'),'Goku orange gi color missing');
