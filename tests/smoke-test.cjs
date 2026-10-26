@@ -9,13 +9,14 @@ const read=(p)=>fs.readFileSync(path.join(rootDir,p),"utf8");
 const source=read("saiyan.js"),html=read("index.html");
 for(const p of ["saiyan.js","saiyan.css","visual-upgrade.css","cinematic-0.8.css",
 "assets/anime-scene-battle-v1.png","assets/anime-scene-ki-v1.png",
+"assets/anime-scene-battle-hd.webp","assets/anime-scene-ki-hd.webp",
 "assets/goku-normal-idle.svg","assets/goku-normal-dash.svg",
 "assets/goku-normal-punch.svg","assets/goku-normal-guard.svg",
 "assets/goku-normal-ki.svg","assets/earth-battle-4k.svg","assets/earth-map-4k.svg"]){
  assert(fs.statSync(path.join(rootDir,p)).size>100,p+" is missing or empty");
 }
 assert(html.includes('cinematic-0.8.css?v=12'),"cinematic stylesheet must load");
-assert(html.includes('saiyan.js?v=15'),"engine asset must be cache-busted");
+assert(html.includes('saiyan.js?v=16'),"engine asset must be cache-busted");
 assert(!source.includes("goku-base-anime.svg?v=1"),"stale cartoon Goku must not be used");
 assert(source.includes('goku-normal-punch.svg?v=8'));
 assert(source.includes('goku-normal-guard.svg?v=8'));
@@ -93,4 +94,14 @@ assert(root.innerHTML.includes("goku-normal"),"cinematic must keep consistent Go
 click("skipscene");
 assert(!root.innerHTML.includes("Błąd silnika gry"),"combat result crashed");
 assert(read("cinematic-0.8.css").includes("ANIME COMBAT 1.0"),"anime polish css is missing");
+
+// Regression: preview HD mode must use new assets, preserving normal mode.
+const hdRoot={innerHTML:"",addEventListener(type,fn){hdListeners[type]=fn},contains(){return true}};
+const hdListeners={};
+const hdSandbox={...sandbox,window:{...sandbox.window,location:{search:"?hd=1"}},document:{...sandbox.document,getElementById(id){return id==="app"?hdRoot:null}}};
+vm.runInNewContext(source,hdSandbox,{timeout:1500});
+assert(hdRoot.innerHTML.includes("anime-scene-battle-hd.webp"),"HD preview must use 920px art");
+const hdButton={disabled:false,getAttribute(n){return n==="data-a"?"quickfight":n==="data-v"?"":null}};
+hdListeners.click({target:{closest(){return hdButton}}});
+assert(hdRoot.innerHTML.includes("anime-scene-battle-hd.webp"),"HD robot battle missing upscaled scene");
 console.log("PASS: menu, character, skill tree, map movement, story, battle, cinematic attack and local graphics.");
