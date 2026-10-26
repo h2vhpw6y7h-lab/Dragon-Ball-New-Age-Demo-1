@@ -41,4 +41,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/anime-scene-battle-hd.webp assets/anime-scene-ki-hd.webp
           git commit -m "Add candidate AI-upscaled anime scenes (920x592)" || exit 0
+          git fetch origin graphics-hd-safe-pass
+          git rebase origin/graphics-hd-safe-pass
           git push origin HEAD:graphics-hd-safe-pass
