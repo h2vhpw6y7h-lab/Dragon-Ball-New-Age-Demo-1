@@ -4,6 +4,9 @@
 const HD_ART=/(?:\\?|&)hd=1(?:&|$)/.test((typeof window!=="undefined"&&window.location&&window.location.search)||"");
 const ANIME_BATTLE=HD_ART?"./assets/anime-scene-battle-hd.webp":"./assets/anime-scene-battle-v1.png";
 const ANIME_KI=HD_ART?"./assets/anime-scene-ki-hd.webp":"./assets/anime-scene-ki-v1.png";
+const CINEMA_4K=/(?:\\?|&)cinema=1(?:&|$)/.test((typeof window!=="undefined"&&window.location&&window.location.search)||"");
+const CINEMA_ART={battle:"./assets/4k/battle-3840x2160.webp",dash:"./assets/4k/dash-3840x2160.webp",charge:"./assets/4k/charge-3840x2160.webp",beam:"./assets/4k/beam-3840x2160.webp",impact:"./assets/4k/impact-3840x2160.webp"};
+const frameAsset=mode=>CINEMA_ART[mode==="vanish"?"dash":mode==="charge"?"charge":mode==="beam"?"beam":mode==="hit"?"impact":"battle"];
 const ROOT=document.getElementById("app"),SAVE="dbna-saiyan-saga-v1",T=68,MW=50,MH=30;
 const PIC={
 goku:"./assets/goku-normal-idle.svg?v=8",
@@ -202,11 +205,13 @@ const m=mode||"battlefield",area=["saiba","saibaBoss","nappa","vegeta","scout"].
 let left=protagonist(),right=b.art;
 if(shot){if(shot.mode==="vanish")left=PIC.gokuDash;else if(shot.mode==="hit")left=PIC.gokuAtk;else if(shot.mode==="counter")left=PIC.gokuDef;else if(shot.mode==="charge"||shot.mode==="beam")left=PIC.gokuAura;}
 const painted=id==="drone",energyFrame=shot&&["charge","beam","hit"].includes(shot.mode||"");
-const paintedSrc=energyFrame?ANIME_KI:ANIME_BATTLE;
-return '<div class="scene-wrap anime-arena '+(painted?"anime-painted ":"")+'arena-'+area+' '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"angle-wide")+' '+(shot?"combat-"+(shot.mode||"wide"):"combat-idle")+'">'+
+const paintedSrc=CINEMA_4K?frameAsset(shot&&shot.mode):energyFrame?ANIME_KI:ANIME_BATTLE;
+const sceneMode=shot&&["vanish","charge","beam","hit","counter"].includes(shot.mode)?shot.mode:"battlefield";
+const sceneFx=CINEMA_4K?'<div class="cinema-fx"><i class="afterimage"></i><i class="rays"></i><i class="shockwave"></i><i class="ki-core"></i></div>':"";
+return '<div class="scene-wrap anime-arena '+(painted?"anime-painted ":"")+(CINEMA_4K?"cinema-4k cinema-shot-"+sceneMode+" ":"")+'arena-'+area+' '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"angle-wide")+' '+(shot?"combat-"+(shot.mode||"wide"):"combat-idle")+'">'+
 '<div class="stage-ground"></div><div class="stage-atmosphere"></div>'+
 (painted?('<img class="painted-scene" src="'+paintedSrc+'" alt="Ilustrowana scena anime" loading="eager" draggable="false">'):('<div class="painted-hero-half" style="background-image:url('+paintedSrc+')" aria-hidden="true"></div>'+gameImage(left,"player-art "+(shot?"pose-"+shot.mode:"pose-idle"),"Goku w formie podstawowej")+gameImage(right,"enemy-art",b.name)))+
-'<div class="aura-burst"></div><div class="impact-ring"></div><div class="combat-speed"></div><div class="combat-sparks"></div>'+
+'<div class="aura-burst"></div><div class="impact-ring"></div><div class="combat-speed"></div><div class="combat-sparks"></div>'+sceneFx+
 (m==="beam"?'<div class="beam"></div>':"")+
 '<div class="flash"></div><div class="shade"></div><div class="scene-name"><span>ZIEMIA • '+esc(b.area.toUpperCase())+'</span><span>'+esc(b.name.toUpperCase())+'</span></div></div>';
 }
@@ -253,7 +258,7 @@ function drawSkills(){const tree=TREES.find(x=>x.id===S.skillTree)||TREES[0];ret
 '<div class="notice">'+(tree.id==="ki"?"Kamehameha wymaga wygranej próby u Mistrza Roshiego na mapie.":"Każda gałąź otwiera nowe podskille i pasywy.")+'</div></div>'+
 '<section class="panel"><div class="panel-title"><h2>Opanowanie technik</h2></div><div class="two">'+MOVES.map(m=>'<div class="stat"><b>'+m.icon+' '+m.name+'</b><span class="value">'+(S.mastery[m.id]||0)+'</span></div>').join("")+'</div><p class="sm muted">Co dziesięć użyć danej techniki otrzymuje ona +5% obrażeń.</p></section>'}
 function drawSettings(){return hdr("Ustawienia")+'<section class="panel gold-edge"><h2>Dragon Ball New Age — wersja 1.0 • Anime Combat</h2><p class="sm">Grywalne demo Sagi Saiyan. Dane zapisują się na tym urządzeniu.</p><div class="choice-grid">'+button("💾 Zapisz","save","","btn-hot")+button("🌍 Mapa","nav","world")+button("↩ Wstecz","nav","home")+'</div><p class="micro">Ilustracje postaci w tej wersji są tymczasowe i pochodzą z zewnętrznych źródeł. Mapa generowana jest przez silnik gry; kolejne kadry i własne grafiki HD wymagają jeszcze dopracowania.</p></section>'}
-function render(){stopCut();if(walkTimer&&S.screen!=="world")stopWalk();let html="";try{switch(S.screen){case"home":html=drawHome();break;case"world":html=drawWorldUI();break;case"battle":html=drawBattle();break;case"cut":html=drawCut();break;case"dialog":html=drawDialogue();break;case"encounter":html=drawEncounter();break;case"result":html=drawResult();break;case"character":html=drawCharacter();break;case"skills":html=drawSkills();break;case"settings":html=drawSettings();break;default:S.screen="home";html=drawHome();}ROOT.innerHTML=html+nav()+'<div id="status-toast" style="position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#2c1d16ed;border:1px solid #ffcc5d;color:#ffe6ad;font-weight:850;padding:9px 16px;border-radius:14px;pointer-events:none;opacity:0;transition:opacity .2s;z-index:100;max-width:88vw;text-align:center"></div>';if(S.screen==="world")setupWorld();if(S.screen==="cut")startCut();}catch(e){console.error(e);ROOT.innerHTML='<div class="panel gold-edge"><h2>Błąd silnika gry</h2><p>'+esc(e.message)+'</p>'+button("Wróć do startu","nav","home","btn-hot")+'</div>'+nav();}}
+function render(){stopCut();if(walkTimer&&S.screen!=="world")stopWalk();let html="";try{switch(S.screen){case"home":html=drawHome();break;case"world":html=drawWorldUI();break;case"battle":html=drawBattle();break;case"cut":html=drawCut();break;case"dialog":html=drawDialogue();break;case"encounter":html=drawEncounter();break;case"result":html=drawResult();break;case"character":html=drawCharacter();break;case"skills":html=drawSkills();break;case"settings":html=drawSettings();break;default:S.screen="home";html=drawHome();}ROOT.innerHTML=html+nav()+'<div id="status-toast" style="position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#2c1d16ed;border:1px solid #ffcc5d;color:#ffe6ad;font-weight:850;padding:9px 16px;border-radius:14px;pointer-events:none;opacity:0;transition:opacity .2s;z-index:100;max-width:88vw;text-align:center"></div>';if(S.screen==="world")setupWorld();if(S.screen==="cut"){startCut();if(CINEMA_4K&&S.scene){const next=S.scene.frames[S.scene.idx+1];if(next){const image=new Image();image.src=frameAsset(next.mode);}}}}catch(e){console.error(e);ROOT.innerHTML='<div class="panel gold-edge"><h2>Błąd silnika gry</h2><p>'+esc(e.message)+'</p>'+button("Wróć do startu","nav","home","btn-hot")+'</div>'+nav();}}
 function navigate(screen){if(screen==="battle"&&!S.battle)screen="world";S.screen=screen;save();render()}
 function heal(){S.hp=maxHP();S.energy=maxKI();S.loc={x:5,y:6,steps:S.loc.steps};save();S.screen="world";render();toast("Wojownik wypoczął. HP i KI odnowione.")}
 function newGame(){if(S.level>1||S.chapter>0){if(!confirm("Rozpocząć nową grę? Postęp Sagi Saiyan zostanie wyzerowany."))return;}S=make();S.hp=maxHP();S.energy=maxKI();save();S.screen="dialog";S.dialog={lines:[{who:"Narrator",text:"Na Ziemię przybywają dwaj Saiyanie. Ich siła przekracza wszystko, co znali obrońcy planety."},{who:"Krillin",text:"Nappa i Vegeta są już na Ziemi! Najpierw musimy rozprawić się z Saibamenami!"},{who:"Goku",text:"Najpierw przygotuję się do walki. Zdobędę doświadczenie i dopiero wtedy ruszę do ich obozu."}],idx:0,after:{kind:"map"}};render()}
@@ -296,16 +301,21 @@ let playerDodge=Math.random()<clamp(.08+val("spd")*.007+rank("teleport")*.06,.04
 if(playerDodge)enemyHit=0;
 let frames=[
 {mode:"battlefield",heading:"NAPRZECIW SIEBIE",text:"Goku i "+e.name+" wymieniają pierwsze ciosy.",label:"STARCIE"},
+{mode:"vanish",heading:"START — ZERWANIE DYSTANSU!",text:"Błyskawiczny pierwszy krok, pył zostaje daleko w tyle.",label:"START"},
 {mode:m.type==="ki"?"charge":"vanish",heading:m.type==="ki"?"KONCENTRACJA KI":"BŁYSK!",text:m.type==="ki"?"Energia zbiera się w dłoniach Goku.":"Goku przyspiesza i znika z pola widzenia!",label:"PRZYGOTOWANIE"},
 {mode:"vanish",heading:"PÓŁ SEKUNDY!",text:"Seria błyskawicznych doskoków. Przeciwnik traci wojownika z oczu.",label:"SZYBKOŚĆ"},
 {mode:m.type==="ki"?"charge":"counter",heading:m.type==="ki"?"KULMINACJA MOCY":"ZDERZENIE!",text:m.type==="ki"?"Kamienie unoszą się od ciśnienia energii.":"Pięści zderzają się, a skały pękają pod stopami.",label:"NAPIĘCIE"},
 {mode:m.type==="ki"?"beam":"hit",heading:m.type==="ki"?"WYSTRZAŁ KI!":"CIOS ZA CIOSEM!",text:m.type==="ki"?"Fala energii przecina pole bitwy!":"Kombinacja ciosów trafia przeciwnika!",label:"ATAK"}
 ];
+frames.push({mode:m.type==="ki"?"charge":"counter",heading:m.type==="ki"?"NARASTANIE ENERGII":"ZMIANA GARDY",text:m.type==="ki"?"Wokół dłoni wirują błękitne iskry.":"Przeciwnik nie nadąża za kolejną zmianą tempa.",label:"DRAMATURGIA"});
 if(m.frames>=5){
 frames.push({mode:"vanish",heading:"POWIDOK!",text:"Szybki ruch rozdziela powietrze — bohater znika za przeciwnikiem.",label:"ZMIANA POZYCJI"});
 frames.push({mode:"hit",heading:"COMBO!",text:"Potężne uderzenie odbija przeciwnika od skalnej ściany.",label:"CIOS"});
 frames.push({mode:"counter",heading:"ODRZUT!",text:"Odłamki skał i fala uderzeniowa przecinają pole bitwy.",label:"IMPULS"});
 }
+if(m.type==="ki")frames.push({mode:"beam",heading:"PRZEŁAMANIE OBRONY!",text:"Druga fala uderzeniowa rozświetla całe pole bitwy.",label:"PRZEBICIE"});
+if(m.type==="combo")frames.push({mode:"vanish",heading:"PRZESKOK ZA PLECY!",text:"Seria błysków i powidoków, przeciwnik zostaje za plecami.",label:"TELEPORT"});
+frames.push({mode:"hit",heading:"FALA UDERZENIOWA!",text:"Wyrzucone odłamki skał przecinają powietrze.",label:"EFEKT"});
 if(counter)frames.push({mode:"counter",heading:"KONTRA!",text:e.name+" próbuje odpowiedzieć błyskawicznym ciosem!",label:"KONTRATAK"});
 else if(dodge)frames.push({mode:"vanish",heading:"UNIK!",text:e.name+" częściowo unika nadchodzącej techniki.",label:"POWIDOK"});
 else if(guard)frames.push({mode:"counter",heading:"BLOK!",text:e.name+" osłania się przed uderzeniem.",label:"OBRONA"});
@@ -322,7 +332,7 @@ S.scene=null;if(b.hp<=0){win(b.enemy);return;}
 S.hp=Math.max(0,S.hp-c.enemyHit);if(c.enemyHit)b.log.push("Kontra wroga: -"+c.enemyHit+" HP");else b.log.push("Unik udany! Brak obrażeń.");
 S.energy=Math.min(maxKI(),S.energy+10+rank("recovery")*3);b.turn++;if(S.hp<=0){lose(b.enemy);return;}save();S.screen="battle";render()}
 function stopCut(){if(cutTimer){clearTimeout(cutTimer);cutTimer=null}}
-function startCut(){stopCut();if(S.screen==="cut"&&S.scene){cutTimer=setTimeout(()=>{cutTimer=null;advanceFrame()},1450)}}
+function startCut(){stopCut();if(S.screen==="cut"&&S.scene){const frame=S.scene.frames[S.scene.idx];const ms=CINEMA_4K?({vanish:870,charge:1100,beam:850,hit:820,counter:980,battlefield:1000}[frame.mode]||1050):1450;cutTimer=setTimeout(()=>{cutTimer=null;advanceFrame()},ms)}}
 function advanceFrame(skip){stopCut();if(!S.scene)return;if(!skip&&S.scene.idx<S.scene.frames.length-1){S.scene.idx++;render();return;}finishScene();}
 function escapeFight(){let b=S.battle;if(!b)return;S.battle=null;S.scene=null;S.screen="world";save();render();toast("Wycofano się z walki.")}
 function learn(id){let n=TREES.flatMap(t=>t.nodes).find(x=>x.id===id);if(!n||S.skillPts<1||S.level<n.lv||(n.req&&!rank(n.req))||rank(n.id)>=n.max){toast("Ta umiejętność jest jeszcze zablokowana.");return}if(n.id==="kame"&&!S.roshi){toast("Najpierw pokonaj Mistrza Roshiego.");return}S.skills[id]=rank(id)+1;S.skillPts--;save();render();}
