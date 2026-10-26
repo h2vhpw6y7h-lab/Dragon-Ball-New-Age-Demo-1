@@ -11,7 +11,7 @@ button[aria-pressed=true]{color:#17203a;background:linear-gradient(#ffe6a1,#ff9c
 .panel{padding:clamp(10px,2.5vw,20px);border:2px solid #ffbb5e;border-radius:18px;background:#10243d;box-shadow:0 12px 50px #0009}
 .compare{position:relative;aspect-ratio:199/128;width:100%;overflow:hidden;isolation:isolate;border-radius:12px;background:#040d19;--split:50%}
 .compare img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:fill}
-.compare .before{z-index:1;image-rendering:auto}.compare .after{z-index:2;clip-path:inset(0 calc(100% - var(--split)) 0 0)}
+.compare .before{z-index:1;image-rendering:auto}.compare .after{z-index:2;clip-path:inset(0 0 0 var(--split))}
 .compare .marker{position:absolute;z-index:3;left:var(--split);top:0;bottom:0;width:3px;background:#fff;box-shadow:0 0 12px #000;transform:translateX(-50%);pointer-events:none}
 .compare .marker:after{content:'↔';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;color:#123554;border-radius:100%;font-size:24px;display:grid;place-items:center;width:48px;height:48px}
 input[type=range]{display:block;width:100%;margin:16px 0 8px;accent-color:#ffc66b;height:32px;touch-action:pan-x}
