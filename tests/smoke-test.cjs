@@ -9,6 +9,7 @@ const read=(p)=>fs.readFileSync(path.join(rootDir,p),"utf8");
 const source=read("saiyan.js"),html=read("index.html");
 for(const p of ["saiyan.js","saiyan.css","visual-upgrade.css","cinematic-0.8.css",
 "assets/anime-scene-battle-v1.png","assets/anime-scene-ki-v1.png",
+"assets/anime-scene-battle-hd.webp","assets/anime-scene-ki-hd.webp",
 "assets/goku-normal-idle.svg","assets/goku-normal-dash.svg",
 "assets/goku-normal-punch.svg","assets/goku-normal-guard.svg",
 "assets/goku-normal-ki.svg","assets/earth-battle-4k.svg","assets/earth-map-4k.svg"]){
