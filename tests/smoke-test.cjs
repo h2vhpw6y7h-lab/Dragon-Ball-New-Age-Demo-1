@@ -14,8 +14,8 @@ for(const p of ["saiyan.js","saiyan.css","visual-upgrade.css","cinematic-0.8.css
 "assets/goku-normal-ki.svg","assets/earth-battle-4k.svg","assets/earth-map-4k.svg"]){
  assert(fs.statSync(path.join(rootDir,p)).size>100,p+" is missing or empty");
 }
-assert(html.includes('cinematic-0.8.css?v=11'),"cinematic stylesheet must load");
-assert(html.includes('saiyan.js?v=14'),"engine asset must be cache-busted");
+assert(html.includes('cinematic-0.8.css?v=12'),"cinematic stylesheet must load");
+assert(html.includes('saiyan.js?v=15'),"engine asset must be cache-busted");
 assert(!source.includes("goku-base-anime.svg?v=1"),"stale cartoon Goku must not be used");
 assert(source.includes('goku-normal-punch.svg?v=8'));
 assert(source.includes('goku-normal-guard.svg?v=8'));
@@ -85,6 +85,7 @@ assert(root.innerHTML.includes('data-a="nextdialog"'),"story dialog not triggere
 for(let n=0;n<12&&root.innerHTML.includes('data-a="nextdialog"');n++)click("nextdialog");
 assert(root.innerHTML.includes("MENU WALKI")||root.innerHTML.includes("Menu walki"),"battle menu unavailable after dialog");
 assert(root.innerHTML.includes("anime-arena"),"new arena not drawn");
+assert(root.innerHTML.includes("painted-hero-half"),"Non-robot battle must also show anime warrior illustration");
 click("move","punch");
 assert(root.innerHTML.includes('KADR 1 /'),"combat frame not started");
 assert(root.innerHTML.includes("anime-arena"),"cinematic arena not used");

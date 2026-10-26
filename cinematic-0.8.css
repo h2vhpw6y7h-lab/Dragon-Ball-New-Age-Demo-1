@@ -264,3 +264,9 @@ html{scroll-padding-top:65px;-webkit-text-size-adjust:100%}
 .scene-wrap.anime-painted .combat-sparks{z-index:9}
 .scene-wrap.anime-painted .flash{z-index:11}
 .scene-wrap.anime-painted .damage{z-index:12}
+
+/* The anime warrior is used in all battles, not just training robots. */
+.scene-wrap.anime-arena:not(.anime-painted) .painted-hero-half{position:absolute;z-index:3;inset:0 auto 0 0;width:54%;background-image:url('./assets/anime-scene-battle-v1.png');background-size:185.185% 100%;background-position:left center;background-repeat:no-repeat;-webkit-mask-image:linear-gradient(90deg,#000 60%,#000e 78%,transparent 100%);mask-image:linear-gradient(90deg,#000 60%,#000e 78%,transparent 100%);filter:saturate(1.16) contrast(1.06)}
+.scene-wrap.anime-arena:not(.anime-painted) .player-art{display:none!important}
+.scene-wrap.anime-arena:not(.anime-painted).combat-charge .painted-hero-half,.scene-wrap.anime-arena:not(.anime-painted).combat-beam .painted-hero-half,.scene-wrap.anime-arena:not(.anime-painted).combat-hit .painted-hero-half{background-image:url('./assets/anime-scene-ki-v1.png')}
+.scene-wrap.anime-arena:not(.anime-painted) .enemy-art{z-index:4}

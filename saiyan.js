@@ -202,7 +202,7 @@ const painted=id==="drone",energyFrame=shot&&["charge","beam","hit"].includes(sh
 const paintedSrc=energyFrame?"./assets/anime-scene-ki-v1.png":"./assets/anime-scene-battle-v1.png";
 return '<div class="scene-wrap anime-arena '+(painted?"anime-painted ":"")+'arena-'+area+' '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"angle-wide")+' '+(shot?"combat-"+(shot.mode||"wide"):"combat-idle")+'">'+
 '<div class="stage-ground"></div><div class="stage-atmosphere"></div>'+
-(painted?('<img class="painted-scene" src="'+paintedSrc+'" alt="Ilustrowana scena anime" loading="eager" draggable="false">'):(gameImage(left,"player-art "+(shot?"pose-"+shot.mode:"pose-idle"),"Goku w formie podstawowej")+gameImage(right,"enemy-art",b.name)))+
+(painted?('<img class="painted-scene" src="'+paintedSrc+'" alt="Ilustrowana scena anime" loading="eager" draggable="false">'):('<div class="painted-hero-half" aria-hidden="true"></div>'+gameImage(left,"player-art "+(shot?"pose-"+shot.mode:"pose-idle"),"Goku w formie podstawowej")+gameImage(right,"enemy-art",b.name)))+
 '<div class="aura-burst"></div><div class="impact-ring"></div><div class="combat-speed"></div><div class="combat-sparks"></div>'+
 (m==="beam"?'<div class="beam"></div>':"")+
 '<div class="flash"></div><div class="shade"></div><div class="scene-name"><span>ZIEMIA • '+esc(b.area.toUpperCase())+'</span><span>'+esc(b.name.toUpperCase())+'</span></div></div>';
