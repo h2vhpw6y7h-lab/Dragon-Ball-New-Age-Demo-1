@@ -145,3 +145,107 @@ body{background:
 @media(prefers-reduced-motion:reduce){
  .scene-wrap.anime-arena *, .tech.ultimate:after{animation:none!important;transition:none!important}
 }
+
+/* ANIME COMBAT 1.0 — premium UI driven by the player's reference screenshots.
+   Pure presentation: existing quests, saves, skills, maps and battle rules remain active. */
+:root{--anime-gold:#ffd26b;--anime-hot:#ff9a31;--anime-blue:#5bceff;--anime-navy:#081229}
+html{scroll-padding-top:65px;-webkit-text-size-adjust:100%}
+#app{max-width:1180px;padding-left:clamp(9px,2.2vw,22px);padding-right:clamp(9px,2.2vw,22px)}
+.top.compact{min-height:68px;padding:5px 0 12px}
+.logo{font-weight:1000;font-style:italic;letter-spacing:-.4px;line-height:1;filter:drop-shadow(1px 2px 0 #3e1323) drop-shadow(0 0 12px #ff892862)}
+.logo em{display:block;letter-spacing:4px;color:#64daff;font-size:.5em;margin-left:32%;margin-top:4px;text-shadow:0 2px 0 #184688}
+.topside .coin{background:linear-gradient(145deg,#0e2a4f,#07142d);border-color:#ffca65;box-shadow:0 2px 16px #0006;color:#ffe89c;padding:10px 13px}
+.panel{background:linear-gradient(132deg,#172c50f0,#0a1730 70%);border:1.5px solid #5987be;border-radius:17px;box-shadow:inset 0 1px 0 #cfe6ff23,0 12px 28px #0007}
+.panel.gold-edge{border:2px solid #f7b85c;box-shadow:0 0 0 1px #7f422675,inset 0 1px 0 #ffeab442,0 14px 26px #0009}
+.flame{background:linear-gradient(180deg,#fff5b5,#ffce59 35%,#ff8a29 72%,#ee5121);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(1px 3px 0 #5b2517) drop-shadow(0 0 10px #fa7d4350);font-style:italic}
+.hero-cover{box-shadow:0 0 0 1px #ffd98b7b,0 14px 30px #0009}
+.tile-menu{gap:10px}
+.tile.quick-duel{background:linear-gradient(127deg,#493019,#1b2b59 70%,#0b213f);border:2px solid #ffe199;box-shadow:0 0 22px #ff9f3155,inset 0 0 20px #eb892020}
+.tile.quick-duel strong{color:#fff0ae}
+.battle-hud{gap:clamp(5px,1.4vw,15px);align-items:stretch}
+.hud-side{padding:5px;border-radius:10px;background:linear-gradient(142deg,#102447e3,#09152bea)}
+.hud-side strong{font-weight:950;letter-spacing:.3px;text-shadow:0 1px 5px #000}
+.fighter-row .portrait{border:2px solid #eab45d;background:radial-gradient(circle at 60% 30%,#4d84c6,#061731);box-shadow:0 0 0 2px #2b4569}
+.hud-side.enemy .portrait{border-color:#c876fa}
+.hud-round{background:linear-gradient(150deg,#18355c,#071732);border:2px solid #5e9bc9;color:#ffe39b;font-size:clamp(16px,3.3vw,25px);font-weight:1000;line-height:1.2;min-width:60px;align-content:center;text-shadow:0 2px 9px #ffc04a70}
+.hud-side .bar{height:13px;border:1px solid #496889;border-radius:24px;overflow:hidden;background:#173251}
+.hud-side .bar>span{box-shadow:inset 0 2px 1px #fff5a433,0 0 15px currentColor}
+.combo-meter{padding:11px 13px;gap:13px;background:linear-gradient(110deg,#122849,#091b35);border:1px solid #70b2df;border-radius:20px;font-size:clamp(12px,2.5vw,18px);min-height:53px}
+.combo-meter>.gold{white-space:nowrap;color:#ffd06a;font-weight:1000}
+.combo-meter .bar{height:13px;border-radius:25px;border:1px solid #4c7692;background:#0a1d36;overflow:hidden}
+.battle-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.battle-layout>.panel{min-width:0}
+.scene-wrap.anime-arena{border:2px solid #ffc96c;border-radius:16px;box-shadow:inset 0 0 35px #0009,0 0 0 1px #6b3d2766,0 18px 35px #0008;
+ background-image:radial-gradient(ellipse at 19% 32%,#f7be3760,transparent 47%),radial-gradient(ellipse at 85% 40%,#7c35fb4f,transparent 47%),url('./assets/earth-battle-4k.svg');background-position:center;background-size:cover}
+.scene-wrap.anime-arena:before{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(155deg,transparent 0 49px,#e3faff0b 50px 51px,transparent 52px 77px);opacity:.5}
+.scene-wrap.anime-arena .player-art{z-index:3;left:-1%;height:110%;width:49%;object-fit:contain;object-position:bottom center;filter:drop-shadow(0 7px 8px #000c) drop-shadow(-5px 0 16px #ffab2888)}
+.scene-wrap.anime-arena .enemy-art{z-index:3;right:0;bottom:-7%;height:110%;width:48%;object-fit:contain;object-position:bottom center;filter:drop-shadow(0 7px 8px #000c) drop-shadow(5px 0 17px #ac52ff99)}
+.scene-wrap.anime-arena .stage-atmosphere{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at 23% 59%,#ffb7322b,transparent 34%),radial-gradient(circle at 75% 57%,#b52dff22,transparent 34%)}
+.scene-wrap.anime-arena .aura-burst{z-index:4}
+.scene-wrap.anime-arena .impact-ring{z-index:5}
+.scene-wrap.anime-arena .combat-speed{z-index:6}
+.scene-wrap.anime-arena .combat-sparks{z-index:7}
+.scene-wrap.anime-arena .shade{z-index:8}
+.scene-wrap.anime-arena .scene-name{z-index:10;background:linear-gradient(90deg,#041127d9,#0b1b3aae);border:1px solid #ffd16d68;color:#fff9e6}
+.scene-wrap.anime-arena .flash{z-index:9}
+.scene-wrap.anime-arena .beam{z-index:8}
+.scene-wrap.anime-arena .damage{z-index:11}
+.scene-wrap.anime-arena.combat-beam .player-art{transform:translateX(3%) scale(1.13)}
+.scene-wrap.anime-arena.combat-beam .enemy-art{transform:translateX(7%) rotate(7deg)}
+.scene-wrap.anime-arena.combat-hit .enemy-art{transform:translate(10%,-2%) rotate(8deg)}
+.battle-actions .panel-title h2{text-transform:uppercase;color:#f5f9ff;font-size:clamp(21px,3vw,29px);letter-spacing:1px}
+.battle-actions .panel-title .label{border-color:#5ad4ff;color:#97eaff}
+.command-tabs{margin:14px 0;gap:8px}
+.command-tabs button{border:1px solid #578dc3;background:linear-gradient(160deg,#142e4d,#07182d);border-radius:11px;color:#d5ecff;font-size:clamp(12px,2.2vw,15px);min-height:48px}
+.command-tabs .current{background:linear-gradient(130deg,#fff0a5,#ffc24e,#ff972f);color:#17203b;border:2px solid #fff2ac;box-shadow:0 0 14px #ffc35643}
+.tech-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.tech{min-height:102px;display:grid;grid-template-columns:auto minmax(0,1fr);align-content:center;align-items:center;gap:3px 9px;padding:12px;border:1.5px solid #428bcb;background:linear-gradient(137deg,#1c4477,#0a1d3d 84%);border-radius:13px;box-shadow:inset 0 2px 0 #b9ecff1b,0 4px 10px #0008;position:relative}
+.tech .icon{grid-row:span 3;font-size:clamp(25px,4vw,35px);filter:drop-shadow(0 0 8px #59c8ff77)}
+.tech strong{font-size:clamp(13px,2.4vw,17px);line-height:1.15;color:#fff}
+.tech p{font-size:12px;line-height:1.25;color:#c5e3fa}
+.tech small{font-size:11px;line-height:1.2;color:#79dfff}
+.tech.ultimate{background:linear-gradient(125deg,#4c2931,#1a3156 70%);border-color:#ffaf53;box-shadow:inset 0 1px #ffe4a444,0 0 12px #ff994233}
+.tech:disabled{opacity:.45;filter:grayscale(.4)}
+.tech:not(:disabled):active{transform:translateY(2px) scale(.99);border-color:#fff4a0}
+.cut-stage{grid-template-columns:minmax(0,1fr);gap:14px}
+.cut-stage>.scene-wrap,.cut-stage>div>.scene-wrap{width:100%;min-height:unset;aspect-ratio:16/9}
+.cut-dialogue{background:linear-gradient(135deg,#172f56,#081832 87%);border:1.5px solid #59b0eb;border-radius:17px;padding:clamp(13px,3vw,22px);box-shadow:inset 0 1px #7fbff522}
+.cut-dialogue .flame{font-size:clamp(29px,6vw,50px);margin:6px 0 9px}
+.cut-dialogue p{font-size:clamp(15px,2.5vw,21px);margin:5px 0 19px;color:#e9f3ff}
+.cut-progress{gap:6px}
+.cut-progress span{height:10px;border-radius:30px;background:#12314d;border:1px solid #266180}
+.cut-progress span.done{background:linear-gradient(110deg,#ff9233,#fff18d);box-shadow:0 0 9px #ffad4833}
+.cut-controls{gap:10px;margin-top:13px}
+.cut-controls button{font-size:clamp(13px,2.4vw,19px);min-height:56px;border-radius:12px}
+.cut-controls .btn-hot{border:2px solid #fff4bb;box-shadow:0 0 15px #ff9f477d,0 4px 0 #873912}
+.bottomnav{height:calc(74px + env(safe-area-inset-bottom));background:linear-gradient(90deg,#07142bfc,#091831f9);border-top:2px solid #cc7d38;padding:8px 5px calc(8px + env(safe-area-inset-bottom))}
+.bottomnav button{font-size:clamp(10px,2vw,13px);font-weight:850;flex:1;min-width:0;border-radius:10px}
+.bottomnav button b{font-size:clamp(20px,4.5vw,29px)}
+.bottomnav button.active{background:linear-gradient(#29436a5e,#0f213444);color:#ffe27f;box-shadow:inset 0 3px #ffca6f}
+@media(min-width:1000px){.battle-layout{grid-template-columns:1.06fr .94fr}.cut-stage{grid-template-columns:1.1fr .9fr}.cut-stage .scene-wrap{min-height:340px}}
+@media(max-width:760px){
+ #app{padding-bottom:calc(105px + env(safe-area-inset-bottom))}
+ .battle-layout,.cut-stage{grid-template-columns:1fr}
+ .hud-side .fighter-row .portrait{width:48px;height:48px}
+ .tech-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .tech{min-height:93px}
+ .scene-wrap.anime-arena{aspect-ratio:16/10}
+ .combo-meter{min-height:51px}
+ .hud-round{min-width:48px;padding:8px 5px}
+}
+@media(max-width:390px){.hud-side .fighter-row .portrait{width:38px;height:38px}.hud-side strong{font-size:12px}.tech{padding:8px}.command-tabs button{font-size:11px;min-width:59px}.hud-round{font-size:14px}}
+@media(orientation:landscape) and (max-height:520px){
+ .top.compact{min-height:44px}
+ .battle-layout{grid-template-columns:1.05fr .95fr}
+ .scene-wrap.anime-arena{aspect-ratio:16/9}
+ .tech-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .tech{min-height:75px;padding:8px}
+ .battle-actions .panel-title h2{font-size:19px}
+ .cut-stage{grid-template-columns:1fr 1fr}
+ .cut-dialogue .flame{font-size:23px}
+ .cut-controls button{min-height:40px}
+ .bottomnav{height:calc(55px + env(safe-area-inset-bottom))}
+ .bottomnav button b{font-size:19px}
+ #app{padding-bottom:calc(75px + env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){.scene-wrap.anime-arena .player-art,.scene-wrap.anime-arena .enemy-art{animation:none!important}}

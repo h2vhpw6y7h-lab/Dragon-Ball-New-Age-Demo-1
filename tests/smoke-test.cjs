@@ -13,8 +13,8 @@ for(const p of ["saiyan.js","saiyan.css","visual-upgrade.css","cinematic-0.8.css
 "assets/goku-normal-ki.svg","assets/earth-battle-4k.svg","assets/earth-map-4k.svg"]){
  assert(fs.statSync(path.join(rootDir,p)).size>100,p+" is missing or empty");
 }
-assert(html.includes('cinematic-0.8.css?v=8'),"cinematic stylesheet must load");
-assert(html.includes('saiyan.js?v=12'),"engine asset must be cache-busted");
+assert(html.includes('cinematic-0.8.css?v=10'),"cinematic stylesheet must load");
+assert(html.includes('saiyan.js?v=13'),"engine asset must be cache-busted");
 assert(!source.includes("goku-base-anime.svg?v=1"),"stale cartoon Goku must not be used");
 assert(source.includes('goku-normal-punch.svg?v=8'));
 assert(source.includes('goku-normal-guard.svg?v=8'));
@@ -62,6 +62,13 @@ function click(action,val=""){
  listeners.click({target:{closest(){return btn}}});
  if(root.innerHTML.includes("Błąd silnika gry"))throw Error("Engine error after "+action+":"+val);
 }
+click("quickfight");
+assert(root.innerHTML.includes("Robot treningowy"),"quick duel must start against training robot");
+assert(root.innerHTML.includes("MENU WALKI")||root.innerHTML.includes("Menu walki"),"quick duel must reach battle UI");
+click("move","punch");
+assert(root.innerHTML.includes("KADR 1 /"),"quick duel must start cinematic frames");
+click("skipscene");
+click("nav","home");
 click("nav","character");
 assert(root.innerHTML.includes("Atrybuty postaci"),"character menu unavailable");
 click("nav","skills");
@@ -81,4 +88,5 @@ assert(root.innerHTML.includes("anime-arena"),"cinematic arena not used");
 assert(root.innerHTML.includes("goku-normal"),"cinematic must keep consistent Goku");
 click("skipscene");
 assert(!root.innerHTML.includes("Błąd silnika gry"),"combat result crashed");
+assert(read("cinematic-0.8.css").includes("ANIME COMBAT 1.0"),"anime polish css is missing");
 console.log("PASS: menu, character, skill tree, map movement, story, battle, cinematic attack and local graphics.");

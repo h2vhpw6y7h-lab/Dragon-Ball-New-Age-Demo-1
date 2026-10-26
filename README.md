@@ -18,3 +18,10 @@
 - Grafika mapy i sceny jest skalowalnym 4K SVG, nie rasterem 4K. Nie oznacza to renderowania 3840 pikseli na fizycznym ekranie iPhone'a.
 - Nie wgrano całych 668 binarnych PNG do GitHub Pages; zajęłyby wiele megabajtów. Zoptymalizowaną paczkę SSJ trzymamy osobno do kolejnego etapu importu.
 - Obce obrazy kart i postaci pozostają własnością twórców gry źródłowej; używanie publicznego repozytorium z grafikami nie daje licencji.
+
+
+## Anime Combat 1.0 — 26.10.2026
+- Nowy wizualny standard na bazie przesłanych zrzutów i makiet: granatowe i złote panele, cinematic 2.5D, widoczny licznik Combo, filmy ataku po sekwencjach, duże przyciski w Safari.
+- **Walka testowa** dostępna bezpośrednio na starcie: 1 kliknięcie uruchamia pojedynek z robotem, bez zerowania zapisu.
+- Filmowe kadry ataków już w silniku; skille, mapa i trening pozostają w istniejącej grze.
+- Wersja web/PWA fanowska; obrazy walki nadal są rysowanymi wektorowo grafikami i efektami CSS, nie animacją 4K poklatkową. Obecny build wymaga połączenia przy pierwszym uruchomieniu.
