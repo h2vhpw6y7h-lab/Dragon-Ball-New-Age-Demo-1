@@ -25,3 +25,9 @@
 - **Walka testowa** dostępna bezpośrednio na starcie: 1 kliknięcie uruchamia pojedynek z robotem, bez zerowania zapisu.
 - Filmowe kadry ataków już w silniku; skille, mapa i trening pozostają w istniejącej grze.
 - Wersja web/PWA fanowska; obrazy walki nadal są rysowanymi wektorowo grafikami i efektami CSS, nie animacją 4K poklatkową. Obecny build wymaga połączenia przy pierwszym uruchomieniu.
+
+
+## Manga-art pass (26.10.2026)
+- Dwa oryginalnie wygenerowane rastrowe obrazy zostały zapisane w `assets/anime-scene-battle-v1.png` i `assets/anime-scene-ki-v1.png`.
+- W walce z robotem i animacji Ki silnik wyświetla nową grafikę zamiast prostych SVG; nowa grafika pojawia się także na ekranie startowym.
+- Aktualny import ma tylko 199×128 px. To wersja przejściowa, a nie docelowe HD. Inni przeciwnicy nadal używają wcześniejszych zastępczych sprite'ów.

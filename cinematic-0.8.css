@@ -249,3 +249,18 @@ html{scroll-padding-top:65px;-webkit-text-size-adjust:100%}
  #app{padding-bottom:calc(75px + env(safe-area-inset-bottom))}
 }
 @media(prefers-reduced-motion:reduce){.scene-wrap.anime-arena .player-art,.scene-wrap.anime-arena .enemy-art{animation:none!important}}
+
+/* Raster anime artwork v1 — characters no longer simple SVGs in robot battle */
+.hero-cover .hero-image{background-size:cover!important;background-position:center!important}
+.hero-cover .home-goku{display:none!important}
+.scene-wrap.anime-painted{background:#142850}
+.scene-wrap.anime-painted:before,.scene-wrap.anime-painted .stage-ground,.scene-wrap.anime-painted .stage-atmosphere{display:none!important}
+.scene-wrap.anime-painted .player-art,.scene-wrap.anime-painted .enemy-art{display:none!important}
+.scene-wrap.anime-painted .painted-scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:block;filter:saturate(1.14) contrast(1.06)}
+.scene-wrap.anime-painted .aura-burst{opacity:.1}
+.scene-wrap.anime-painted .beam{opacity:.2}
+.scene-wrap.anime-painted .scene-name{z-index:11}
+.scene-wrap.anime-painted .shade{z-index:10}
+.scene-wrap.anime-painted .combat-sparks{z-index:9}
+.scene-wrap.anime-painted .flash{z-index:11}
+.scene-wrap.anime-painted .damage{z-index:12}

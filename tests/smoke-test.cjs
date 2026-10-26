@@ -8,13 +8,14 @@ const rootDir=path.resolve(__dirname,"..");
 const read=(p)=>fs.readFileSync(path.join(rootDir,p),"utf8");
 const source=read("saiyan.js"),html=read("index.html");
 for(const p of ["saiyan.js","saiyan.css","visual-upgrade.css","cinematic-0.8.css",
+"assets/anime-scene-battle-v1.png","assets/anime-scene-ki-v1.png",
 "assets/goku-normal-idle.svg","assets/goku-normal-dash.svg",
 "assets/goku-normal-punch.svg","assets/goku-normal-guard.svg",
 "assets/goku-normal-ki.svg","assets/earth-battle-4k.svg","assets/earth-map-4k.svg"]){
  assert(fs.statSync(path.join(rootDir,p)).size>100,p+" is missing or empty");
 }
-assert(html.includes('cinematic-0.8.css?v=10'),"cinematic stylesheet must load");
-assert(html.includes('saiyan.js?v=13'),"engine asset must be cache-busted");
+assert(html.includes('cinematic-0.8.css?v=11'),"cinematic stylesheet must load");
+assert(html.includes('saiyan.js?v=14'),"engine asset must be cache-busted");
 assert(!source.includes("goku-base-anime.svg?v=1"),"stale cartoon Goku must not be used");
 assert(source.includes('goku-normal-punch.svg?v=8'));
 assert(source.includes('goku-normal-guard.svg?v=8'));
@@ -63,12 +64,14 @@ function click(action,val=""){
  if(root.innerHTML.includes("Błąd silnika gry"))throw Error("Engine error after "+action+":"+val);
 }
 click("quickfight");
+assert(root.innerHTML.includes("anime-scene-battle-v1.png"),"Robot fight must show raster anime art");
 assert(root.innerHTML.includes("Robot treningowy"),"quick duel must start against training robot");
 assert(root.innerHTML.includes("MENU WALKI")||root.innerHTML.includes("Menu walki"),"quick duel must reach battle UI");
 click("move","punch");
 assert(root.innerHTML.includes("KADR 1 /"),"quick duel must start cinematic frames");
 click("skipscene");
 click("nav","home");
+assert(root.innerHTML.includes("anime-scene-battle-v1.png"),"Home must display new illustrated background");
 click("nav","character");
 assert(root.innerHTML.includes("Atrybuty postaci"),"character menu unavailable");
 click("nav","skills");
