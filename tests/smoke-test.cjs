@@ -10,13 +10,16 @@ const source=read("saiyan.js"),html=read("index.html");
 for(const p of ["saiyan.js","saiyan.css","visual-upgrade.css","cinematic-0.8.css",
 "assets/anime-scene-battle-v1.png","assets/anime-scene-ki-v1.png",
 "assets/anime-scene-battle-hd.webp","assets/anime-scene-ki-hd.webp",
+"assets/4k/battle-3840x2160.webp","assets/4k/dash-3840x2160.webp",
+"assets/4k/charge-3840x2160.webp","assets/4k/beam-3840x2160.webp",
+"assets/4k/impact-3840x2160.webp",
 "assets/goku-normal-idle.svg","assets/goku-normal-dash.svg",
 "assets/goku-normal-punch.svg","assets/goku-normal-guard.svg",
 "assets/goku-normal-ki.svg","assets/earth-battle-4k.svg","assets/earth-map-4k.svg"]){
  assert(fs.statSync(path.join(rootDir,p)).size>100,p+" is missing or empty");
 }
-assert(html.includes('cinematic-0.8.css?v=12'),"cinematic stylesheet must load");
-assert(html.includes('saiyan.js?v=16'),"engine asset must be cache-busted");
+assert(html.includes('cinematic-0.8.css?v=13'),"cinematic stylesheet must load");
+assert(html.includes('saiyan.js?v=17'),"engine asset must be cache-busted");
 assert(!source.includes("goku-base-anime.svg?v=1"),"stale cartoon Goku must not be used");
 assert(source.includes('goku-normal-punch.svg?v=8'));
 assert(source.includes('goku-normal-guard.svg?v=8'));
@@ -104,4 +107,22 @@ assert(hdRoot.innerHTML.includes("anime-scene-battle-hd.webp"),"HD preview must 
 const hdButton={disabled:false,getAttribute(n){return n==="data-a"?"quickfight":n==="data-v"?"":null}};
 hdListeners.click({target:{closest(){return hdButton}}});
 assert(hdRoot.innerHTML.includes("anime-scene-battle-hd.webp"),"HD robot battle missing upscaled scene");
+
+// Cinema-4K is opt-in and must preserve the older mode and player progression.
+const cinemaListeners={};
+const cinemaRoot={innerHTML:"",addEventListener(type,fn){cinemaListeners[type]=fn},contains(){return true}};
+const cinemaSandbox={...sandbox,window:{...sandbox.window,location:{search:"?cinema=1"}},document:{...sandbox.document,getElementById(id){return id==="app"?cinemaRoot:null}}};
+vm.runInNewContext(source,cinemaSandbox,{timeout:2000});
+assert(cinemaRoot.innerHTML.includes("anime-scene-battle-v1.png"),"Cinema does not replace the existing home screen");
+function cinemaClick(action,val=""){const btn={disabled:false,getAttribute(n){return n==="data-a"?action:n==="data-v"?val:null}};cinemaListeners.click({target:{closest(){return btn}}});assert(!cinemaRoot.innerHTML.includes("Błąd silnika gry"),"Cinema engine error: "+action);}
+cinemaClick("quickfight");
+assert(cinemaRoot.innerHTML.includes("cinema-4k"),"Cinema arena class not rendered");
+assert(cinemaRoot.innerHTML.includes("assets/4k/battle-3840x2160.webp"),"4K idle art missing");
+cinemaClick("move","punch");
+const parts=cinemaRoot.innerHTML.match(/KADR 1 \/ (\d+)/);
+assert(parts&&Number(parts[1])>=8,"Basic combo requires >=8 storyboard cuts");
+cinemaClick("frame");
+assert(cinemaRoot.innerHTML.includes("assets/4k/dash-3840x2160.webp"),"Dash 4K image not selected");
+cinemaClick("skipscene");
+assert(!cinemaRoot.innerHTML.includes("Błąd silnika gry"),"4K attack ending broke battle state");
 console.log("PASS: menu, character, skill tree, map movement, story, battle, cinematic attack and local graphics.");

@@ -270,3 +270,37 @@ html{scroll-padding-top:65px;-webkit-text-size-adjust:100%}
 .scene-wrap.anime-arena:not(.anime-painted) .player-art{display:none!important}
 .scene-wrap.anime-arena:not(.anime-painted).combat-charge .painted-hero-half,.scene-wrap.anime-arena:not(.anime-painted).combat-beam .painted-hero-half,.scene-wrap.anime-arena:not(.anime-painted).combat-hit .painted-hero-half{background-image:url('./assets/anime-scene-ki-v1.png')}
 .scene-wrap.anime-arena:not(.anime-painted) .enemy-art{z-index:4}
+
+/* 4K anime cinematic animation — only active with ?cinema=1.
+   3840×2160 image resolution; source character line detail is not native 4K. */
+.scene-wrap.cinema-4k{isolation:isolate;overflow:hidden;background:#102447}
+.scene-wrap.cinema-4k .painted-scene,.scene-wrap.cinema-4k .painted-hero-half{filter:saturate(1.13) contrast(1.045);will-change:transform}
+.scene-wrap.cinema-4k .painted-scene{animation:dbna-cam-enter .95s cubic-bezier(.22,.75,.34,1) both;transform-origin:46% 50%}
+.scene-wrap.cinema-4k .painted-hero-half{background-size:185.185% 100%;animation:dbna-cam-enter .9s ease-out both;transform-origin:35% 50%}
+.scene-wrap.cinema-4k.cinema-shot-vanish .painted-scene,.scene-wrap.cinema-4k.cinema-shot-vanish .painted-hero-half{animation:dbna-dash .82s cubic-bezier(.2,.9,.2,1) both}
+.scene-wrap.cinema-4k.cinema-shot-charge .painted-scene,.scene-wrap.cinema-4k.cinema-shot-charge .painted-hero-half{animation:dbna-charge 1s ease-in-out both}
+.scene-wrap.cinema-4k.cinema-shot-beam .painted-scene,.scene-wrap.cinema-4k.cinema-shot-beam .painted-hero-half{animation:dbna-beam-cam .76s ease-out both}
+.scene-wrap.cinema-4k.cinema-shot-hit .painted-scene,.scene-wrap.cinema-4k.cinema-shot-hit .painted-hero-half{animation:dbna-impact .62s ease-out both}
+.scene-wrap.cinema-4k .cinema-fx{position:absolute;inset:0;z-index:9;overflow:hidden;pointer-events:none;isolation:isolate}
+.scene-wrap.cinema-4k .cinema-fx i{position:absolute;display:block;pointer-events:none;opacity:0}
+.scene-wrap.cinema-4k .cinema-fx .rays{inset:-50%;background:repeating-conic-gradient(from 60deg at 50% 50%,transparent 0deg 7deg,#c9e9ff50 8deg 8.7deg,transparent 10deg 22deg);mix-blend-mode:screen}
+.scene-wrap.cinema-4k.cinema-shot-vanish .rays{opacity:.65;animation:dbna-radial .85s ease-out both}
+.scene-wrap.cinema-4k .cinema-fx .afterimage{left:4%;top:10%;width:52%;height:80%;background:radial-gradient(ellipse,#c9e6ffb3,transparent 70%);filter:blur(18px)}
+.scene-wrap.cinema-4k.cinema-shot-vanish .afterimage{opacity:.5;animation:dbna-echo .8s ease-out both}
+.scene-wrap.cinema-4k .cinema-fx .shockwave{width:15%;aspect-ratio:1;left:63%;top:33%;border:5px solid #fff9cc;border-radius:50%;box-shadow:0 0 28px #ffaf2a,inset 0 0 24px #d6ecff}
+.scene-wrap.cinema-4k.cinema-shot-hit .shockwave,.scene-wrap.cinema-4k.cinema-shot-counter .shockwave{opacity:1;animation:dbna-shock .7s ease-out both}
+.scene-wrap.cinema-4k .cinema-fx .ki-core{width:62%;height:17%;left:30%;top:40%;border-radius:50%;background:linear-gradient(0deg,transparent,#46bfffbb,#fff 50%,#41dfffbb,transparent);filter:drop-shadow(0 0 14px #32baff) drop-shadow(0 0 25px #71edff);transform-origin:left center}
+.scene-wrap.cinema-4k.cinema-shot-beam .ki-core{opacity:1;animation:dbna-ki .8s ease-out both}
+.scene-wrap.cinema-4k.cinema-shot-charge .ki-core{opacity:.5;width:15%;height:20%;left:28%;top:44%;animation:dbna-pulse 1s ease-in-out both}
+.scene-wrap.cinema-4k .scene-name{z-index:13}
+@keyframes dbna-cam-enter{0%{transform:scale(1.11) translate(1%,-1%);filter:brightness(1.25) saturate(1.25)}100%{transform:scale(1);filter:brightness(1) saturate(1.1)}}
+@keyframes dbna-dash{0%{transform:scale(1.14) translate(-8%,2%);filter:blur(7px) brightness(1.7)}45%{transform:scale(1.05) translate(6%,-3%);filter:blur(2px) brightness(1.25)}100%{transform:scale(1.035) translate(0,0);filter:blur(0) brightness(1)}}
+@keyframes dbna-charge{0%{transform:scale(1.025);filter:brightness(.65) saturate(.9)}65%{transform:scale(1.075);filter:brightness(1.55) saturate(1.45)}100%{transform:scale(1.065);filter:brightness(1.15)}}
+@keyframes dbna-beam-cam{0%{transform:scale(1.19) translate(-4%,1%);filter:brightness(1.95)}60%{transform:scale(1.10) translate(3%,0);filter:brightness(1.5)}100%{transform:scale(1.05);filter:brightness(1.1)}}
+@keyframes dbna-impact{0%,24%,50%{transform:translate(1.5%,-1%) scale(1.11)}12%,36%,63%{transform:translate(-1.5%,1%) scale(1.10)}100%{transform:scale(1.04)}}
+@keyframes dbna-radial{0%{transform:rotate(-18deg) scale(.45);opacity:0}40%{opacity:.7}100%{transform:rotate(8deg) scale(1.4);opacity:0}}
+@keyframes dbna-echo{0%{transform:translate(-40%,0);opacity:0}45%{opacity:.55}100%{transform:translate(90%,-10%);opacity:0}}
+@keyframes dbna-shock{0%{transform:scale(.15);opacity:1}70%{opacity:.65}100%{transform:scale(5.1);opacity:0}}
+@keyframes dbna-ki{0%{transform:scaleX(.08);opacity:.2}26%{opacity:1}70%{transform:scaleX(1.06);opacity:1}100%{transform:scaleX(1);opacity:.1}}
+@keyframes dbna-pulse{0%{transform:scale(.2);opacity:.1}55%{transform:scale(.9);opacity:.8}100%{transform:scale(1.25);opacity:.1}}
+@media(prefers-reduced-motion:reduce){.scene-wrap.cinema-4k .painted-scene,.scene-wrap.cinema-4k .painted-hero-half,.scene-wrap.cinema-4k .cinema-fx *{animation:none!important;will-change:auto}}
