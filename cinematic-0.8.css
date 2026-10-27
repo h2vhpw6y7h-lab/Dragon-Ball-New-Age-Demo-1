@@ -336,3 +336,36 @@ html{scroll-padding-top:65px;-webkit-text-size-adjust:100%}
 .scene-wrap.cinema-4k.cinema-art-clash:not(.anime-painted) .painted-hero-half{animation:c4-clash .95s ease-out both;transform-origin:30% 50%}
 .scene-wrap.cinema-4k.cinema-art-finisher:not(.anime-painted) .painted-hero-half{animation:c4-finisher .95s ease-out both;transform-origin:30% 50%}
 .scene-wrap.cinema-4k.cinema-art-counter:not(.anime-painted) .painted-hero-half{animation:c4-counter .95s ease-out both;transform-origin:30% 50%}
+
+/* Anime-cel art pass: all gameplay screens use a detailed figure; no boxy runtime SVG generators */
+.scene-wrap.organic-anime{isolation:isolate;background:linear-gradient(180deg,#0e769c 0%,#49a7ad 43%,#8d8071 75%,#443f42 100%)}
+.scene-wrap.organic-anime .anime-background{position:absolute;inset:0;background:url("./assets/earth-battle-4k.svg?v=8") center center/cover no-repeat;z-index:0;filter:saturate(1.22) contrast(1.06)}
+.scene-wrap.organic-anime .cinema-ambient{position:absolute;inset:-7%;z-index:1;background-position:center;background-size:cover;opacity:.085;filter:blur(23px) brightness(.8);pointer-events:none}
+.scene-wrap.organic-anime .painted-hero-half,.scene-wrap.organic-anime .painted-scene{display:none!important}
+.scene-wrap.organic-anime .stage-ground{opacity:.20}
+.scene-wrap.organic-anime .stage-atmosphere{opacity:.37}
+.scene-wrap.organic-anime .player-art,.scene-wrap.organic-anime .enemy-art{display:block!important;position:absolute!important;z-index:5!important;bottom:-13%!important;height:119%!important;width:51%!important;object-fit:contain!important;object-position:center bottom!important;background:none!important;filter:drop-shadow(0 3px 2px #060d24) drop-shadow(0 14px 10px #111122aa)!important;will-change:transform}
+.scene-wrap.organic-anime .player-art{left:-1.5%!important}
+.scene-wrap.organic-anime .enemy-art{right:-1.7%!important}
+.scene-wrap.organic-anime.combat-vanish .player-art{animation:dbna-organic-warp .86s cubic-bezier(.16,.9,.2,1) both}
+.scene-wrap.organic-anime.combat-hit .enemy-art{animation:dbna-organic-knock .78s ease-out both}
+.scene-wrap.organic-anime.combat-beam .enemy-art{animation:dbna-organic-beam-impact .83s both}
+.scene-wrap.organic-anime .cinema-fx{z-index:9}
+.scene-wrap.organic-anime .scene-name{z-index:12}
+.scene-wrap.organic-anime .shade{z-index:10}
+.scene-wrap.organic-anime .flash{z-index:11}
+.scene-wrap.organic-anime .damage{z-index:14}
+.charsheet .char-art{min-height:clamp(360px,65vw,680px);background:radial-gradient(circle at 50% 38%,#6eb9d351,transparent 62%),linear-gradient(150deg,#0c3154,#18172f)}
+.charsheet .char-art img{object-fit:contain!important;object-position:center center!important;transform:scale(.90) translateY(-3%);mask-image:linear-gradient(to bottom,#000 0%,#000 88%,transparent 100%)}
+@keyframes dbna-organic-warp{0%{transform:translateX(-30%) scale(.94);opacity:.4;filter:blur(14px)}50%{transform:translateX(35%) scale(1.12);opacity:1}100%{transform:translateX(0) scale(1)}}
+@keyframes dbna-organic-knock{0%{transform:translateX(0) rotate(0deg)}50%{transform:translateX(21%) rotate(12deg)}100%{transform:translateX(8%) rotate(4deg)}}
+@keyframes dbna-organic-beam-impact{0%{filter:brightness(2);transform:translateX(0)}55%{filter:brightness(1.25);transform:translateX(16%) scale(.91)}100%{transform:translateX(5%)}}
+@media(max-width:640px){.scene-wrap.organic-anime .player-art,.scene-wrap.organic-anime .enemy-art{height:126%!important;bottom:-19%!important;width:56%!important}}
+@media(prefers-reduced-motion:reduce){.scene-wrap.organic-anime .player-art,.scene-wrap.organic-anime .enemy-art{animation:none!important;will-change:auto}}
+
+/* Clear game-title screen: original line illustration overlays scenic background instead of blown-up 199px art. */
+.hero-cover{background:linear-gradient(120deg,#193c62,#086d84 65%,#b78361)!important}
+.hero-cover .hero-image{background-size:cover!important;background-position:center 51%!important;filter:saturate(1.16) contrast(1.13)!important;image-rendering:auto!important}
+.hero-cover .home-goku{display:block!important;position:absolute!important;z-index:2!important;right:-5%!important;top:-5%!important;width:53%!important;height:117%!important;object-fit:contain!important;filter:drop-shadow(0 11px 6px #102033aa) drop-shadow(0 0 16px #ffca7a75)!important}
+.hero-cover .hero-caption{max-width:64%;z-index:4}
+.scene-wrap.result-art img.shot{object-fit:contain!important;object-position:center!important;max-height:100%}

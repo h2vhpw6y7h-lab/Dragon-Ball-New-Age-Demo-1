@@ -7,20 +7,21 @@ const ANIME_KI=HD_ART?"./assets/anime-scene-ki-hd.webp":"./assets/anime-scene-ki
 const CINEMA_4K=/(?:\\?|&)cinema=1(?:&|$)/.test((typeof window!=="undefined"&&window.location&&window.location.search)||"");
 const CINEMA_ART={battle:"./assets/4k/battle-3840x2160.webp",dash:"./assets/4k/dash-3840x2160.webp",charge:"./assets/4k/charge-3840x2160.webp",beam:"./assets/4k/beam-3840x2160.webp",impact:"./assets/4k/impact-3840x2160.webp",focus:"./assets/4k/focus-3840x2160.webp",teleport:"./assets/4k/teleport-3840x2160.webp",punch:"./assets/4k/punch-3840x2160.webp",uppercut:"./assets/4k/uppercut-3840x2160.webp",guard:"./assets/4k/guard-3840x2160.webp",volley:"./assets/4k/volley-3840x2160.webp",clash:"./assets/4k/clash-3840x2160.webp",finisher:"./assets/4k/finisher-3840x2160.webp",aftermath:"./assets/4k/aftermath-3840x2160.webp",counter:"./assets/4k/counter-3840x2160.webp"};
 const frameAsset=f=>{const k=f&&f.art;if(k&&CINEMA_ART[k])return CINEMA_ART[k];const m=f&&f.mode;return CINEMA_ART[m==="vanish"?"dash":m==="charge"?"charge":m==="beam"?"beam":m==="hit"?"impact":m==="counter"?"counter":"battle"];};
+const MOTION_MICROFRAMES=100;
 const ROOT=document.getElementById("app"),SAVE="dbna-saiyan-saga-v1",T=68,MW=50,MH=30;
 const PIC={
-goku:"./assets/goku-normal-idle.svg?v=8",
-gokuAtk:"./assets/goku-normal-punch.svg?v=8",
-gokuDef:"./assets/goku-normal-guard.svg?v=8",
-gokuAura:"./assets/goku-normal-ki.svg?v=8",
-saiba:"https://www.nicepng.com/png/full/562-5627827_dbz-saibaman-clipart-goku-vegeta-frieza-dragon-ball.png",
-nappa:"https://e7.pngegg.com/pngimages/826/98/png-clipart-nappa-goku-vegeta-shenron-dragon-ball-goku-hand-manga.png",
-vegeta:"https://thecodex.wiki/images/thumb/9/96/SaiyanSagaVegeta.png/800px-SaiyanSagaVegeta.png",
-frieza:"https://jp.dblegends.net/assets/card_arts/0450_Frieza4th_450/0450_Frieza4th_450_Chara.png",
+goku:"./assets/characters/hero.svg?v=1",
+gokuAtk:"./assets/characters/hero.svg?v=1",
+gokuDef:"./assets/characters/hero.svg?v=1",
+gokuAura:"./assets/characters/hero.svg?v=1",
+saiba:"./assets/characters/saiba.svg?v=1",
+nappa:"./assets/characters/nappa.svg?v=1",
+vegeta:"./assets/characters/vegeta.svg?v=1",
+frieza:"./assets/anime-rival-v04.svg?v=1",
 duel:"./assets/earth-battle-4k.svg?v=8",
 clash:"./assets/earth-battle-4k.svg?v=8"
 };
-PIC.gokuDash="./assets/goku-normal-dash.svg?v=8";
+PIC.gokuDash="./assets/characters/hero.svg?v=1";
 const ENEMIES={
 bandit:{name:"Bandyta pustkowi",lv:2,hp:270,atk:37,def:5,spd:5,xp:65,coins:55,art:PIC.saiba,area:"Pustkowia"},
 drone:{name:"Robot treningowy",lv:3,hp:320,atk:45,def:10,spd:7,xp:80,coins:70,art:PIC.nappa,area:"Pole treningowe"},
@@ -32,63 +33,20 @@ vegeta:{name:"Vegeta",lv:20,hp:3650,atk:210,def:58,spd:44,xp:2200,coins:1800,art
 roshi:{name:"Mistrz Roshi",lv:8,hp:940,atk:72,def:20,spd:15,xp:275,coins:0,art:PIC.goku,boss:true,mentor:true,area:"PRÓBA MISTRZA"}
 };
 
-/* Original scalable enemy stand-ins for the three roaming factions. */
-function originalEnemy(kind){
-const a=kind==="bandit",b=kind==="drone";
-const primary=a?"#d98f4f":b?"#86a9ce":"#b4d7db",dark=a?"#43302d":b?"#2b3656":"#142c49",accent=a?"#d3c054":b?"#6ff3fa":"#89d9ad";
-let svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 550"><defs>'+
-'<linearGradient id="armor" x2=".9" y2="1"><stop stop-color="'+primary+'"/><stop offset=".5" stop-color="'+dark+'"/><stop offset="1" stop-color="'+primary+'"/></linearGradient>'+
-'<linearGradient id="metal" x2=".1" y2="1"><stop stop-color="#f3f8fb"/><stop offset=".4" stop-color="'+primary+'"/><stop offset="1" stop-color="'+dark+'"/></linearGradient></defs>'+
-'<ellipse cx="201" cy="521" rx="149" ry="18" fill="#061221" opacity=".35"/>'+
-'<g stroke="#1c243b" stroke-width="11" stroke-linejoin="round" stroke-linecap="round">'+
-'<path d="M143 348 L112 509 169 523 208 401 243 521 296 501 265 346Z" fill="url(#armor)"/>'+
-'<path d="M129 480L105 528 180 534 181 488M234 490L236 533 319 535 290 487" fill="'+dark+'"/>'+
-'<path d="M151 153L89 200 111 351 194 375 291 352 311 207 254 154Z" fill="url(#armor)"/>'+
-'<path d="M99 202L56 249 49 346 83 371 123 325 124 246Z" fill="url(#metal)"/>'+
-'<path d="M298 199L350 248 354 345 316 371 279 318 282 246Z" fill="url(#metal)"/>'+
-'<path d="M88 351L54 390 80 422 125 365M315 350L344 400 308 429 282 369" fill="'+primary+'"/>'+
-'<path d="M161 161L149 83Q158 33 201 32Q250 35 250 83L239 160Z" fill="url(#metal)"/>';
-if(a){
-svg+='<path d="M157 83L122 141 142 172 256 170 285 134 249 74Z" fill="'+dark+'"/>'+
-'<path d="M149 95Q202 66 254 97L252 126Q203 143 152 124Z" fill="#302e3a"/>'+
-'<path d="M157 110Q201 102 244 110" fill="none" stroke="#fcda70" stroke-width="9"/>'+
-'<path d="M130 176L114 222 198 248 296 218 276 172Z" fill="#9c5f3a"/>'+
-'<path d="M160 254L263 255" fill="none" stroke="#e9c786" stroke-width="20"/>'+
-'<path d="M100 286L62 344 87 355" fill="none" stroke="#fff0bb" stroke-width="10"/>';
-}else if(b){
-svg+='<path d="M153 83Q203 43 245 83L263 139 239 166 159 166 131 138Z" fill="#b8d7eb"/>'+
-'<path d="M150 113L250 113 234 142 165 142Z" fill="#194567"/>'+
-'<path d="M179 126L221 126" fill="none" stroke="#75ffff" stroke-width="13"/>'+
-'<circle cx="199" cy="247" r="47" fill="#263f67" stroke="#d6eaf2" stroke-width="8"/><circle cx="199" cy="247" r="29" fill="#73faff" stroke="#0a7190" stroke-width="8"/>'+
-'<path d="M113 235L87 270M289 235L316 270" fill="none" stroke="#def6fd" stroke-width="12"/>';
-}else{
-svg+='<path d="M157 92L122 62 133 36 160 51 188 13 213 47 251 27 250 70 277 82 263 125 250 148 149 140Z" fill="#1e2636"/>'+
-'<path d="M150 105Q198 94 255 108L249 139 157 139Z" fill="#f1c5a6"/>'+
-'<path d="M149 110L258 110" fill="none" stroke="#54ffb8" stroke-width="10"/>'+
-'<path d="M141 172L197 201 260 173 291 213 259 267 198 280 133 263 110 212Z" fill="#f0f4fa"/>'+
-'<path d="M178 237L220 237" fill="none" stroke="'+accent+'" stroke-width="18"/>'+
-'<path d="M266 115L296 125L288 160L254 153Z" fill="#38526c"/>';
-}
-svg+='<path d="M167 353L235 353" fill="none" stroke="'+accent+'" stroke-width="12"/>'+
-'<path d="M173 430L160 482M227 434L240 478" fill="none" stroke="#dee8f4" stroke-width="12"/>'+
-'</g></svg>';
-return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
-}
-ENEMIES.bandit.art=originalEnemy("bandit");
-ENEMIES.drone.art=originalEnemy("drone");
-ENEMIES.scout.art=originalEnemy("scout");
-
-function recoloredMob(src, replacements, extra){
-let svg=decodeURIComponent(src.split(",").slice(1).join(","));
-for(const pair of replacements)svg=svg.split(pair[0]).join(pair[1]);
-if(extra)svg=svg.replace("</svg>",extra+"</svg>");
-return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
-}
-ENEMIES.ribbon={name:"Żołnierz Red Ribbon",lv:3,hp:335,atk:41,def:9,spd:9,xp:95,coins:78,art:recoloredMob(ENEMIES.bandit.art,[["#d98f4f","#d9494b"],["#43302d","#522536"],["#d3c054","#f3d9a0"]],'<g><circle cx="201" cy="250" r="32" fill="#edeadf" stroke="#641e32" stroke-width="8"/><path d="M184 235H212Q232 238 219 252L184 270" fill="none" stroke="#d42e49" stroke-width="10"/></g>'),area:"Posterunek Red Ribbon"};
-ENEMIES.pig={name:"Dzik z pustkowi",lv:2,hp:300,atk:44,def:7,spd:7,xp:70,coins:38,art:recoloredMob(ENEMIES.bandit.art,[["#d98f4f","#ba8d75"],["#43302d","#4f403b"],["#d3c054","#b38a68"]],'<g stroke="#593745" stroke-width="4"><path d="M165 129Q132 88 130 126L154 158M238 129Q265 86 274 120L248 160" fill="#e59f96"/><ellipse cx="202" cy="142" rx="35" ry="23" fill="#e3a09b"/><ellipse cx="189" cy="143" rx="8" ry="10" fill="#8a5d62"/><ellipse cx="214" cy="143" rx="8" ry="10" fill="#8a5d62"/></g>'),area:"Leśne pustkowia"};
-ENEMIES.martial={name:"Wojownik pustelnik",lv:4,hp:425,atk:52,def:13,spd:12,xp:120,coins:86,art:recoloredMob(ENEMIES.scout.art,[["#b4d7db","#d9b990"],["#142c49","#374a3b"],["#89d9ad","#f6d181"]],''),area:"Ścieżka górska"};
-ENEMIES.sentry={name:"Strażnik kapsuł",lv:5,hp:530,atk:68,def:22,spd:11,xp:155,coins:120,art:recoloredMob(ENEMIES.drone.art,[["#86a9ce","#c7afaf"],["#2b3656","#3c2c4d"],["#6ff3fa","#f4bd69"]],''),area:"Lądowisko kapsuł"};
-
+/* Individually illustrated organic shonen characters; no geometric enemy stand-ins. */
+const CHARACTER_ART=Object.freeze({
+ hero:"./assets/characters/hero.svg?v=1",bandit:"./assets/characters/bandit.svg?v=1",
+ drone:"./assets/characters/drone.svg?v=1",scout:"./assets/characters/scout.svg?v=1",
+ saiba:"./assets/characters/saiba.svg?v=1",saibaBoss:"./assets/characters/saiba-boss.svg?v=1",
+ nappa:"./assets/characters/nappa.svg?v=1",vegeta:"./assets/characters/vegeta.svg?v=1",
+ roshi:"./assets/characters/roshi.svg?v=1",ribbon:"./assets/characters/ribbon.svg?v=1",
+ pig:"./assets/characters/pig.svg?v=1",martial:"./assets/characters/martial.svg?v=1",sentry:"./assets/characters/sentry.svg?v=1"
+});
+for(const key of ["bandit","drone","scout","saiba","saibaBoss","nappa","vegeta","roshi"])ENEMIES[key].art=CHARACTER_ART[key];
+ENEMIES.ribbon={name:"Żołnierz Red Ribbon",lv:3,hp:335,atk:41,def:9,spd:9,xp:95,coins:78,art:CHARACTER_ART.ribbon,area:"Posterunek Red Ribbon"};
+ENEMIES.pig={name:"Dzik z pustkowi",lv:2,hp:300,atk:44,def:7,spd:7,xp:70,coins:38,art:CHARACTER_ART.pig,area:"Leśne pustkowia"};
+ENEMIES.martial={name:"Wojownik pustelnik",lv:4,hp:425,atk:52,def:13,spd:12,xp:120,coins:86,art:CHARACTER_ART.martial,area:"Ścieżka górska"};
+ENEMIES.sentry={name:"Strażnik kapsuł",lv:5,hp:530,atk:68,def:22,spd:11,xp:155,coins:120,art:CHARACTER_ART.sentry,area:"Lądowisko kapsuł"};
 
 const LOC=[
 {id:"home",x:5,y:6,name:"Dom Goku",icon:"⌂",color:"#83e1ff"},
@@ -179,7 +137,7 @@ function quest(){return CHAPTERS[Math.min(S.chapter,3)]}
 function gameImage(src,cls,alt){return '<img draggable="false" class="'+(cls||"")+'" src="'+src+'" alt="'+(alt||"Ilustracja")+'" loading="eager" decoding="async" onerror="this.onerror=null;this.src=(this.className.indexOf(\'enemy\')>=0?\'./assets/unknown-warrior.svg?v=7\':\'./assets/goku-normal-idle.svg?v=7\')">'}
 function protagonist(){return PIC.goku}
 function drawHome(){let q=quest();return hdr("")+
-'<div class="hero-cover"><div class="hero-image" style="background-image:url('+(CINEMA_4K?CINEMA_ART.battle:ANIME_BATTLE)+')"></div>'+gameImage(PIC.goku,"home-goku","Goku w formie podstawowej")+'<div class="hero-caption"><span class="label orange">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</span><h1 class="flame">'+(S.chapter<3?'ATAK SAIYAN':'ZWYCIĘSTWO')+'</h1><p>'+esc(q.goal)+'</p></div></div>'+
+'<div class="hero-cover"><div class="hero-image" style="background-image:url(./assets/earth-battle-4k.svg?v=8)"></div>'+gameImage(PIC.goku,"home-goku","Goku w formie podstawowej")+'<div class="hero-caption"><span class="label orange">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</span><h1 class="flame">'+(S.chapter<3?'ATAK SAIYAN':'ZWYCIĘSTWO')+'</h1><p>'+esc(q.goal)+'</p></div></div>'+
 '<div class="ticker"><b style="font-size:23px">🔥</b><div><b>DRAGON BALL NEW AGE</b><br><span class="sm">'+esc(S.heroName)+' • LV '+S.level+' • Moc '+power()+'</span></div></div>'+
 '<div class="tile-menu"><button class="tile main" data-a="new"><span class="glyph">⚔️</span><strong>NOWA GRA</strong><small>Nowa przygoda • Saga Saiyan</small></button>'+
 '<button class="tile" data-a="nav" data-v="world"><span class="glyph">▶️</span><strong>KONTYNUUJ</strong><small>Swobodna mapa i misje</small></button>'+
@@ -205,14 +163,14 @@ const id=enemy||S.battle?.enemy||"saiba",b=ENEMIES[id]||ENEMIES.saiba;
 const m=mode||"battlefield",area=["saiba","saibaBoss","nappa","vegeta","scout"].includes(id)?"rock":terrain(S.loc.x,S.loc.y);
 let left=protagonist(),right=b.art;
 if(shot){if(shot.mode==="vanish")left=PIC.gokuDash;else if(shot.mode==="hit")left=PIC.gokuAtk;else if(shot.mode==="counter")left=PIC.gokuDef;else if(shot.mode==="charge"||shot.mode==="beam")left=PIC.gokuAura;}
-const painted=id==="drone",energyFrame=shot&&["charge","beam","hit"].includes(shot.mode||"");
-const paintedSrc=CINEMA_4K?frameAsset(shot):energyFrame?ANIME_KI:ANIME_BATTLE;
 const sceneMode=shot&&["vanish","charge","beam","hit","counter"].includes(shot.mode)?shot.mode:"battlefield";
 const sceneArt=shot&&shot.art&&CINEMA_ART[shot.art]?shot.art:"battle";
 const sceneFx=CINEMA_4K?'<div class="cinema-fx"><i class="afterimage"></i><i class="rays"></i><i class="shockwave"></i><i class="ki-core"></i></div>':"";
-return '<div class="scene-wrap anime-arena '+(painted?"anime-painted ":"")+(CINEMA_4K?"cinema-4k cinema-shot-"+sceneMode+" cinema-art-"+sceneArt+" ":"")+'arena-'+area+' '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"angle-wide")+' '+(shot?"combat-"+(shot.mode||"wide"):"combat-idle")+'">'+
+return '<div class="scene-wrap anime-arena organic-anime '+(CINEMA_4K?"cinema-4k cinema-shot-"+sceneMode+" cinema-art-"+sceneArt+" ":"")+'arena-'+area+' '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"angle-wide")+' '+(shot?"combat-"+(shot.mode||"wide"):"combat-idle")+'" data-motion-steps="'+MOTION_MICROFRAMES+'">'+
+'<div class="anime-background"></div>'+(CINEMA_4K?'<div class="cinema-ambient" style="background-image:url('+frameAsset(shot)+')"></div>':"")+
 '<div class="stage-ground"></div><div class="stage-atmosphere"></div>'+
-(painted?('<img class="painted-scene" src="'+paintedSrc+'" alt="Ilustrowana scena anime" loading="eager" draggable="false">'):('<div class="painted-hero-half" style="background-image:url('+paintedSrc+')" aria-hidden="true"></div>'+gameImage(left,"player-art "+(shot?"pose-"+shot.mode:"pose-idle"),"Goku w formie podstawowej")+gameImage(right,"enemy-art",b.name)))+
+gameImage(left,"player-art "+(shot?"pose-"+shot.mode:"pose-idle"),"Wojownik anime")+
+gameImage(right,"enemy-art",b.name)+
 '<div class="aura-burst"></div><div class="impact-ring"></div><div class="combat-speed"></div><div class="combat-sparks"></div>'+sceneFx+
 (m==="beam"?'<div class="beam"></div>':"")+
 '<div class="flash"></div><div class="shade"></div><div class="scene-name"><span>ZIEMIA • '+esc(b.area.toUpperCase())+'</span><span>'+esc(b.name.toUpperCase())+'</span></div></div>';
@@ -246,7 +204,7 @@ function drawDialogue(){const d=S.dialog,frame=d.lines[d.idx];let person=frame.w
 '<div class="panel"><div class="dialog-portrait">'+gameImage(art,"","Portret")+'<div><div class="dialog-heading">'+esc(person)+'</div><div class="dialog-sub">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</div></div></div><p style="font-size:clamp(18px,2.5vw,27px);line-height:1.5;min-height:75px">'+esc(frame.text)+'</p>'+
 '<div class="cut-progress">'+d.lines.map((x,i)=>'<span class="'+(i<=d.idx?"done":"")+'"></span>').join("")+'</div><div class="choice-grid" style="margin-top:15px">'+button(d.idx===d.lines.length-1?"DALEJ →":"NASTĘPNY DIALOG →","nextdialog","","btn-hot")+button("POMIŃ ››","skipdialog","","btn-mini")+'</div></div>'}
 function drawEncounter(){let c=S.encounter,e=ENEMIES[c.enemy];return hdr("Losowe zdarzenie")+'<section class="panel gold-edge encounter"><div class="panel-title"><h2>⚠️ '+esc(c.title)+'</h2><span class="label orange">LV '+e.lv+'</span></div><div class="row">'+gameImage(e.art,"enemy-thumb",e.name)+'<div><h2 class="flame" style="margin:0">'+e.name+'</h2><p class="sm">'+esc(c.message)+'</p><p class="micro">Stała siła przeciwnika • '+e.xp+' EXP</p></div></div><div class="choice-grid">'+button("⚔ WALCZ","start-enc","","btn-hot")+button("🏃 OMIŃ","avoid-enc","","btn-blue")+'</div></section>'}
-function drawResult(){const r=S.result;return hdr(r.win?"Zwycięstwo!":"Porażka")+'<div class="panel gold-edge"><h1 class="flame" style="font-size:clamp(29px,6vw,56px);margin:8px 0">'+(r.win?"ZWYCIĘSTWO!":"POWRÓT DO TRENINGU")+'</h1><div class="scene-wrap">'+gameImage(r.enemy==="drone"?ANIME_BATTLE:(r.win?protagonist():ENEMIES[r.enemy].art),"shot","Wynik starcia")+'<div class="shade"></div><div class="scene-name"><span>'+esc(ENEMIES[r.enemy].name.toUpperCase())+'</span><span>'+(r.win?"POKONANY":"ZBYT SILNY")+'</span></div></div><p>'+esc(r.text)+'</p>'+
+function drawResult(){const r=S.result;return hdr(r.win?"Zwycięstwo!":"Porażka")+'<div class="panel gold-edge"><h1 class="flame" style="font-size:clamp(29px,6vw,56px);margin:8px 0">'+(r.win?"ZWYCIĘSTWO!":"POWRÓT DO TRENINGU")+'</h1><div class="scene-wrap">'+gameImage(r.win?protagonist():ENEMIES[r.enemy].art,"shot","Wynik starcia")+'<div class="shade"></div><div class="scene-name"><span>'+esc(ENEMIES[r.enemy].name.toUpperCase())+'</span><span>'+(r.win?"POKONANY":"ZBYT SILNY")+'</span></div></div><p>'+esc(r.text)+'</p>'+
 '<div class="reward"><div>🟢 EXP<strong>+'+r.xp+'</strong></div><div>🥊 ATRYBUTY<strong>+'+r.gainedAttr+'</strong></div><div>🌳 SKILLE<strong>+'+r.gainedSkill+'</strong></div></div><div class="choice-grid" style="margin-top:15px">'+button(r.storyStage!==null&&r.storyStage!==undefined?"📖 SCENA FABULARNA":"🗺 NA MAPĘ","result-map","","btn-blue")+button("💪 TRENING","result-train","","btn-hot")+button("👤 POSTAĆ","nav","character")+'</div></div>'}
 function drawCharacter(){return hdr("Karta wojownika")+'<div class="charsheet"><div class="char-art">'+gameImage(protagonist(),"","Wojownik")+'<div class="caption"><b class="flame" style="font-size:32px">'+esc(S.heroName)+'</b><br><span class="label">'+esc(S.race)+' • LV '+S.level+'</span></div></div>'+
 '<div class="panel gold-edge"><div class="panel-title"><h2>Atrybuty postaci</h2><span class="label orange">+5 pkt / LV</span></div><div class="two"><div class="sm">Poziom <b class="gold">'+S.level+'</b><br>Moc: '+power()+'</div><div class="sm">Punkty atrybutów<br><b class="gold" style="font-size:22px">'+S.attrPts+'</b></div></div>'+bar(S.xp,lvlExp(S.level),"exp")+
@@ -260,7 +218,7 @@ function drawSkills(){const tree=TREES.find(x=>x.id===S.skillTree)||TREES[0];ret
 '<div class="notice">'+(tree.id==="ki"?"Kamehameha wymaga wygranej próby u Mistrza Roshiego na mapie.":"Każda gałąź otwiera nowe podskille i pasywy.")+'</div></div>'+
 '<section class="panel"><div class="panel-title"><h2>Opanowanie technik</h2></div><div class="two">'+MOVES.map(m=>'<div class="stat"><b>'+m.icon+' '+m.name+'</b><span class="value">'+(S.mastery[m.id]||0)+'</span></div>').join("")+'</div><p class="sm muted">Co dziesięć użyć danej techniki otrzymuje ona +5% obrażeń.</p></section>'}
 function drawSettings(){return hdr("Ustawienia")+'<section class="panel gold-edge"><h2>Dragon Ball New Age — wersja 1.0 • Anime Combat</h2><p class="sm">Grywalne demo Sagi Saiyan. Dane zapisują się na tym urządzeniu.</p><div class="choice-grid">'+button("💾 Zapisz","save","","btn-hot")+button("🌍 Mapa","nav","world")+button("↩ Wstecz","nav","home")+'</div><p class="micro">Ilustracje postaci w tej wersji są tymczasowe i pochodzą z zewnętrznych źródeł. Mapa generowana jest przez silnik gry; kolejne kadry i własne grafiki HD wymagają jeszcze dopracowania.</p></section>'}
-function render(){stopCut();if(walkTimer&&S.screen!=="world")stopWalk();let html="";try{switch(S.screen){case"home":html=drawHome();break;case"world":html=drawWorldUI();break;case"battle":html=drawBattle();break;case"cut":html=drawCut();break;case"dialog":html=drawDialogue();break;case"encounter":html=drawEncounter();break;case"result":html=drawResult();break;case"character":html=drawCharacter();break;case"skills":html=drawSkills();break;case"settings":html=drawSettings();break;default:S.screen="home";html=drawHome();}ROOT.innerHTML=html+nav()+'<div id="status-toast" style="position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#2c1d16ed;border:1px solid #ffcc5d;color:#ffe6ad;font-weight:850;padding:9px 16px;border-radius:14px;pointer-events:none;opacity:0;transition:opacity .2s;z-index:100;max-width:88vw;text-align:center"></div>';if(S.screen==="world")setupWorld();if(S.screen==="cut"){startCut();if(CINEMA_4K&&S.scene){const next=S.scene.frames[S.scene.idx+1];if(next){const image=new Image();image.src=frameAsset(next.mode);}}}}catch(e){console.error(e);ROOT.innerHTML='<div class="panel gold-edge"><h2>Błąd silnika gry</h2><p>'+esc(e.message)+'</p>'+button("Wróć do startu","nav","home","btn-hot")+'</div>'+nav();}}
+function render(){stopCut();stopMotion();if(walkTimer&&S.screen!=="world")stopWalk();let html="";try{switch(S.screen){case"home":html=drawHome();break;case"world":html=drawWorldUI();break;case"battle":html=drawBattle();break;case"cut":html=drawCut();break;case"dialog":html=drawDialogue();break;case"encounter":html=drawEncounter();break;case"result":html=drawResult();break;case"character":html=drawCharacter();break;case"skills":html=drawSkills();break;case"settings":html=drawSettings();break;default:S.screen="home";html=drawHome();}ROOT.innerHTML=html+nav()+'<div id="status-toast" style="position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#2c1d16ed;border:1px solid #ffcc5d;color:#ffe6ad;font-weight:850;padding:9px 16px;border-radius:14px;pointer-events:none;opacity:0;transition:opacity .2s;z-index:100;max-width:88vw;text-align:center"></div>';if(S.screen==="world")setupWorld();if(S.screen==="cut"){startCut();if(CINEMA_4K&&S.scene){const next=S.scene.frames[S.scene.idx+1];if(next){const image=new Image();image.src=frameAsset(next);}}}}catch(e){console.error(e);ROOT.innerHTML='<div class="panel gold-edge"><h2>Błąd silnika gry</h2><p>'+esc(e.message)+'</p>'+button("Wróć do startu","nav","home","btn-hot")+'</div>'+nav();}}
 function navigate(screen){if(screen==="battle"&&!S.battle)screen="world";S.screen=screen;save();render()}
 function heal(){S.hp=maxHP();S.energy=maxKI();S.loc={x:5,y:6,steps:S.loc.steps};save();S.screen="world";render();toast("Wojownik wypoczął. HP i KI odnowione.")}
 function newGame(){if(S.level>1||S.chapter>0){if(!confirm("Rozpocząć nową grę? Postęp Sagi Saiyan zostanie wyzerowany."))return;}S=make();S.hp=maxHP();S.energy=maxKI();save();S.screen="dialog";S.dialog={lines:[{who:"Narrator",text:"Na Ziemię przybywają dwaj Saiyanie. Ich siła przekracza wszystko, co znali obrońcy planety."},{who:"Krillin",text:"Nappa i Vegeta są już na Ziemi! Najpierw musimy rozprawić się z Saibamenami!"},{who:"Goku",text:"Najpierw przygotuję się do walki. Zdobędę doświadczenie i dopiero wtedy ruszę do ich obozu."}],idx:0,after:{kind:"map"}};render()}
@@ -334,8 +292,48 @@ else b.combo=Math.max(0,b.combo-8);
 S.scene=null;if(b.hp<=0){win(b.enemy);return;}
 S.hp=Math.max(0,S.hp-c.enemyHit);if(c.enemyHit)b.log.push("Kontra wroga: -"+c.enemyHit+" HP");else b.log.push("Unik udany! Brak obrażeń.");
 S.energy=Math.min(maxKI(),S.energy+10+rank("recovery")*3);b.turn++;if(S.hp<=0){lose(b.enemy);return;}save();S.screen="battle";render()}
+let motionRaf=0;
+function stopMotion(){
+ if(motionRaf&&typeof cancelAnimationFrame==="function")cancelAnimationFrame(motionRaf);
+ motionRaf=0;
+}
+function motionPose(step,mode){
+ const t=step/(MOTION_MICROFRAMES-1),wave=Math.sin(t*Math.PI*2),burst=Math.sin(Math.PI*t);
+ const dash=mode==="vanish",ki=mode==="beam"||mode==="charge",hit=mode==="hit",counter=mode==="counter";
+ return {
+  heroX:(dash?Math.round(-20+170*t):hit?Math.round(92*burst):ki?Math.round(-12+11*wave):Math.round(7*wave)),
+  heroY:(dash?Math.round(18-62*burst):hit?Math.round(-37*burst):Math.round(-12*burst)),
+  foeX:hit?Math.round(48*burst):counter?Math.round(-27*burst):Math.round(3*wave),
+  foeY:hit?Math.round(-31*burst):Math.round(7*wave),
+  scale:1+(hit?.12:ki?.08:dash?.16:.04)*burst,
+  energy:ki?0.65+0.35*burst:.12+.24*burst
+ };
+}
+function startMotion(){
+ if(!CINEMA_4K||typeof requestAnimationFrame!=="function"||typeof ROOT.querySelector!=="function"||!S.scene)return;
+ const arena=ROOT.querySelector(".scene-wrap.organic-anime");
+ if(!arena)return;
+ const hero=arena.querySelector(".player-art"),enemy=arena.querySelector(".enemy-art");
+ if(!hero||!enemy)return;
+ const scene=S.scene,frame=scene.frames[scene.idx];
+ const span=scene.frames.length,startStep=Math.floor(scene.idx*MOTION_MICROFRAMES/span);
+ const endStep=Math.max(startStep+1,Math.floor((scene.idx+1)*MOTION_MICROFRAMES/span));
+ const duration=frame.mode==="charge"?1080:frame.mode==="vanish"?860:frame.mode==="beam"?845:880;
+ const start=typeof performance!=="undefined"?performance.now():Date.now();
+ function tick(now){
+  if(S.scene!==scene||S.screen!=="cut")return;
+  const t=Math.max(0,Math.min(1,(now-start)/duration));
+  const step=Math.min(MOTION_MICROFRAMES-1,Math.floor(startStep+(endStep-startStep)*t));
+  const p=motionPose(step,frame.mode);
+  hero.style.transform="translate3d("+p.heroX+"%, "+p.heroY+"%,0) scale("+p.scale+")";
+  enemy.style.transform="translate3d("+p.foeX+"%, "+p.foeY+"%,0) scale("+(1+(p.scale-1)*.45)+")";
+  arena.style.setProperty("--cinema-energy",String(p.energy));
+  if(t<1)motionRaf=requestAnimationFrame(tick);
+ }
+ motionRaf=requestAnimationFrame(tick);
+}
 function stopCut(){if(cutTimer){clearTimeout(cutTimer);cutTimer=null}}
-function startCut(){stopCut();if(S.screen==="cut"&&S.scene){const frame=S.scene.frames[S.scene.idx];const ms=CINEMA_4K?({vanish:870,charge:1100,beam:850,hit:820,counter:980,battlefield:1000}[frame.mode]||1050):1450;cutTimer=setTimeout(()=>{cutTimer=null;advanceFrame()},ms)}}
+function startCut(){stopCut();if(S.screen==="cut"&&S.scene){const frame=S.scene.frames[S.scene.idx];const ms=CINEMA_4K?({vanish:870,charge:1100,beam:850,hit:820,counter:980,battlefield:1000}[frame.mode]||1050):1450;startMotion();cutTimer=setTimeout(()=>{cutTimer=null;advanceFrame()},ms)}}
 function advanceFrame(skip){stopCut();if(!S.scene)return;if(!skip&&S.scene.idx<S.scene.frames.length-1){S.scene.idx++;render();return;}finishScene();}
 function escapeFight(){let b=S.battle;if(!b)return;S.battle=null;S.scene=null;S.screen="world";save();render();toast("Wycofano się z walki.")}
 function learn(id){let n=TREES.flatMap(t=>t.nodes).find(x=>x.id===id);if(!n||S.skillPts<1||S.level<n.lv||(n.req&&!rank(n.req))||rank(n.id)>=n.max){toast("Ta umiejętność jest jeszcze zablokowana.");return}if(n.id==="kame"&&!S.roshi){toast("Najpierw pokonaj Mistrza Roshiego.");return}S.skills[id]=rank(id)+1;S.skillPts--;save();render();}
