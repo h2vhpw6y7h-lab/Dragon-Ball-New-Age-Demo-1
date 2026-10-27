@@ -8,6 +8,7 @@ const CINEMA_4K=/(?:\\?|&)cinema=1(?:&|$)/.test((typeof window!=="undefined"&&wi
 const CINEMA_ART={battle:"./assets/4k/battle-3840x2160.webp",dash:"./assets/4k/dash-3840x2160.webp",charge:"./assets/4k/charge-3840x2160.webp",beam:"./assets/4k/beam-3840x2160.webp",impact:"./assets/4k/impact-3840x2160.webp",focus:"./assets/4k/focus-3840x2160.webp",teleport:"./assets/4k/teleport-3840x2160.webp",punch:"./assets/4k/punch-3840x2160.webp",uppercut:"./assets/4k/uppercut-3840x2160.webp",guard:"./assets/4k/guard-3840x2160.webp",volley:"./assets/4k/volley-3840x2160.webp",clash:"./assets/4k/clash-3840x2160.webp",finisher:"./assets/4k/finisher-3840x2160.webp",aftermath:"./assets/4k/aftermath-3840x2160.webp",counter:"./assets/4k/counter-3840x2160.webp"};
 const frameAsset=f=>{const k=f&&f.art;if(k&&CINEMA_ART[k])return CINEMA_ART[k];const m=f&&f.mode;return CINEMA_ART[m==="vanish"?"dash":m==="charge"?"charge":m==="beam"?"beam":m==="hit"?"impact":m==="counter"?"counter":"battle"];};
 const MOTION_MICROFRAMES=100;
+const ATTACK_CHOREO=Object.freeze({punch:{dash:68,rise:18,hits:3,power:.62,tint:"gold"},blast:{dash:19,rise:12,hits:1,power:.9,tint:"cyan"},rapid:{dash:113,rise:32,hits:6,power:.82,tint:"blue"},kiwave:{dash:16,rise:27,hits:2,power:1.12,tint:"cyan"},meteor:{dash:105,rise:70,hits:7,power:1.43,tint:"orange"},kame:{dash:10,rise:16,hits:2,power:1.8,tint:"sky"},defend:{dash:0,rise:6,hits:1,power:.22,tint:"cyan"}});
 const ROOT=document.getElementById("app"),SAVE="dbna-saiyan-saga-v1",T=68,MW=50,MH=30;
 const PIC={
 goku:"./assets/characters/hero.svg?v=1",
@@ -165,10 +166,12 @@ let left=protagonist(),right=b.art;
 if(shot){if(shot.mode==="vanish")left=PIC.gokuDash;else if(shot.mode==="hit")left=PIC.gokuAtk;else if(shot.mode==="counter")left=PIC.gokuDef;else if(shot.mode==="charge"||shot.mode==="beam")left=PIC.gokuAura;}
 const sceneMode=shot&&["vanish","charge","beam","hit","counter"].includes(shot.mode)?shot.mode:"battlefield";
 const sceneArt=shot&&shot.art&&CINEMA_ART[shot.art]?shot.art:"battle";
+const attackId=(S.scene&&S.scene.consequence&&S.scene.consequence.id)||"idle";
 const sceneFx=CINEMA_4K?'<div class="cinema-fx"><i class="afterimage"></i><i class="rays"></i><i class="shockwave"></i><i class="ki-core"></i></div>':"";
-return '<div class="scene-wrap anime-arena organic-anime '+(CINEMA_4K?"cinema-4k cinema-shot-"+sceneMode+" cinema-art-"+sceneArt+" ":"")+'arena-'+area+' '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"angle-wide")+' '+(shot?"combat-"+(shot.mode||"wide"):"combat-idle")+'" data-motion-steps="'+MOTION_MICROFRAMES+'">'+
+return '<div class="scene-wrap anime-arena organic-anime '+(CINEMA_4K?"cinema-4k cinema-shot-"+sceneMode+" cinema-art-"+sceneArt+" ":"")+'arena-'+area+' '+m+' choreo-'+attackId+' '+(shot?"angle-"+(shot.angle||"wide"):"angle-wide")+' '+(shot?"combat-"+(shot.mode||"wide"):"combat-idle")+'" data-motion-steps="'+MOTION_MICROFRAMES+'" data-choreo="'+attackId+'">'+
 '<div class="anime-background"></div>'+(CINEMA_4K?'<div class="cinema-ambient" style="background-image:url('+frameAsset(shot)+')"></div>':"")+
 '<div class="stage-ground"></div><div class="stage-atmosphere"></div>'+
+(CINEMA_4K&&attackId==="rapid"?'<i class="anime-ghost anime-ghost-one"></i><i class="anime-ghost anime-ghost-two"></i>':"")+
 gameImage(left,"player-art "+(shot?"pose-"+shot.mode:"pose-idle"),"Wojownik anime")+
 gameImage(right,"enemy-art",b.name)+
 '<div class="aura-burst"></div><div class="impact-ring"></div><div class="combat-speed"></div><div class="combat-sparks"></div>'+sceneFx+
@@ -297,16 +300,22 @@ function stopMotion(){
  if(motionRaf&&typeof cancelAnimationFrame==="function")cancelAnimationFrame(motionRaf);
  motionRaf=0;
 }
-function motionPose(step,mode){
- const t=step/(MOTION_MICROFRAMES-1),wave=Math.sin(t*Math.PI*2),burst=Math.sin(Math.PI*t);
- const dash=mode==="vanish",ki=mode==="beam"||mode==="charge",hit=mode==="hit",counter=mode==="counter";
+function motionPose(local,mode,moveId,globalStep){
+ const c=ATTACK_CHOREO[moveId]||ATTACK_CHOREO.punch;
+ const t=Math.max(0,Math.min(1,local)),p=Math.sin(Math.PI*t);
+ const flicker=Math.sin(t*Math.PI*2*c.hits),pulse=Math.max(0,Math.sin(t*Math.PI*c.hits));
+ const dash=mode==="vanish",charge=mode==="charge",ki=mode==="beam"||charge,hit=mode==="hit",counter=mode==="counter";
+ const detail=Math.sin(globalStep*.41)*2;
+ const swing=hit?(.7+.3*pulse):dash?(.65+.35*p):(.4+.6*p);
  return {
-  heroX:(dash?Math.round(-20+170*t):hit?Math.round(92*burst):ki?Math.round(-12+11*wave):Math.round(7*wave)),
-  heroY:(dash?Math.round(18-62*burst):hit?Math.round(-37*burst):Math.round(-12*burst)),
-  foeX:hit?Math.round(48*burst):counter?Math.round(-27*burst):Math.round(3*wave),
-  foeY:hit?Math.round(-31*burst):Math.round(7*wave),
-  scale:1+(hit?.12:ki?.08:dash?.16:.04)*burst,
-  energy:ki?0.65+0.35*burst:.12+.24*burst
+   heroX:Math.round((dash?-19+c.dash*t:hit?c.dash*.58*swing:ki?-9+5*flicker:5*flicker)+detail),
+   heroY:Math.round(dash?-c.rise*p:hit?-c.rise*.85*p:ki?-7*p:-(c.rise/4)*p),
+   foeX:Math.round(hit?c.dash*.44*swing:counter?-c.dash*.2*p:Math.sin(t*Math.PI*2)*3),
+   foeY:Math.round(hit?-c.rise*.55*p:Math.sin(t*Math.PI*2)*4),
+   scale:1+(hit?.12:dash?.14:ki?.08:.04)*p,
+   energy:ki?Math.min(1,c.power*(.38+.62*p)):.12+c.power*.19*p,
+   flash:hit?Math.min(1,c.power*p):charge?(.3+.6*p):0,
+   tilt:hit?Math.round(11*flicker):0
  };
 }
 function startMotion(){
@@ -324,10 +333,12 @@ function startMotion(){
   if(S.scene!==scene||S.screen!=="cut")return;
   const t=Math.max(0,Math.min(1,(now-start)/duration));
   const step=Math.min(MOTION_MICROFRAMES-1,Math.floor(startStep+(endStep-startStep)*t));
-  const p=motionPose(step,frame.mode);
+  const p=motionPose(t,frame.mode,scene.consequence&&scene.consequence.id,step);
   hero.style.transform="translate3d("+p.heroX+"%, "+p.heroY+"%,0) scale("+p.scale+")";
   enemy.style.transform="translate3d("+p.foeX+"%, "+p.foeY+"%,0) scale("+(1+(p.scale-1)*.45)+")";
   arena.style.setProperty("--cinema-energy",String(p.energy));
+  arena.style.setProperty("--cinema-flash",String(p.flash));
+  hero.style.rotate=p.tilt+"deg";
   if(t<1)motionRaf=requestAnimationFrame(tick);
  }
  motionRaf=requestAnimationFrame(tick);

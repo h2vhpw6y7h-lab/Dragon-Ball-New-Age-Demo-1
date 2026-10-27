@@ -18,8 +18,8 @@ for(const p of ["saiyan.js","saiyan.css","visual-upgrade.css","cinematic-0.8.css
 "assets/goku-normal-ki.svg","assets/earth-battle-4k.svg","assets/earth-map-4k.svg"]){
  assert(fs.statSync(path.join(rootDir,p)).size>100,p+" is missing or empty");
 }
-assert(html.includes('cinematic-0.8.css?v=16'),"cinematic stylesheet must load");
-assert(html.includes('saiyan.js?v=20'),"engine asset must be cache-busted");
+assert(html.includes('cinematic-0.8.css?v=17'),"cinematic stylesheet must load");
+assert(html.includes('saiyan.js?v=21'),"engine asset must be cache-busted");
 assert(!source.includes("goku-base-anime.svg?v=1"),"stale cartoon Goku must not be used");
 assert(source.includes("assets/characters/hero.svg"),"All screens must share a new organic anime hero");
 assert(source.includes("MOTION_MICROFRAMES=100"),"Every cinematic move needs 100 planned motion subframes");
@@ -120,6 +120,7 @@ cinemaClick("quickfight");
 assert(cinemaRoot.innerHTML.includes("cinema-4k"),"Cinema arena class not rendered");
 assert(cinemaRoot.innerHTML.includes("characters/drone.svg")&&cinemaRoot.innerHTML.includes("characters/hero.svg"),"4K battle lacks unique illustrated characters");
 cinemaClick("move","punch");
+assert(cinemaRoot.innerHTML.includes("choreo-punch"),"Punch cinematic has no move-specific animation class");
 const parts=cinemaRoot.innerHTML.match(/KADR 1 \/ (\d+)/);
 assert(parts&&Number(parts[1])>=8,"Basic combo requires >=8 storyboard cuts");
 cinemaClick("frame");
@@ -140,4 +141,6 @@ for(const kind of ["hero","bandit","ribbon","scout","nappa","vegeta","roshi","pi
 }
 assert(!source.includes("ENEMIES.bandit.art=originalEnemy"),"Old geometric enemy generator still active");
 assert(source.includes("MOTION_MICROFRAMES=100"),"100 microframe animation engine must be wired");
+assert(source.includes("const ATTACK_CHOREO="),"Cinematic needs individually tuned move choreography");
+for(const move of ["punch","blast","rapid","kiwave","meteor","kame"])assert(source.includes(move+":"),"Missing animation preset: "+move);
 console.log("PASS: menu, character, skill tree, map movement, story, battle, cinematic attack and local graphics.");
