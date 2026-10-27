@@ -184,7 +184,7 @@ function drawHome(){let q=quest();return hdr("")+
 '<div class="tile-menu"><button class="tile main" data-a="new"><span class="glyph">⚔️</span><strong>NOWA GRA</strong><small>Nowa przygoda • Saga Saiyan</small></button>'+
 '<button class="tile" data-a="nav" data-v="world"><span class="glyph">▶️</span><strong>KONTYNUUJ</strong><small>Swobodna mapa i misje</small></button>'+
 '<a class="tile cinema-switch" href="'+(CINEMA_4K?"./?lite=1":"./?cinema=1")+'"><span class="glyph">🎬</span><strong>'+ (CINEMA_4K?"TRYB KINOWY 4K":"URUCHOM ANIMACJE 4K")+'</strong><small>15 scen 3840 × 2160 px</small></a>'+
-'<button class="tile quick-duel' data-a="quickfight"><span class="glyph">🔥</span><strong>WALKA TESTOWA</strong><small>Robot treningowy • filmowe kadry • bez utraty postępu</small></button>'+
+'<button class="tile quick-duel" data-a="quickfight"><span class="glyph">🔥</span><strong>WALKA TESTOWA</strong><small>Robot treningowy • filmowe kadry • bez utraty postępu</small></button>'+
 '<button class="tile" data-a="nav" data-v="world"><span class="glyph">🌍</span><strong>MAPA ŚWIATA</strong><small>Duża mapa z chodzeniem</small></button>'+
 '<button class="tile" data-a="nav" data-v="character"><span class="glyph">👤</span><strong>POSTAĆ</strong><small>Atrybuty, wygląd, progres</small></button>'+
 '<button class="tile" data-a="nav" data-v="skills"><span class="glyph">🌳</span><strong>DRZEWKO SKILLI</strong><small>+3 punkty na każdy LV</small></button>'+
