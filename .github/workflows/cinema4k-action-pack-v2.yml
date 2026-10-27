@@ -2,7 +2,7 @@ name: Build 15 cinema-4K anime animation frames
 on:
   push:
     branches: [cinema-4k-action-pack-v2]
-    paths: ['.github/workflows/cinema4k-action-pack-v2.yml','saiyan.js']
+    paths: ['.github/workflows/cinema4k-action-pack-v2.yml','saiyan.js','tests/smoke-test.cjs']
 permissions:
   contents: write
 jobs:

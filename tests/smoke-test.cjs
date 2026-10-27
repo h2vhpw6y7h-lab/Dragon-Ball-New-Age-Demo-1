@@ -113,6 +113,7 @@ const cinemaListeners={};
 const cinemaRoot={innerHTML:"",addEventListener(type,fn){cinemaListeners[type]=fn},contains(){return true}};
 const cinemaSandbox={...sandbox,window:{...sandbox.window,location:{search:"?cinema=1"}},document:{...sandbox.document,getElementById(id){return id==="app"?cinemaRoot:null}}};
 vm.runInNewContext(source,cinemaSandbox,{timeout:2000});
+assert(cinemaRoot.innerHTML.includes("cinema-switch"),"4K home toggle absent");
 assert(cinemaRoot.innerHTML.includes("anime-scene-battle-v1.png"),"Cinema does not replace the existing home screen");
 function cinemaClick(action,val=""){const btn={disabled:false,getAttribute(n){return n==="data-a"?action:n==="data-v"?val:null}};cinemaListeners.click({target:{closest(){return btn}}});assert(!cinemaRoot.innerHTML.includes("Błąd silnika gry"),"Cinema engine error: "+action);}
 cinemaClick("quickfight");
@@ -130,5 +131,5 @@ assert(cinemaRoot.innerHTML.includes("assets/4k/teleport-3840x2160.webp"),"Telep
 cinemaClick("skipscene");
 assert(!cinemaRoot.innerHTML.includes("Błąd silnika gry"),"4K attack ending broke battle state");
 for(const kind of ["battle","dash","charge","beam","impact","focus","teleport","punch","uppercut","guard","volley","clash","finisher","aftermath","counter"]){const file="assets/4k/"+kind+"-3840x2160.webp";assert(fs.existsSync(path.join(rootDir,file)),"Missing 4K anime frame "+file)}
-assert(cinemaRoot.innerHTML.includes("cinema-switch"),"4K home toggle absent");
+
 console.log("PASS: menu, character, skill tree, map movement, story, battle, cinematic attack and local graphics.");
