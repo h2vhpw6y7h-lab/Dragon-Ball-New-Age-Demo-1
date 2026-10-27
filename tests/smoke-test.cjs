@@ -18,8 +18,8 @@ for(const p of ["saiyan.js","saiyan.css","visual-upgrade.css","cinematic-0.8.css
 "assets/goku-normal-ki.svg","assets/earth-battle-4k.svg","assets/earth-map-4k.svg"]){
  assert(fs.statSync(path.join(rootDir,p)).size>100,p+" is missing or empty");
 }
-assert(html.includes('cinematic-0.8.css?v=13'),"cinematic stylesheet must load");
-assert(html.includes('saiyan.js?v=17'),"engine asset must be cache-busted");
+assert(html.includes('cinematic-0.8.css?v=14'),"cinematic stylesheet must load");
+assert(html.includes('saiyan.js?v=18'),"engine asset must be cache-busted");
 assert(!source.includes("goku-base-anime.svg?v=1"),"stale cartoon Goku must not be used");
 assert(source.includes('goku-normal-punch.svg?v=8'));
 assert(source.includes('goku-normal-guard.svg?v=8'));
@@ -123,6 +123,12 @@ const parts=cinemaRoot.innerHTML.match(/KADR 1 \/ (\d+)/);
 assert(parts&&Number(parts[1])>=8,"Basic combo requires >=8 storyboard cuts");
 cinemaClick("frame");
 assert(cinemaRoot.innerHTML.includes("assets/4k/dash-3840x2160.webp"),"Dash 4K image not selected");
+cinemaClick("frame");
+assert(cinemaRoot.innerHTML.includes("assets/4k/focus-3840x2160.webp"),"Focus scene is missing");
+cinemaClick("frame");
+assert(cinemaRoot.innerHTML.includes("assets/4k/teleport-3840x2160.webp"),"Teleport art is missing");
 cinemaClick("skipscene");
 assert(!cinemaRoot.innerHTML.includes("Błąd silnika gry"),"4K attack ending broke battle state");
+for(const kind of ["battle","dash","charge","beam","impact","focus","teleport","punch","uppercut","guard","volley","clash","finisher","aftermath","counter"]){const file="assets/4k/"+kind+"-3840x2160.webp";assert(fs.existsSync(path.join(rootDir,file)),"Missing 4K anime frame "+file)}
+assert(cinemaRoot.innerHTML.includes("cinema-switch"),"4K home toggle absent");
 console.log("PASS: menu, character, skill tree, map movement, story, battle, cinematic attack and local graphics.");

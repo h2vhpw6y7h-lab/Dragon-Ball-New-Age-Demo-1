@@ -5,8 +5,8 @@ const HD_ART=/(?:\\?|&)hd=1(?:&|$)/.test((typeof window!=="undefined"&&window.lo
 const ANIME_BATTLE=HD_ART?"./assets/anime-scene-battle-hd.webp":"./assets/anime-scene-battle-v1.png";
 const ANIME_KI=HD_ART?"./assets/anime-scene-ki-hd.webp":"./assets/anime-scene-ki-v1.png";
 const CINEMA_4K=/(?:\\?|&)cinema=1(?:&|$)/.test((typeof window!=="undefined"&&window.location&&window.location.search)||"");
-const CINEMA_ART={battle:"./assets/4k/battle-3840x2160.webp",dash:"./assets/4k/dash-3840x2160.webp",charge:"./assets/4k/charge-3840x2160.webp",beam:"./assets/4k/beam-3840x2160.webp",impact:"./assets/4k/impact-3840x2160.webp"};
-const frameAsset=mode=>CINEMA_ART[mode==="vanish"?"dash":mode==="charge"?"charge":mode==="beam"?"beam":mode==="hit"?"impact":"battle"];
+const CINEMA_ART={battle:"./assets/4k/battle-3840x2160.webp",dash:"./assets/4k/dash-3840x2160.webp",charge:"./assets/4k/charge-3840x2160.webp",beam:"./assets/4k/beam-3840x2160.webp",impact:"./assets/4k/impact-3840x2160.webp",focus:"./assets/4k/focus-3840x2160.webp",teleport:"./assets/4k/teleport-3840x2160.webp",punch:"./assets/4k/punch-3840x2160.webp",uppercut:"./assets/4k/uppercut-3840x2160.webp",guard:"./assets/4k/guard-3840x2160.webp",volley:"./assets/4k/volley-3840x2160.webp",clash:"./assets/4k/clash-3840x2160.webp",finisher:"./assets/4k/finisher-3840x2160.webp",aftermath:"./assets/4k/aftermath-3840x2160.webp",counter:"./assets/4k/counter-3840x2160.webp"};
+const frameAsset=f=>{const k=f&&f.art;if(k&&CINEMA_ART[k])return CINEMA_ART[k];const m=f&&f.mode;return CINEMA_ART[m==="vanish"?"dash":m==="charge"?"charge":m==="beam"?"beam":m==="hit"?"impact":m==="counter"?"counter":"battle"];};
 const ROOT=document.getElementById("app"),SAVE="dbna-saiyan-saga-v1",T=68,MW=50,MH=30;
 const PIC={
 goku:"./assets/goku-normal-idle.svg?v=8",
@@ -183,7 +183,8 @@ function drawHome(){let q=quest();return hdr("")+
 '<div class="ticker"><b style="font-size:23px">🔥</b><div><b>DRAGON BALL NEW AGE</b><br><span class="sm">'+esc(S.heroName)+' • LV '+S.level+' • Moc '+power()+'</span></div></div>'+
 '<div class="tile-menu"><button class="tile main" data-a="new"><span class="glyph">⚔️</span><strong>NOWA GRA</strong><small>Nowa przygoda • Saga Saiyan</small></button>'+
 '<button class="tile" data-a="nav" data-v="world"><span class="glyph">▶️</span><strong>KONTYNUUJ</strong><small>Swobodna mapa i misje</small></button>'+
-'<button class="tile quick-duel" data-a="quickfight"><span class="glyph">🔥</span><strong>WALKA TESTOWA</strong><small>Robot treningowy • filmowe kadry • bez utraty postępu</small></button>'+
+'<a class="tile cinema-switch" href="'+(CINEMA_4K?"./?lite=1":"./?cinema=1")+'"><span class="glyph">🎬</span><strong>'+ (CINEMA_4K?"TRYB KINOWY 4K":"URUCHOM ANIMACJE 4K")+'</strong><small>15 scen 3840 × 2160 px</small></a>'+
+'<button class="tile quick-duel' data-a="quickfight"><span class="glyph">🔥</span><strong>WALKA TESTOWA</strong><small>Robot treningowy • filmowe kadry • bez utraty postępu</small></button>'+
 '<button class="tile" data-a="nav" data-v="world"><span class="glyph">🌍</span><strong>MAPA ŚWIATA</strong><small>Duża mapa z chodzeniem</small></button>'+
 '<button class="tile" data-a="nav" data-v="character"><span class="glyph">👤</span><strong>POSTAĆ</strong><small>Atrybuty, wygląd, progres</small></button>'+
 '<button class="tile" data-a="nav" data-v="skills"><span class="glyph">🌳</span><strong>DRZEWKO SKILLI</strong><small>+3 punkty na każdy LV</small></button>'+
@@ -205,10 +206,11 @@ const m=mode||"battlefield",area=["saiba","saibaBoss","nappa","vegeta","scout"].
 let left=protagonist(),right=b.art;
 if(shot){if(shot.mode==="vanish")left=PIC.gokuDash;else if(shot.mode==="hit")left=PIC.gokuAtk;else if(shot.mode==="counter")left=PIC.gokuDef;else if(shot.mode==="charge"||shot.mode==="beam")left=PIC.gokuAura;}
 const painted=id==="drone",energyFrame=shot&&["charge","beam","hit"].includes(shot.mode||"");
-const paintedSrc=CINEMA_4K?frameAsset(shot&&shot.mode):energyFrame?ANIME_KI:ANIME_BATTLE;
+const paintedSrc=CINEMA_4K?frameAsset(shot):energyFrame?ANIME_KI:ANIME_BATTLE;
 const sceneMode=shot&&["vanish","charge","beam","hit","counter"].includes(shot.mode)?shot.mode:"battlefield";
+const sceneArt=shot&&shot.art&&CINEMA_ART[shot.art]?shot.art:"battle";
 const sceneFx=CINEMA_4K?'<div class="cinema-fx"><i class="afterimage"></i><i class="rays"></i><i class="shockwave"></i><i class="ki-core"></i></div>':"";
-return '<div class="scene-wrap anime-arena '+(painted?"anime-painted ":"")+(CINEMA_4K?"cinema-4k cinema-shot-"+sceneMode+" ":"")+'arena-'+area+' '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"angle-wide")+' '+(shot?"combat-"+(shot.mode||"wide"):"combat-idle")+'">'+
+return '<div class="scene-wrap anime-arena '+(painted?"anime-painted ":"")+(CINEMA_4K?"cinema-4k cinema-shot-"+sceneMode+" cinema-art-"+sceneArt+" ":"")+'arena-'+area+' '+m+' '+(shot?"angle-"+(shot.angle||"wide"):"angle-wide")+' '+(shot?"combat-"+(shot.mode||"wide"):"combat-idle")+'">'+
 '<div class="stage-ground"></div><div class="stage-atmosphere"></div>'+
 (painted?('<img class="painted-scene" src="'+paintedSrc+'" alt="Ilustrowana scena anime" loading="eager" draggable="false">'):('<div class="painted-hero-half" style="background-image:url('+paintedSrc+')" aria-hidden="true"></div>'+gameImage(left,"player-art "+(shot?"pose-"+shot.mode:"pose-idle"),"Goku w formie podstawowej")+gameImage(right,"enemy-art",b.name)))+
 '<div class="aura-burst"></div><div class="impact-ring"></div><div class="combat-speed"></div><div class="combat-sparks"></div>'+sceneFx+
@@ -300,30 +302,31 @@ if(playerPower>enemypower*2)enemyHit=Math.round(enemyHit*.5);
 let playerDodge=Math.random()<clamp(.08+val("spd")*.007+rank("teleport")*.06,.04,.58);
 if(playerDodge)enemyHit=0;
 let frames=[
-{mode:"battlefield",heading:"NAPRZECIW SIEBIE",text:"Goku i "+e.name+" wymieniają pierwsze ciosy.",label:"STARCIE"},
-{mode:"vanish",heading:"START — ZERWANIE DYSTANSU!",text:"Błyskawiczny pierwszy krok, pył zostaje daleko w tyle.",label:"START"},
-{mode:m.type==="ki"?"charge":"vanish",heading:m.type==="ki"?"KONCENTRACJA KI":"BŁYSK!",text:m.type==="ki"?"Energia zbiera się w dłoniach Goku.":"Goku przyspiesza i znika z pola widzenia!",label:"PRZYGOTOWANIE"},
-{mode:"vanish",heading:"PÓŁ SEKUNDY!",text:"Seria błyskawicznych doskoków. Przeciwnik traci wojownika z oczu.",label:"SZYBKOŚĆ"},
-{mode:m.type==="ki"?"charge":"counter",heading:m.type==="ki"?"KULMINACJA MOCY":"ZDERZENIE!",text:m.type==="ki"?"Kamienie unoszą się od ciśnienia energii.":"Pięści zderzają się, a skały pękają pod stopami.",label:"NAPIĘCIE"},
-{mode:m.type==="ki"?"beam":"hit",heading:m.type==="ki"?"WYSTRZAŁ KI!":"CIOS ZA CIOSEM!",text:m.type==="ki"?"Fala energii przecina pole bitwy!":"Kombinacja ciosów trafia przeciwnika!",label:"ATAK"}
+{mode:"battlefield",art:"battle",heading:"NAPRZECIW SIEBIE",text:"Goku i "+e.name+" wymieniają pierwsze ciosy.",label:"STARCIE"},
+{mode:"vanish",art:"dash",heading:"START — ZERWANIE DYSTANSU!",text:"Błyskawiczny pierwszy krok, pył zostaje daleko w tyle.",label:"START"},
+{mode:m.type==="ki"?"charge":"vanish",art:m.type==="ki"?"charge":"focus",heading:m.type==="ki"?"KONCENTRACJA KI":"BŁYSK!",text:m.type==="ki"?"Energia zbiera się w dłoniach Goku.":"Goku przyspiesza i znika z pola widzenia!",label:"PRZYGOTOWANIE"},
+{mode:"vanish",art:"teleport",heading:"PÓŁ SEKUNDY!",text:"Seria błyskawicznych doskoków. Przeciwnik traci wojownika z oczu.",label:"SZYBKOŚĆ"},
+{mode:m.type==="ki"?"charge":"counter",art:m.type==="ki"?"focus":"clash",heading:m.type==="ki"?"KULMINACJA MOCY":"ZDERZENIE!",text:m.type==="ki"?"Kamienie unoszą się od ciśnienia energii.":"Pięści zderzają się, a skały pękają pod stopami.",label:"NAPIĘCIE"},
+{mode:m.type==="ki"?"beam":"hit",art:m.type==="ki"?"beam":"punch",heading:m.type==="ki"?"WYSTRZAŁ KI!":"CIOS ZA CIOSEM!",text:m.type==="ki"?"Fala energii przecina pole bitwy!":"Kombinacja ciosów trafia przeciwnika!",label:"ATAK"}
 ];
-frames.push({mode:m.type==="ki"?"charge":"counter",heading:m.type==="ki"?"NARASTANIE ENERGII":"ZMIANA GARDY",text:m.type==="ki"?"Wokół dłoni wirują błękitne iskry.":"Przeciwnik nie nadąża za kolejną zmianą tempa.",label:"DRAMATURGIA"});
+frames.push({mode:m.type==="ki"?"charge":"counter",art:m.type==="ki"?"charge":"guard",heading:m.type==="ki"?"NARASTANIE ENERGII":"ZMIANA GARDY",text:m.type==="ki"?"Wokół dłoni wirują błękitne iskry.":"Przeciwnik nie nadąża za kolejną zmianą tempa.",label:"DRAMATURGIA"});
 if(m.frames>=5){
-frames.push({mode:"vanish",heading:"POWIDOK!",text:"Szybki ruch rozdziela powietrze — bohater znika za przeciwnikiem.",label:"ZMIANA POZYCJI"});
-frames.push({mode:"hit",heading:"COMBO!",text:"Potężne uderzenie odbija przeciwnika od skalnej ściany.",label:"CIOS"});
-frames.push({mode:"counter",heading:"ODRZUT!",text:"Odłamki skał i fala uderzeniowa przecinają pole bitwy.",label:"IMPULS"});
+frames.push({mode:"vanish",art:"teleport",heading:"POWIDOK!",text:"Szybki ruch rozdziela powietrze — bohater znika za przeciwnikiem.",label:"ZMIANA POZYCJI"});
+frames.push({mode:"hit",art:"uppercut",heading:"COMBO!",text:"Potężne uderzenie odbija przeciwnika od skalnej ściany.",label:"CIOS"});
+frames.push({mode:"counter",art:"aftermath",heading:"ODRZUT!",text:"Odłamki skał i fala uderzeniowa przecinają pole bitwy.",label:"IMPULS"});
 }
-if(m.type==="ki")frames.push({mode:"beam",heading:"PRZEŁAMANIE OBRONY!",text:"Druga fala uderzeniowa rozświetla całe pole bitwy.",label:"PRZEBICIE"});
-if(m.type==="combo")frames.push({mode:"vanish",heading:"PRZESKOK ZA PLECY!",text:"Seria błysków i powidoków, przeciwnik zostaje za plecami.",label:"TELEPORT"});
-frames.push({mode:"hit",heading:"FALA UDERZENIOWA!",text:"Wyrzucone odłamki skał przecinają powietrze.",label:"EFEKT"});
-if(counter)frames.push({mode:"counter",heading:"KONTRA!",text:e.name+" próbuje odpowiedzieć błyskawicznym ciosem!",label:"KONTRATAK"});
-else if(dodge)frames.push({mode:"vanish",heading:"UNIK!",text:e.name+" częściowo unika nadchodzącej techniki.",label:"POWIDOK"});
-else if(guard)frames.push({mode:"counter",heading:"BLOK!",text:e.name+" osłania się przed uderzeniem.",label:"OBRONA"});
-if(extra)frames.push({mode:"hit",heading:"DODATKOWY CIOS!",text:"Kolejny cios trafia przeciwnika! Combo trwa.",label:"COMBO"});
-frames.push({mode:"hit",heading:crit?"KRYTYCZNE TRAFIENIE!":"TRAFIENIE!",text:"Zadajesz "+dmg+" obrażeń!",label:""+dmg+" DAMAGE"});
-if(dmg>=b.hp)frames.push({mode:"hit",heading:"FINISHER!",text:e.name+" przegrywa walkę. Nad areną rozbłyskuje energia!",label:"FINISH"});
+if(m.type==="ki")frames.push({mode:"beam",art:"volley",heading:"PRZEŁAMANIE OBRONY!",text:"Druga fala uderzeniowa rozświetla całe pole bitwy.",label:"PRZEBICIE"});
+if(m.type==="combo")frames.push({mode:"vanish",art:"teleport",heading:"PRZESKOK ZA PLECY!",text:"Seria błysków i powidoków, przeciwnik zostaje za plecami.",label:"TELEPORT"});
+frames.push({mode:"hit",art:"impact",heading:"FALA UDERZENIOWA!",text:"Wyrzucone odłamki skał przecinają powietrze.",label:"EFEKT"});
+if(counter)frames.push({mode:"counter",art:"counter",heading:"KONTRA!",text:e.name+" próbuje odpowiedzieć błyskawicznym ciosem!",label:"KONTRATAK"});
+else if(dodge)frames.push({mode:"vanish",art:"teleport",heading:"UNIK!",text:e.name+" częściowo unika nadchodzącej techniki.",label:"POWIDOK"});
+else if(guard)frames.push({mode:"counter",art:"guard",heading:"BLOK!",text:e.name+" osłania się przed uderzeniem.",label:"OBRONA"});
+if(extra)frames.push({mode:"hit",art:"punch",heading:"DODATKOWY CIOS!",text:"Kolejny cios trafia przeciwnika! Combo trwa.",label:"COMBO"});
+frames.push({mode:"vanish",art:"focus",heading:"ZATRZYMANIE CZASU!",text:"Ułamek sekundy przed ostatnim ciosem.",label:"SLOW MOTION"});
+frames.push({mode:"hit",art:"impact",heading:crit?"KRYTYCZNE TRAFIENIE!":"TRAFIENIE!",text:"Zadajesz "+dmg+" obrażeń!",label:""+dmg+" DAMAGE"});
+if(dmg>=b.hp)frames.push({mode:"hit",art:"finisher",heading:"FINISHER!",text:e.name+" przegrywa walkę. Nad areną rozbłyskuje energia!",label:"FINISH"});
 S.scene={frames,idx:0,moveName:m.name,consequence:{dmg,enemyHit,crit,dodge,guard,counter,extra,id}};S.screen="cut";render();}
-function defend(){if(!S.battle)return;let e=ENEMIES[S.battle.enemy];S.energy=Math.min(maxKI(),S.energy+29+rank("recovery")*4);let hit=Math.max(0,Math.round((e.atk+e.lv*2-val("def")*5)*.27));S.scene={idx:0,moveName:"Obrona i odzyskanie KI",frames:[{mode:"counter",heading:"OBRONA",text:"Wojownik przyjmuje postawę obronną i koncentruje energię.",label:"BLOK"},{mode:"battlefield",heading:"ODZYSK KI",text:"Obrona osłabia atak przeciwnika. Zyskujesz KI.",label:"KONCENTRACJA"}],consequence:{dmg:0,enemyHit:hit,id:"defend"}};S.screen="cut";render()}
+function defend(){if(!S.battle)return;let e=ENEMIES[S.battle.enemy];S.energy=Math.min(maxKI(),S.energy+29+rank("recovery")*4);let hit=Math.max(0,Math.round((e.atk+e.lv*2-val("def")*5)*.27));S.scene={idx:0,moveName:"Obrona i odzyskanie KI",frames:[{mode:"counter",art:"guard",heading:"OBRONA",text:"Wojownik przyjmuje postawę obronną i koncentruje energię.",label:"BLOK"},{mode:"battlefield",art:"focus",heading:"ODZYSK KI",text:"Obrona osłabia atak przeciwnika. Zyskujesz KI.",label:"KONCENTRACJA"}],consequence:{dmg:0,enemyHit:hit,id:"defend"}};S.screen="cut";render()}
 function finishScene(){const c=S.scene.consequence,b=S.battle;if(!b||!c){S.scene=null;S.screen="world";render();return}b.hp=Math.max(0,b.hp-c.dmg);b.log.push((c.id||"Atak")+": "+c.dmg+" DMG.");if(c.counter)b.log.push("Wróg wykonał kontratak!");if(c.dodge)b.log.push("Wróg uniknął części obrażeń.");if(c.extra)b.log.push("Dodatkowe Combo!");if(c.crit)b.log.push("Trafienie krytyczne!");
 if(c.id==="punch")b.combo=clamp(b.combo+18+rank("rhythm")*8,0,100);
 else if(["rapid","meteor"].includes(c.id)){b.chain++;b.combo=c.id==="meteor"?0:clamp(b.combo+24,0,100)}

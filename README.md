@@ -38,3 +38,4 @@
 - Opt-in via `?cinema=1`. Standard mode and older `?hd=1` remain untouched; character progress remains in the same storage key.
 - Additional cinematic frames, camera moves, speed lines, Ki charge, beam and collision shockwaves with automatic advance and skip.
 - Graphic format is genuinely 3840×2160 pixels; **original character detail is limited by the lower-resolution source**, not freshly painted native 4K figures.
+\n\n## Cinema 4K Action Pack v2 (prace graficzne)\n15 odrębnych obrazów technicznych 3840 × 2160: walka, doskok, Ki, wystrzał, trafienie, zbliżenie, teleport, cios, podbródkowy, blok, seria Ki, zderzenie, finisher, pył i kontra. ?cinema=1 włącza tryb, ?lite=1 wraca do wersji oszczędnej. Obrazy upscalowane z 920 × 592, nie natywne rysunki 4K.\n

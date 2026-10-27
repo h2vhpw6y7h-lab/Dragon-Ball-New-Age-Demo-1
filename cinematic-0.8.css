@@ -304,3 +304,24 @@ html{scroll-padding-top:65px;-webkit-text-size-adjust:100%}
 @keyframes dbna-ki{0%{transform:scaleX(.08);opacity:.2}26%{opacity:1}70%{transform:scaleX(1.06);opacity:1}100%{transform:scaleX(1);opacity:.1}}
 @keyframes dbna-pulse{0%{transform:scale(.2);opacity:.1}55%{transform:scale(.9);opacity:.8}100%{transform:scale(1.25);opacity:.1}}
 @media(prefers-reduced-motion:reduce){.scene-wrap.cinema-4k .painted-scene,.scene-wrap.cinema-4k .painted-hero-half,.scene-wrap.cinema-4k .cinema-fx *{animation:none!important;will-change:auto}}
+
+.tile.cinema-switch{display:flex;flex-direction:column;justify-content:center;min-height:100px;text-decoration:none;border:2px solid #fbc46c;background:linear-gradient(120deg,#132a4f,#3e2c46);color:white;gap:6px;padding:12px}.tile.cinema-switch strong{color:#ffd781}
+.scene-wrap.cinema-4k.cinema-art-focus .painted-scene{animation:c4-focus 1s both;transform-origin:27% 44%}
+.scene-wrap.cinema-4k.cinema-art-teleport .painted-scene{animation:c4-teleport .8s both}
+.scene-wrap.cinema-4k.cinema-art-punch .painted-scene{animation:c4-punch .7s both}
+.scene-wrap.cinema-4k.cinema-art-uppercut .painted-scene{animation:c4-uppercut .9s both}
+.scene-wrap.cinema-4k.cinema-art-guard .painted-scene{animation:c4-guard .9s both}
+.scene-wrap.cinema-4k.cinema-art-volley .painted-scene{animation:c4-volley .9s both}
+.scene-wrap.cinema-4k.cinema-art-clash .painted-scene{animation:c4-clash .95s both}
+.scene-wrap.cinema-4k.cinema-art-finisher .painted-scene{animation:c4-finisher .9s both}
+.scene-wrap.cinema-4k.cinema-art-counter .painted-scene{animation:c4-counter .9s both}
+@keyframes c4-focus{0%{transform:scale(1.04);filter:brightness(.75)}100%{transform:scale(1.22) translate(3%,-2%);filter:brightness(1.21)}}
+@keyframes c4-teleport{0%{opacity:.1;transform:translate(-12%,-5%) scale(1.14);filter:blur(13px)}55%{opacity:1;transform:translate(5%,1%)}100%{transform:scale(1.03);filter:blur(0)}}
+@keyframes c4-punch{0%{transform:translate(-8%,0) scale(1.12);filter:blur(6px)}55%{transform:translate(3%,0) scale(1.15);filter:brightness(1.5)}100%{transform:scale(1.03)}}
+@keyframes c4-uppercut{from{transform:translate(0,7%) scale(1.05)}to{transform:translate(0,-5%) scale(1.18);filter:brightness(1.4)}}
+@keyframes c4-guard{0%{filter:brightness(.55)}55%{filter:brightness(1.65)}100%{filter:brightness(1.08)}}
+@keyframes c4-volley{from{transform:scale(1.14);filter:brightness(1.8)}to{transform:scale(1.02);filter:brightness(1)}}
+@keyframes c4-clash{0%,50%{transform:translate(-1.3%,1%) scale(1.13)}25%,75%{transform:translate(1.8%,-1%) scale(1.14)}100%{transform:scale(1)}}
+@keyframes c4-finisher{from{filter:brightness(3);transform:scale(1.2)}to{filter:brightness(1);transform:scale(1)}}
+@keyframes c4-counter{0%,60%{transform:translate(-2%,2%)}30%{transform:translate(2%,-1%)}100%{transform:translate(0)}}
+@media(prefers-reduced-motion:reduce){.scene-wrap.cinema-4k .painted-scene{animation:none!important}}
