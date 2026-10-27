@@ -21,8 +21,8 @@ for(const p of ["saiyan.js","saiyan.css","visual-upgrade.css","cinematic-0.8.css
 assert(html.includes('cinematic-0.8.css?v=14'),"cinematic stylesheet must load");
 assert(html.includes('saiyan.js?v=18'),"engine asset must be cache-busted");
 assert(!source.includes("goku-base-anime.svg?v=1"),"stale cartoon Goku must not be used");
-assert(source.includes('goku-normal-punch.svg?v=8'));
-assert(source.includes('goku-normal-guard.svg?v=8'));
+assert(source.includes("assets/characters/hero.svg"),"All screens must share a new organic anime hero");
+assert(source.includes("MOTION_MICROFRAMES=100"),"Every cinematic move needs 100 planned motion subframes");
 new Function(source); // syntax validation only
 const listeners={},intervals=[];
 const root={
@@ -61,14 +61,14 @@ const sandbox={
 };
 vm.runInNewContext(source,sandbox,{timeout:1500});
 assert(root.innerHTML.includes("Goku"),"home not rendered");
-assert(root.innerHTML.includes("goku-normal-idle.svg"),"Goku sprite missing");
+assert(root.innerHTML.includes("characters/hero.svg"),"Detailed character on home missing");
 function click(action,val=""){
  const btn={disabled:false,getAttribute(n){return n==="data-a"?action:n==="data-v"?val:null}};
  listeners.click({target:{closest(){return btn}}});
  if(root.innerHTML.includes("Błąd silnika gry"))throw Error("Engine error after "+action+":"+val);
 }
 click("quickfight");
-assert(root.innerHTML.includes("anime-scene-battle-v1.png"),"Robot fight must show raster anime art");
+assert(root.innerHTML.includes("characters/drone.svg")&&root.innerHTML.includes("characters/hero.svg"),"Robot fight must render organic character sprites, not robot block art");
 assert(root.innerHTML.includes("Robot treningowy"),"quick duel must start against training robot");
 assert(root.innerHTML.includes("MENU WALKI")||root.innerHTML.includes("Menu walki"),"quick duel must reach battle UI");
 click("move","punch");
@@ -89,11 +89,11 @@ assert(root.innerHTML.includes('data-a="nextdialog"'),"story dialog not triggere
 for(let n=0;n<12&&root.innerHTML.includes('data-a="nextdialog"');n++)click("nextdialog");
 assert(root.innerHTML.includes("MENU WALKI")||root.innerHTML.includes("Menu walki"),"battle menu unavailable after dialog");
 assert(root.innerHTML.includes("anime-arena"),"new arena not drawn");
-assert(root.innerHTML.includes("painted-hero-half"),"Non-robot battle must also show anime warrior illustration");
+assert(root.innerHTML.includes("characters/saiba.svg"),"Story battle must render unique opponent");
 click("move","punch");
 assert(root.innerHTML.includes('KADR 1 /'),"combat frame not started");
 assert(root.innerHTML.includes("anime-arena"),"cinematic arena not used");
-assert(root.innerHTML.includes("goku-normal"),"cinematic must keep consistent Goku");
+assert(root.innerHTML.includes("characters/hero.svg"),"Cinematic must keep detailed hero");
 click("skipscene");
 assert(!root.innerHTML.includes("Błąd silnika gry"),"combat result crashed");
 assert(read("cinematic-0.8.css").includes("ANIME COMBAT 1.0"),"anime polish css is missing");
@@ -106,7 +106,7 @@ vm.runInNewContext(source,hdSandbox,{timeout:1500});
 assert(hdRoot.innerHTML.includes("anime-scene-battle-hd.webp"),"HD preview must use 920px art");
 const hdButton={disabled:false,getAttribute(n){return n==="data-a"?"quickfight":n==="data-v"?"":null}};
 hdListeners.click({target:{closest(){return hdButton}}});
-assert(hdRoot.innerHTML.includes("anime-scene-battle-hd.webp"),"HD robot battle missing upscaled scene");
+assert(hdRoot.innerHTML.includes("characters/drone.svg"),"HD robot battle must use detailed character sprite");
 
 // Cinema-4K is opt-in and must preserve the older mode and player progression.
 const cinemaListeners={};
@@ -118,7 +118,7 @@ assert(cinemaRoot.innerHTML.includes("assets/4k/battle-3840x2160.webp"),"Cinema 
 function cinemaClick(action,val=""){const btn={disabled:false,getAttribute(n){return n==="data-a"?action:n==="data-v"?val:null}};cinemaListeners.click({target:{closest(){return btn}}});assert(!cinemaRoot.innerHTML.includes("Błąd silnika gry"),"Cinema engine error: "+action);}
 cinemaClick("quickfight");
 assert(cinemaRoot.innerHTML.includes("cinema-4k"),"Cinema arena class not rendered");
-assert(cinemaRoot.innerHTML.includes("assets/4k/battle-3840x2160.webp"),"4K idle art missing");
+assert(cinemaRoot.innerHTML.includes("characters/drone.svg")&&cinemaRoot.innerHTML.includes("characters/hero.svg"),"4K battle lacks unique illustrated characters");
 cinemaClick("move","punch");
 const parts=cinemaRoot.innerHTML.match(/KADR 1 \/ (\d+)/);
 assert(parts&&Number(parts[1])>=8,"Basic combo requires >=8 storyboard cuts");
@@ -132,4 +132,12 @@ cinemaClick("skipscene");
 assert(!cinemaRoot.innerHTML.includes("Błąd silnika gry"),"4K attack ending broke battle state");
 for(const kind of ["battle","dash","charge","beam","impact","focus","teleport","punch","uppercut","guard","volley","clash","finisher","aftermath","counter"]){const file="assets/4k/"+kind+"-3840x2160.webp";assert(fs.existsSync(path.join(rootDir,file)),"Missing 4K anime frame "+file)}
 
+
+for(const kind of ["hero","bandit","ribbon","scout","nappa","vegeta","roshi","pig","martial","saiba","saiba-boss","drone","sentry"]){
+ const p="assets/characters/"+kind+".svg";
+ const svg=read(p);
+ assert(svg.includes("<path")&&svg.includes("Q")&&svg.includes("</svg>"),p+" must be organic curved SVG, not boxy geometry");
+}
+assert(!source.includes("ENEMIES.bandit.art=originalEnemy"),"Old geometric enemy generator still active");
+assert(source.includes("MOTION_MICROFRAMES=100"),"100 microframe animation engine must be wired");
 console.log("PASS: menu, character, skill tree, map movement, story, battle, cinematic attack and local graphics.");
