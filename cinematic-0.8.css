@@ -362,3 +362,10 @@ html{scroll-padding-top:65px;-webkit-text-size-adjust:100%}
 @keyframes dbna-organic-beam-impact{0%{filter:brightness(2);transform:translateX(0)}55%{filter:brightness(1.25);transform:translateX(16%) scale(.91)}100%{transform:translateX(5%)}}
 @media(max-width:640px){.scene-wrap.organic-anime .player-art,.scene-wrap.organic-anime .enemy-art{height:126%!important;bottom:-19%!important;width:56%!important}}
 @media(prefers-reduced-motion:reduce){.scene-wrap.organic-anime .player-art,.scene-wrap.organic-anime .enemy-art{animation:none!important;will-change:auto}}
+
+/* Clear game-title screen: original line illustration overlays scenic background instead of blown-up 199px art. */
+.hero-cover{background:linear-gradient(120deg,#193c62,#086d84 65%,#b78361)!important}
+.hero-cover .hero-image{background-size:cover!important;background-position:center 51%!important;filter:saturate(1.16) contrast(1.13)!important;image-rendering:auto!important}
+.hero-cover .home-goku{display:block!important;position:absolute!important;z-index:2!important;right:-5%!important;top:-5%!important;width:53%!important;height:117%!important;object-fit:contain!important;filter:drop-shadow(0 11px 6px #102033aa) drop-shadow(0 0 16px #ffca7a75)!important}
+.hero-cover .hero-caption{max-width:64%;z-index:4}
+.scene-wrap.result-art img.shot{object-fit:contain!important;object-position:center!important;max-height:100%}

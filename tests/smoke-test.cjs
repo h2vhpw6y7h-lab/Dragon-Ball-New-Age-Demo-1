@@ -18,8 +18,8 @@ for(const p of ["saiyan.js","saiyan.css","visual-upgrade.css","cinematic-0.8.css
 "assets/goku-normal-ki.svg","assets/earth-battle-4k.svg","assets/earth-map-4k.svg"]){
  assert(fs.statSync(path.join(rootDir,p)).size>100,p+" is missing or empty");
 }
-assert(html.includes('cinematic-0.8.css?v=15'),"cinematic stylesheet must load");
-assert(html.includes('saiyan.js?v=19'),"engine asset must be cache-busted");
+assert(html.includes('cinematic-0.8.css?v=16'),"cinematic stylesheet must load");
+assert(html.includes('saiyan.js?v=20'),"engine asset must be cache-busted");
 assert(!source.includes("goku-base-anime.svg?v=1"),"stale cartoon Goku must not be used");
 assert(source.includes("assets/characters/hero.svg"),"All screens must share a new organic anime hero");
 assert(source.includes("MOTION_MICROFRAMES=100"),"Every cinematic move needs 100 planned motion subframes");
@@ -75,7 +75,7 @@ click("move","punch");
 assert(root.innerHTML.includes("KADR 1 /"),"quick duel must start cinematic frames");
 click("skipscene");
 click("nav","home");
-assert(root.innerHTML.includes("anime-scene-battle-v1.png"),"Home must display new illustrated background");
+assert(root.innerHTML.includes("earth-battle-4k.svg")&&root.innerHTML.includes("characters/hero.svg"),"Home must have clean detailed hero instead of enlarged low-resolution raster");
 click("nav","character");
 assert(root.innerHTML.includes("Atrybuty postaci"),"character menu unavailable");
 click("nav","skills");
@@ -103,7 +103,7 @@ const hdRoot={innerHTML:"",addEventListener(type,fn){hdListeners[type]=fn},conta
 const hdListeners={};
 const hdSandbox={...sandbox,window:{...sandbox.window,location:{search:"?hd=1"}},document:{...sandbox.document,getElementById(id){return id==="app"?hdRoot:null}}};
 vm.runInNewContext(source,hdSandbox,{timeout:1500});
-assert(hdRoot.innerHTML.includes("anime-scene-battle-hd.webp"),"HD preview must use 920px art");
+assert(hdRoot.innerHTML.includes("earth-battle-4k.svg")&&hdRoot.innerHTML.includes("characters/hero.svg"),"Home HD must not reuse old soft bitmap art");
 const hdButton={disabled:false,getAttribute(n){return n==="data-a"?"quickfight":n==="data-v"?"":null}};
 hdListeners.click({target:{closest(){return hdButton}}});
 assert(hdRoot.innerHTML.includes("characters/drone.svg"),"HD robot battle must use detailed character sprite");
@@ -114,7 +114,7 @@ const cinemaRoot={innerHTML:"",addEventListener(type,fn){cinemaListeners[type]=f
 const cinemaSandbox={...sandbox,window:{...sandbox.window,location:{search:"?cinema=1"}},document:{...sandbox.document,getElementById(id){return id==="app"?cinemaRoot:null}}};
 vm.runInNewContext(source,cinemaSandbox,{timeout:2000});
 assert(cinemaRoot.innerHTML.includes("cinema-switch"),"4K home toggle absent");
-assert(cinemaRoot.innerHTML.includes("assets/4k/battle-3840x2160.webp"),"Cinema home must use 3840-wide hero art");
+assert(cinemaRoot.innerHTML.includes("characters/hero.svg"),"4K home must show new full-resolution vector hero");
 function cinemaClick(action,val=""){const btn={disabled:false,getAttribute(n){return n==="data-a"?action:n==="data-v"?val:null}};cinemaListeners.click({target:{closest(){return btn}}});assert(!cinemaRoot.innerHTML.includes("Błąd silnika gry"),"Cinema engine error: "+action);}
 cinemaClick("quickfight");
 assert(cinemaRoot.innerHTML.includes("cinema-4k"),"Cinema arena class not rendered");

@@ -14,10 +14,10 @@ goku:"./assets/characters/hero.svg?v=1",
 gokuAtk:"./assets/characters/hero.svg?v=1",
 gokuDef:"./assets/characters/hero.svg?v=1",
 gokuAura:"./assets/characters/hero.svg?v=1",
-saiba:"https://www.nicepng.com/png/full/562-5627827_dbz-saibaman-clipart-goku-vegeta-frieza-dragon-ball.png",
-nappa:"https://e7.pngegg.com/pngimages/826/98/png-clipart-nappa-goku-vegeta-shenron-dragon-ball-goku-hand-manga.png",
-vegeta:"https://thecodex.wiki/images/thumb/9/96/SaiyanSagaVegeta.png/800px-SaiyanSagaVegeta.png",
-frieza:"https://jp.dblegends.net/assets/card_arts/0450_Frieza4th_450/0450_Frieza4th_450_Chara.png",
+saiba:"./assets/characters/saiba.svg?v=1",
+nappa:"./assets/characters/nappa.svg?v=1",
+vegeta:"./assets/characters/vegeta.svg?v=1",
+frieza:"./assets/anime-rival-v04.svg?v=1",
 duel:"./assets/earth-battle-4k.svg?v=8",
 clash:"./assets/earth-battle-4k.svg?v=8"
 };
@@ -137,7 +137,7 @@ function quest(){return CHAPTERS[Math.min(S.chapter,3)]}
 function gameImage(src,cls,alt){return '<img draggable="false" class="'+(cls||"")+'" src="'+src+'" alt="'+(alt||"Ilustracja")+'" loading="eager" decoding="async" onerror="this.onerror=null;this.src=(this.className.indexOf(\'enemy\')>=0?\'./assets/unknown-warrior.svg?v=7\':\'./assets/goku-normal-idle.svg?v=7\')">'}
 function protagonist(){return PIC.goku}
 function drawHome(){let q=quest();return hdr("")+
-'<div class="hero-cover"><div class="hero-image" style="background-image:url('+(CINEMA_4K?CINEMA_ART.battle:ANIME_BATTLE)+')"></div>'+gameImage(PIC.goku,"home-goku","Goku w formie podstawowej")+'<div class="hero-caption"><span class="label orange">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</span><h1 class="flame">'+(S.chapter<3?'ATAK SAIYAN':'ZWYCIĘSTWO')+'</h1><p>'+esc(q.goal)+'</p></div></div>'+
+'<div class="hero-cover"><div class="hero-image" style="background-image:url(./assets/earth-battle-4k.svg?v=8)"></div>'+gameImage(PIC.goku,"home-goku","Goku w formie podstawowej")+'<div class="hero-caption"><span class="label orange">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</span><h1 class="flame">'+(S.chapter<3?'ATAK SAIYAN':'ZWYCIĘSTWO')+'</h1><p>'+esc(q.goal)+'</p></div></div>'+
 '<div class="ticker"><b style="font-size:23px">🔥</b><div><b>DRAGON BALL NEW AGE</b><br><span class="sm">'+esc(S.heroName)+' • LV '+S.level+' • Moc '+power()+'</span></div></div>'+
 '<div class="tile-menu"><button class="tile main" data-a="new"><span class="glyph">⚔️</span><strong>NOWA GRA</strong><small>Nowa przygoda • Saga Saiyan</small></button>'+
 '<button class="tile" data-a="nav" data-v="world"><span class="glyph">▶️</span><strong>KONTYNUUJ</strong><small>Swobodna mapa i misje</small></button>'+
@@ -204,7 +204,7 @@ function drawDialogue(){const d=S.dialog,frame=d.lines[d.idx];let person=frame.w
 '<div class="panel"><div class="dialog-portrait">'+gameImage(art,"","Portret")+'<div><div class="dialog-heading">'+esc(person)+'</div><div class="dialog-sub">SAGA SAIYAN • ROZDZIAŁ '+(S.chapter+1)+'</div></div></div><p style="font-size:clamp(18px,2.5vw,27px);line-height:1.5;min-height:75px">'+esc(frame.text)+'</p>'+
 '<div class="cut-progress">'+d.lines.map((x,i)=>'<span class="'+(i<=d.idx?"done":"")+'"></span>').join("")+'</div><div class="choice-grid" style="margin-top:15px">'+button(d.idx===d.lines.length-1?"DALEJ →":"NASTĘPNY DIALOG →","nextdialog","","btn-hot")+button("POMIŃ ››","skipdialog","","btn-mini")+'</div></div>'}
 function drawEncounter(){let c=S.encounter,e=ENEMIES[c.enemy];return hdr("Losowe zdarzenie")+'<section class="panel gold-edge encounter"><div class="panel-title"><h2>⚠️ '+esc(c.title)+'</h2><span class="label orange">LV '+e.lv+'</span></div><div class="row">'+gameImage(e.art,"enemy-thumb",e.name)+'<div><h2 class="flame" style="margin:0">'+e.name+'</h2><p class="sm">'+esc(c.message)+'</p><p class="micro">Stała siła przeciwnika • '+e.xp+' EXP</p></div></div><div class="choice-grid">'+button("⚔ WALCZ","start-enc","","btn-hot")+button("🏃 OMIŃ","avoid-enc","","btn-blue")+'</div></section>'}
-function drawResult(){const r=S.result;return hdr(r.win?"Zwycięstwo!":"Porażka")+'<div class="panel gold-edge"><h1 class="flame" style="font-size:clamp(29px,6vw,56px);margin:8px 0">'+(r.win?"ZWYCIĘSTWO!":"POWRÓT DO TRENINGU")+'</h1><div class="scene-wrap">'+gameImage(r.enemy==="drone"?ANIME_BATTLE:(r.win?protagonist():ENEMIES[r.enemy].art),"shot","Wynik starcia")+'<div class="shade"></div><div class="scene-name"><span>'+esc(ENEMIES[r.enemy].name.toUpperCase())+'</span><span>'+(r.win?"POKONANY":"ZBYT SILNY")+'</span></div></div><p>'+esc(r.text)+'</p>'+
+function drawResult(){const r=S.result;return hdr(r.win?"Zwycięstwo!":"Porażka")+'<div class="panel gold-edge"><h1 class="flame" style="font-size:clamp(29px,6vw,56px);margin:8px 0">'+(r.win?"ZWYCIĘSTWO!":"POWRÓT DO TRENINGU")+'</h1><div class="scene-wrap">'+gameImage(r.win?protagonist():ENEMIES[r.enemy].art,"shot","Wynik starcia")+'<div class="shade"></div><div class="scene-name"><span>'+esc(ENEMIES[r.enemy].name.toUpperCase())+'</span><span>'+(r.win?"POKONANY":"ZBYT SILNY")+'</span></div></div><p>'+esc(r.text)+'</p>'+
 '<div class="reward"><div>🟢 EXP<strong>+'+r.xp+'</strong></div><div>🥊 ATRYBUTY<strong>+'+r.gainedAttr+'</strong></div><div>🌳 SKILLE<strong>+'+r.gainedSkill+'</strong></div></div><div class="choice-grid" style="margin-top:15px">'+button(r.storyStage!==null&&r.storyStage!==undefined?"📖 SCENA FABULARNA":"🗺 NA MAPĘ","result-map","","btn-blue")+button("💪 TRENING","result-train","","btn-hot")+button("👤 POSTAĆ","nav","character")+'</div></div>'}
 function drawCharacter(){return hdr("Karta wojownika")+'<div class="charsheet"><div class="char-art">'+gameImage(protagonist(),"","Wojownik")+'<div class="caption"><b class="flame" style="font-size:32px">'+esc(S.heroName)+'</b><br><span class="label">'+esc(S.race)+' • LV '+S.level+'</span></div></div>'+
 '<div class="panel gold-edge"><div class="panel-title"><h2>Atrybuty postaci</h2><span class="label orange">+5 pkt / LV</span></div><div class="two"><div class="sm">Poziom <b class="gold">'+S.level+'</b><br>Moc: '+power()+'</div><div class="sm">Punkty atrybutów<br><b class="gold" style="font-size:22px">'+S.attrPts+'</b></div></div>'+bar(S.xp,lvlExp(S.level),"exp")+
