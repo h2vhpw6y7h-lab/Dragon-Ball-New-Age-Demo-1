@@ -325,3 +325,14 @@ html{scroll-padding-top:65px;-webkit-text-size-adjust:100%}
 @keyframes c4-finisher{from{filter:brightness(3);transform:scale(1.2)}to{filter:brightness(1);transform:scale(1)}}
 @keyframes c4-counter{0%,60%{transform:translate(-2%,2%)}30%{transform:translate(2%,-1%)}100%{transform:translate(0)}}
 @media(prefers-reduced-motion:reduce){.scene-wrap.cinema-4k .painted-scene{animation:none!important}}
+
+/* Animate both composite art for training robots and cropped hero art for saga opponents. */
+.scene-wrap.cinema-4k.cinema-art-focus:not(.anime-painted) .painted-hero-half{animation:c4-focus .95s ease-out both;transform-origin:30% 50%}
+.scene-wrap.cinema-4k.cinema-art-teleport:not(.anime-painted) .painted-hero-half{animation:c4-teleport .95s ease-out both;transform-origin:30% 50%}
+.scene-wrap.cinema-4k.cinema-art-punch:not(.anime-painted) .painted-hero-half{animation:c4-punch .95s ease-out both;transform-origin:30% 50%}
+.scene-wrap.cinema-4k.cinema-art-uppercut:not(.anime-painted) .painted-hero-half{animation:c4-uppercut .95s ease-out both;transform-origin:30% 50%}
+.scene-wrap.cinema-4k.cinema-art-guard:not(.anime-painted) .painted-hero-half{animation:c4-guard .95s ease-out both;transform-origin:30% 50%}
+.scene-wrap.cinema-4k.cinema-art-volley:not(.anime-painted) .painted-hero-half{animation:c4-volley .95s ease-out both;transform-origin:30% 50%}
+.scene-wrap.cinema-4k.cinema-art-clash:not(.anime-painted) .painted-hero-half{animation:c4-clash .95s ease-out both;transform-origin:30% 50%}
+.scene-wrap.cinema-4k.cinema-art-finisher:not(.anime-painted) .painted-hero-half{animation:c4-finisher .95s ease-out both;transform-origin:30% 50%}
+.scene-wrap.cinema-4k.cinema-art-counter:not(.anime-painted) .painted-hero-half{animation:c4-counter .95s ease-out both;transform-origin:30% 50%}

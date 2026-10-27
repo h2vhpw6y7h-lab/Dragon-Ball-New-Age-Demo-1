@@ -114,7 +114,7 @@ const cinemaRoot={innerHTML:"",addEventListener(type,fn){cinemaListeners[type]=f
 const cinemaSandbox={...sandbox,window:{...sandbox.window,location:{search:"?cinema=1"}},document:{...sandbox.document,getElementById(id){return id==="app"?cinemaRoot:null}}};
 vm.runInNewContext(source,cinemaSandbox,{timeout:2000});
 assert(cinemaRoot.innerHTML.includes("cinema-switch"),"4K home toggle absent");
-assert(cinemaRoot.innerHTML.includes("anime-scene-battle-v1.png"),"Cinema does not replace the existing home screen");
+assert(cinemaRoot.innerHTML.includes("assets/4k/battle-3840x2160.webp"),"Cinema home must use 3840-wide hero art");
 function cinemaClick(action,val=""){const btn={disabled:false,getAttribute(n){return n==="data-a"?action:n==="data-v"?val:null}};cinemaListeners.click({target:{closest(){return btn}}});assert(!cinemaRoot.innerHTML.includes("Błąd silnika gry"),"Cinema engine error: "+action);}
 cinemaClick("quickfight");
 assert(cinemaRoot.innerHTML.includes("cinema-4k"),"Cinema arena class not rendered");
