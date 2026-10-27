@@ -69,7 +69,51 @@ def apply_fx(base,kind):
             a=R.random()*pi*2;rr=R.randint(95,1100)
             sx=x+rr*cos(a);sy=y+rr*sin(a)
             d.line((sx,sy,sx+R.randint(30,300)*cos(a),sy+R.randint(30,300)*sin(a)),fill=(255,210,120,R.randint(45,210)),width=R.randint(3,14))
-    if kind in ("charge","beam","impact"):
+
+    elif kind in ("focus","teleport","punch","uppercut","guard","volley","clash","finisher","aftermath","counter"):
+        spec={
+           "focus":((1040,850),(255,226,155),28,0.36),
+           "teleport":((1550,1000),(126,235,255),180,2.4),
+           "punch":((2490,1060),(255,212,138),125,0.95),
+           "uppercut":((2300,690),(137,210,255),115,1.48),
+           "guard":((980,1020),(148,232,255),70,0.8),
+           "volley":((2580,980),(128,236,255),150,0.7),
+           "clash":((2010,1150),(255,225,170),145,1.05),
+           "finisher":((2760,1130),(255,200,99),210,1.0),
+           "aftermath":((2450,1530),(195,168,138),85,2.15),
+           "counter":((2370,840),(200,152,255),125,-0.65)
+        }
+        (x,y),col,count,rotation=spec[kind]
+        for i in range(count):
+            angle=R.random()*2*pi+rotation
+            near=R.randint(90,330);far=R.randint(370,1330)
+            sx=x+cos(angle)*near;sy=y+sin(angle)*near
+            ex=x+cos(angle)*far;ey=y+sin(angle)*far
+            opacity=R.randrange(35,160)
+            thick=R.randrange(3,18)
+            if kind=="aftermath":
+                opacity//=2;thick=R.randrange(9,34);sy=R.randint(1170,H)
+                ey=sy-R.randint(20,250);ex=sx+R.randint(-300,300)
+            if kind=="teleport":
+                ex=sx-R.randint(220,880);ey=sy+R.randint(-90,90)
+            if kind=="uppercut":
+                ex=sx+R.randint(40,220);ey=sy-R.randint(430,1000)
+            d.line((sx,sy,ex,ey),fill=(*col,opacity),width=thick)
+        if kind in ("focus","punch","clash","finisher","counter","guard"):
+            radii=(130,220,345,480) if kind!="finisher" else (150,300,510,760,1050)
+            for radius in radii:
+                tint=(*col,max(32,172-radius//9))
+                if kind=="guard":d.arc((x-radius,y-radius,x+radius,y+radius),180,355,fill=tint,width=20)
+                else:d.arc((x-radius,y-radius,x+radius,y+radius),R.randrange(0,70),R.randrange(265,359),fill=tint,width=16)
+        if kind=="volley":
+            for i in range(9):
+                xx=R.randrange(1520,3520);yy=R.randrange(300,1700);rad=R.randint(36,97)
+                d.ellipse((xx-rad*2,yy-rad*2,xx+rad*2,yy+rad*2),fill=(34,146,255,40))
+                d.ellipse((xx-rad,yy-rad,xx+rad,yy+rad),fill=(177,238,255,180))
+                d.ellipse((xx-rad//2,yy-rad//2,xx+rad//2,yy+rad//2),fill=(248,253,255,230))
+        if kind=="finisher":
+            d.ellipse((x-190,y-190,x+190,y+190),fill=(255,248,204,190))
+    if kind in ("charge","beam","impact","focus","teleport","punch","uppercut","guard","volley","clash","finisher","aftermath","counter"):
         blurred=fx.filter(ImageFilter.GaussianBlur(24))
         im=Image.alpha_composite(im,blurred)
     im=Image.alpha_composite(im,fx)
@@ -78,7 +122,7 @@ def apply_fx(base,kind):
         im=Image.alpha_composite(im,tint)
     return im.convert("RGB")
 
-kinds={"battle":BATTLE,"dash":BATTLE,"charge":KI,"beam":KI,"impact":KI}
+kinds={k:(KI if k in ("charge","beam","impact","volley","clash","finisher") else BATTLE) for k in ("battle","dash","charge","beam","impact","focus","teleport","punch","uppercut","guard","volley","clash","finisher","aftermath","counter")}
 for kind,src in kinds.items():
     art=apply_fx(prepare(src),kind)
     p=OUT/f"{kind}-3840x2160.webp"
