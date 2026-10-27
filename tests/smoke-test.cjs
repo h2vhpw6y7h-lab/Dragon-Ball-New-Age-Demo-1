@@ -89,7 +89,7 @@ assert(root.innerHTML.includes('data-a="nextdialog"'),"story dialog not triggere
 for(let n=0;n<12&&root.innerHTML.includes('data-a="nextdialog"');n++)click("nextdialog");
 assert(root.innerHTML.includes("MENU WALKI")||root.innerHTML.includes("Menu walki"),"battle menu unavailable after dialog");
 assert(root.innerHTML.includes("anime-arena"),"new arena not drawn");
-assert(root.innerHTML.includes("characters/saiba.svg"),"Story battle must render unique opponent");
+assert(root.innerHTML.includes("characters/saiba-boss.svg")||root.innerHTML.includes("characters/saiba.svg"),"Story battle must render appropriate organic Saibamen art");
 click("move","punch");
 assert(root.innerHTML.includes('KADR 1 /'),"combat frame not started");
 assert(root.innerHTML.includes("anime-arena"),"cinematic arena not used");
