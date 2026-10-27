@@ -18,8 +18,8 @@ for(const p of ["saiyan.js","saiyan.css","visual-upgrade.css","cinematic-0.8.css
 "assets/goku-normal-ki.svg","assets/earth-battle-4k.svg","assets/earth-map-4k.svg"]){
  assert(fs.statSync(path.join(rootDir,p)).size>100,p+" is missing or empty");
 }
-assert(html.includes('cinematic-0.8.css?v=16'),"cinematic stylesheet must load");
-assert(html.includes('saiyan.js?v=20'),"engine asset must be cache-busted");
+assert(html.includes('cinematic-0.8.css?v=17'),"cinematic stylesheet must load");
+assert(html.includes('saiyan.js?v=21'),"engine asset must be cache-busted");
 assert(!source.includes("goku-base-anime.svg?v=1"),"stale cartoon Goku must not be used");
 assert(source.includes("assets/characters/hero.svg"),"All screens must share a new organic anime hero");
 assert(source.includes("MOTION_MICROFRAMES=100"),"Every cinematic move needs 100 planned motion subframes");

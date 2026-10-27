@@ -369,3 +369,18 @@ html{scroll-padding-top:65px;-webkit-text-size-adjust:100%}
 .hero-cover .home-goku{display:block!important;position:absolute!important;z-index:2!important;right:-5%!important;top:-5%!important;width:53%!important;height:117%!important;object-fit:contain!important;filter:drop-shadow(0 11px 6px #102033aa) drop-shadow(0 0 16px #ffca7a75)!important}
 .hero-cover .hero-caption{max-width:64%;z-index:4}
 .scene-wrap.result-art img.shot{object-fit:contain!important;object-position:center!important;max-height:100%}
+
+/* Six separate move choreographies, each sampled on a 100-step motion timeline. */
+.scene-wrap.organic-anime .anime-ghost{pointer-events:none;position:absolute;bottom:-13%;height:119%;width:51%;left:-1.5%;z-index:4;background:url("./assets/characters/hero.svg") center bottom/contain no-repeat;opacity:0;filter:drop-shadow(0 0 25px #c9edff) hue-rotate(175deg);transform-origin:center bottom}
+.scene-wrap.organic-anime.choreo-rapid.combat-vanish .anime-ghost-one{animation:anime-echo-one .81s ease-out both}
+.scene-wrap.organic-anime.choreo-rapid.combat-vanish .anime-ghost-two{animation:anime-echo-two .81s ease-out both}
+.scene-wrap.organic-anime.choreo-kame.combat-charge .aura-burst{opacity:.9;box-shadow:0 0 55px 15px #76d8ff}
+.scene-wrap.organic-anime.choreo-kame.combat-beam .beam{height:27%;filter:drop-shadow(0 0 25px #c5f5ff) drop-shadow(0 0 55px #75e5ff)}
+.scene-wrap.organic-anime.choreo-kiwave.combat-beam .beam{height:18%;filter:drop-shadow(0 0 16px #27ffff)}
+.scene-wrap.organic-anime.choreo-meteor.combat-hit .impact-ring{box-shadow:0 0 48px #ffaf42;filter:hue-rotate(-30deg) saturate(1.5)}
+.scene-wrap.organic-anime.choreo-blast.combat-beam .cinema-fx .ki-core{width:19%;left:65%;height:21%;border-radius:50%}
+.scene-wrap.organic-anime .cinema-fx .ki-core{opacity:var(--cinema-energy,.5)!important}
+.scene-wrap.organic-anime .impact-ring{opacity:var(--cinema-flash,.25)}
+@keyframes anime-echo-one{0%{opacity:0;transform:translateX(-25%) scale(.96)}20%{opacity:.64}100%{opacity:0;transform:translateX(45%) scale(1.04)}}
+@keyframes anime-echo-two{0%{opacity:0;transform:translateX(-39%) scale(.85)}30%{opacity:.36}100%{opacity:0;transform:translateX(64%) scale(1.08)}}
+@media(prefers-reduced-motion:reduce){.scene-wrap.organic-anime .anime-ghost{animation:none!important}}
