@@ -23,8 +23,52 @@ window.addEventListener('error',function(e){var x=document.getElementById('start
 function failed(message){var x=document.getElementById('startup-msg'),r=document.getElementById('recovery');if(x)x.textContent=message;if(r)r.style.display='block';}
 window.addEventListener('unhandledrejection',function(e){failed('Błąd gry: '+(e.reason&&e.reason.message||'niepowodzenie ładowania'));});
 setTimeout(function(){var a=document.getElementById('app');if(a&&document.getElementById('startup-msg'))failed('Silnik nie wystartował. Uruchom grę ponownie lub otwórz ją bezpośrednio w Safari.');},9000);
-if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister()})}).catch(function(){})}
+// Offline cache is managed by sw.js; do not unregister it.
 })();
 </script>
 <script src="./saiyan.js?v=21" defer onerror="document.getElementById('startup-msg').textContent='Nie udało się pobrać saiyan.js. Sprawdź publikację GitHub Pages.';document.getElementById('recovery').style.display='block'"></script>
+
+<script>
+(function(){
+  function status(message, ready){
+    var node=document.getElementById('offline-status');
+    if(!node){
+      node=document.createElement('div');node.id='offline-status';
+      node.setAttribute('role','status');node.setAttribute('aria-live','polite');
+      node.style.cssText='position:fixed;top:calc(6px + env(safe-area-inset-top));right:calc(8px + env(safe-area-inset-right));z-index:1000;max-width:58vw;padding:5px 9px;border-radius:9px;background:#0b1d36ed;border:1px solid #8dc8ff;color:#e7f5ff;font:600 11px system-ui;pointer-events:none';
+      document.body.appendChild(node);
+    }
+    node.textContent=message;
+    document.documentElement.dataset.offlineReady=ready?'true':'false';
+    clearTimeout(node._hideTimer);
+    if(ready)node._hideTimer=setTimeout(function(){node.style.display='none'},6500);
+    else node.style.display='block';
+  }
+  if(!('serviceWorker' in navigator)||location.protocol!=='https:')return;
+  window.addEventListener('load',async function(){
+    try{
+      status('Zapis offline: przygotowywanie…',false);
+      var reg=await navigator.serviceWorker.register('./sw.js?v=5',{scope:'./'});
+      await Promise.race([
+        navigator.serviceWorker.ready,
+        new Promise(function(_,reject){setTimeout(function(){reject(new Error('timeout'))},12000)})
+      ]);
+      var worker=reg.active;
+      if(!worker)throw new Error('No active service worker');
+      var channel=new MessageChannel();
+      var check=new Promise(function(resolve,reject){
+        var timer=setTimeout(function(){reject(new Error('cache check timeout'))},6000);
+        channel.port1.onmessage=function(event){clearTimeout(timer);resolve(event.data)};
+      });
+      worker.postMessage({type:'DBNA_OFFLINE_CHECK'},[channel.port2]);
+      var result=await check;
+      if(result&&result.ready)status('✓ Gra gotowa offline',true);
+      else status('Offline: brakuje zasobów — połącz z internetem',false);
+    }catch(error){
+      status('Offline niedostępny — sprawdź połączenie',false);
+      console.warn('Offline installation:',error);
+    }
+  });
+})();
+</script>
 </body></html>
